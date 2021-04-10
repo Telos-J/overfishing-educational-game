@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Name of the Website</title>
+    <style>
+      html,
+      body {
+        height: 100%;
+        overflow: hidden;
+      }
+      html {
+        display: table;
+        margin: auto;
+      }
+
+      body {
+        display: table-cell;
+        vertical-align: middle;
+      }
+      
+      #chart-container {
+        position: absolute;
+        width: 20vw;
+      }
+      
+      @media (max-width: 768px) {
+        #chart-container {
+          width: 100vw;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="chart-container">
+    <canvas id="chart"></canvas>
+    </div>
+    <canvas id="sim"></canvas>
+    <script src="helper.js"></script>
+    <script src="canvas.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+    <script src="statistics.js"></script>
+    <script src="fish.js"></script>
+    <script src="assets.js"></script>
+    <script src="objects.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
