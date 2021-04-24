@@ -65,7 +65,6 @@ class Boat {
         context.moveTo(this.net.anchors[1], sealevel)
         context.lineTo(this.net.anchors[1], y)
         context.stroke()
-
     }
 
     update() {
@@ -86,7 +85,6 @@ class Boat {
             numFishes = fishes.length;
             console.log(this.caughtFish.length)
         }
-
     }
 
     lowerNet() {
@@ -104,8 +102,8 @@ class Boat {
     collideNet(fish) {
         if (fish.position.y > this.net.y + this.toWindowCoord(386) &&
             fish.position.y < this.net.y + this.toWindowCoord(503) &&
-            fish.position.x > this.toWindowCoord(761) &&
-            fish.position.x < this.toWindowCoord(909)
+            fish.position.y < -fish.position.x + this.net.y + this.toWindowCoord(1320) &&
+            fish.position.y > -fish.position.x + this.net.y + this.toWindowCoord(1200)
         ) return true
     }
 }
