@@ -11,7 +11,7 @@ class Fish {
             sealevel + this.range + Math.random() *
             (canvas.height - sealevel - this.range)
         );
-
+        this.prevPos = this.position;
         this.velocity = angleToVector(this.head).scale(this.speed);
         this.avoidanceSurface = new Vector2();
         this.avoidanceBottom = new Vector2();
@@ -31,6 +31,7 @@ class Fish {
         )
         this.velocity = this.velocity.normalize(this.speed);
         this.head = vectorToAngle(this.velocity);
+        this.prevPos = this.position;
         this.position = this.position.add(this.velocity);
 
         if (this.position.x < -this.width)
