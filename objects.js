@@ -69,8 +69,6 @@ class Boat {
 
     update() {
         const caughtFish = [];
-        this.net.y += this.net.speed;
-        if (this.net.y < -this.toWindowCoord(140)) this.net.y = -this.toWindowCoord(140);
 
         for (let fish of fishes) {
             if (this.collideNet(fish) && this.net.y >= -this.toWindowCoord(140)) {
@@ -85,6 +83,9 @@ class Boat {
             numFishes = fishes.length;
             console.log(this.caughtFish.length)
         }
+
+        this.net.y += this.net.speed;
+        if (this.net.y < -this.toWindowCoord(140)) this.net.y = -this.toWindowCoord(140);
     }
 
     lowerNet() {
