@@ -76,7 +76,8 @@ function update() {
         fish.avoidBottom();
         fish.avoidShark(sharks);
         fish.level();
-        if (!boat.collideNet(fish)) fish.move();
+        fish.collideNet(boat);
+        fish.move();
     }
 
     const tempSharks = sharks;
