@@ -83,7 +83,7 @@ class Fish {
     collideNet(boat) {
         if (boat.collideNet(this.position)) this.speed = 0.2
         else this.speed = 3
-        if (boat.collideNet(this.prevPos) && !boat.collideNet(this.position)) this.position = this.prevPos
+        if (boat.collideNet(this.prevPos) && !boat.collideNet(this.position)) this.position = this.prevPos;
     }
 
     draw() {

@@ -29,8 +29,10 @@ class Boat {
         this.net = new SimpleObject(assets.frameSets.net.frames[0])
         this.net.speed = 0;
         this.net.params = [820, 900, 810, 400, 480];
+        this.net.capacity = 3;
         this.resize();
         this.caughtFish = [];
+        this.netFish = [];
     }
 
     toWindowCoord(coord) {
@@ -70,12 +72,37 @@ class Boat {
 
     update() {
         const caughtFish = [];
+        const netFish = fishes.filter((fish) => this.collideNet(fish.position))
 
-        for (let fish of fishes) {
-            if (this.collideNet(fish.position) && this.net.y >= -this.toWindowCoord(140)) {
-                fish.position.y += this.net.speed
-                if (fish.position.y < sealevel) caughtFish.push(fish);
+        // Removing fish that have escaped
+        const escapedFish = [];
+        for (let fish of this.netFish) {
+            if (!netFish.includes(fish)) {
+                escapedFish.push(fish)
             }
+        }
+        for (let fish of escapedFish) {
+            this.netFish.indexOf(fish)
+            this.netFish.splice(fish, 1)
+        }
+
+        // Adding new fish to net
+        if (this.netFish.length < this.net.capacity) {
+            for (let fish of netFish) {
+                if (!this.netFish.includes(fish)) {
+                    this.netFish.push(fish)
+                }
+            }
+        }
+
+        console.log(this.netFish)
+
+        for (let fish of this.netFish) {
+            if (this.net.y >= -this.toWindowCoord(140)) {
+                fish.position.y += this.net.speed
+                fish.collideNet(this)
+            }
+            if (fish.position.y < sealevel) caughtFish.push(fish);
         }
 
         if (caughtFish.length) {
