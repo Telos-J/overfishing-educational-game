@@ -106,8 +106,8 @@ class Boat {
         console.log(slope)
         if (position.y > this.net.y + this.toWindowCoord(this.net.params[3]) &&
             position.y < this.net.y + this.toWindowCoord(this.net.params[4]) &&
-            position.y < slope * (position.x - this.net.params[0]) + this.net.y + this.toWindowCoord(this.net.params[3]) &&
-            position.y > slope * (position.x - this.net.params[1]) + this.net.y + this.toWindowCoord(this.net.params[3])
+            position.y < slope * (position.x - this.toWindowCoord(this.net.params[0])) + this.net.y + this.toWindowCoord(this.net.params[3]) &&
+            position.y > slope * (position.x - this.toWindowCoord(this.net.params[1])) + this.net.y + this.toWindowCoord(this.net.params[3])
         ) return true
     }
 }
