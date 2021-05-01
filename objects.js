@@ -28,6 +28,7 @@ class Boat {
         this.cabin = new SimpleObject(assets.frameSets.cabin.frames[0])
         this.net = new SimpleObject(assets.frameSets.net.frames[0])
         this.net.speed = 0;
+        this.net.params = [815, 935, 815, 385, 500];
         this.resize();
         this.caughtFish = [];
     }
@@ -101,10 +102,12 @@ class Boat {
     }
 
     collideNet(position) {
-        if (position.y > this.net.y + this.toWindowCoord(386) &&
-            position.y < this.net.y + this.toWindowCoord(503) &&
-            position.y < -position.x + this.net.y + this.toWindowCoord(1320) &&
-            position.y > -position.x + this.net.y + this.toWindowCoord(1200)
+        const slope = (this.net.params[4] - this.net.params[3]) / (this.net.params[2] - this.net.params[1])
+        console.log(slope)
+        if (position.y > this.net.y + this.toWindowCoord(this.net.params[3]) &&
+            position.y < this.net.y + this.toWindowCoord(this.net.params[4]) &&
+            position.y < slope * (position.x - this.net.params[0]) + this.net.y + this.toWindowCoord(this.net.params[3]) &&
+            position.y > slope * (position.x - this.net.params[1]) + this.net.y + this.toWindowCoord(this.net.params[3])
         ) return true
     }
 }
