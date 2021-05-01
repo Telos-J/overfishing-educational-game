@@ -71,6 +71,8 @@ class Boat {
     }
 
     update() {
+        for (let fish of this.netFish) fish.collideNet(this)
+
         const caughtFish = [];
         const netFish = fishes.filter((fish) => this.collideNet(fish.position))
 
@@ -100,7 +102,6 @@ class Boat {
         for (let fish of this.netFish) {
             if (this.net.y >= -this.toWindowCoord(140)) {
                 fish.position.y += this.net.speed
-                fish.collideNet(this)
             }
             if (fish.position.y < sealevel) caughtFish.push(fish);
         }
