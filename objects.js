@@ -103,11 +103,10 @@ class Boat {
 
     collideNet(position) {
         const slope = (this.net.params[4] - this.net.params[3]) / (this.net.params[2] - this.net.params[1])
-        console.log(slope)
         if (position.y > this.net.y + this.toWindowCoord(this.net.params[3]) &&
             position.y < this.net.y + this.toWindowCoord(this.net.params[4]) &&
-            position.y < slope * (position.x - this.toWindowCoord(this.net.params[0])) + this.net.y + this.toWindowCoord(this.net.params[3]) &&
-            position.y > slope * (position.x - this.toWindowCoord(this.net.params[1])) + this.net.y + this.toWindowCoord(this.net.params[3])
+            position.y < slope * (position.x - this.toWindowCoord(this.net.params[1])) + this.net.y + this.toWindowCoord(this.net.params[3]) &&
+            position.y > slope * (position.x - this.toWindowCoord(this.net.params[0])) + this.net.y + this.toWindowCoord(this.net.params[3])
         ) return true
     }
 }
