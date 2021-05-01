@@ -28,7 +28,7 @@ class Boat {
         this.cabin = new SimpleObject(assets.frameSets.cabin.frames[0])
         this.net = new SimpleObject(assets.frameSets.net.frames[0])
         this.net.speed = 0;
-        this.net.params = [815, 935, 815, 385, 500];
+        this.net.params = [820, 900, 810, 400, 480];
         this.resize();
         this.caughtFish = [];
     }
