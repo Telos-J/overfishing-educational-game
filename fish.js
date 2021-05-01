@@ -81,7 +81,7 @@ class Fish {
     }
 
     collideNet(boat) {
-        if (boat.collideNet(this)) this.speed = 0.2
+        if (boat.collideNet(this.position)) this.speed = 0.2
         else this.speed = 3
     }
 

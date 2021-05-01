@@ -71,7 +71,7 @@ class Boat {
         const caughtFish = [];
 
         for (let fish of fishes) {
-            if (this.collideNet(fish) && this.net.y >= -this.toWindowCoord(140)) {
+            if (this.collideNet(fish.position) && this.net.y >= -this.toWindowCoord(140)) {
                 fish.position.y += this.net.speed
                 if (fish.position.y < sealevel) caughtFish.push(fish);
             }
@@ -100,11 +100,11 @@ class Boat {
         this.net.speed = 0;
     }
 
-    collideNet(fish) {
-        if (fish.position.y > this.net.y + this.toWindowCoord(386) &&
-            fish.position.y < this.net.y + this.toWindowCoord(503) &&
-            fish.position.y < -fish.position.x + this.net.y + this.toWindowCoord(1320) &&
-            fish.position.y > -fish.position.x + this.net.y + this.toWindowCoord(1200)
+    collideNet(position) {
+        if (position.y > this.net.y + this.toWindowCoord(386) &&
+            position.y < this.net.y + this.toWindowCoord(503) &&
+            position.y < -position.x + this.net.y + this.toWindowCoord(1320) &&
+            position.y > -position.x + this.net.y + this.toWindowCoord(1200)
         ) return true
     }
 }
