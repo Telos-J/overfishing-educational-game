@@ -4,12 +4,11 @@ class Fish {
         this.speed = 3;
         this.range = 200;
         this.hunger = 100;
-        this.head = Math.random() * 2 * Math.PI;
-
+        this.head = Math.random() < 0.5 ? 0 : Math.PI;
         this.position = new Vector2(
             Math.random() * canvas.width,
             sealevel + this.range + Math.random() *
-            (canvas.height - sealevel - this.range)
+            (canvas.height - sealevel - 2 * this.range)
         );
         this.prevPos = this.position;
         this.velocity = angleToVector(this.head).scale(this.speed);
