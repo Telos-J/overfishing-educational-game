@@ -1,5 +1,6 @@
 const mode = "display";
 let time = 90;
+let catchGoal = 40;
 
 const skyWidth = 1920;
 const skyHeight = 362;
@@ -108,6 +109,8 @@ function update() {
     if (numSharkDiff > 1) numSharks = numSharks - numSharkDiff;
 
     boat.update();
+
+    document.querySelector('#caught').innerHTML = `${boat.caughtFish.length}/${catchGoal}`;
 };
 
 function render() {

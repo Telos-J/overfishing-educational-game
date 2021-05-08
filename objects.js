@@ -105,7 +105,7 @@ class Boat {
         }
 
         if (caughtFish.length) {
-            this.caughtFish.push(...caughtFish)
+            this.caughtFish.push(...caughtFish.filter(fish => !this.caughtFish.includes(fish)))
             fishes = fishes.filter((fish) => !caughtFish.includes(fish))
             numFishes = fishes.length;
         }
