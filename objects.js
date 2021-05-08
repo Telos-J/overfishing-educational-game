@@ -29,7 +29,7 @@ class Boat {
         this.net = new SimpleObject(assets.frameSets.net.frames[0])
         this.net.speed = 0;
         this.net.params = [820, 900, 810, 400, 480];
-        this.net.capacity = 3;
+        this.net.capacity = 10;
         this.resize();
         this.caughtFish = [];
         this.netFish = [];
