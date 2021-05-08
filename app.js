@@ -1,4 +1,5 @@
 const mode = "display";
+let time = 90;
 
 const skyWidth = 1920;
 const skyHeight = 362;
@@ -43,7 +44,11 @@ async function init() {
     addEventListener('keyup', (e) => {
         boat.haltNet();
     });
-
+    setInterval(function() {
+        let hours = Math.floor(time/60)
+        let minutes = time/60 - hours
+        time--
+    }, 1000)
     start();
 }
 
