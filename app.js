@@ -45,10 +45,11 @@ async function init() {
         boat.haltNet();
     });
     setInterval(function() {
-        let hours = Math.floor(time / 60)
-        let minutes = time / 60 - hours
-        time--
-        console.log(`${hours}:${minutes}`)
+        if (time === 0) return
+            let minutes = Math.floor(time/60)
+            let seconds = time - 60* minutes
+            time--
+            console.log (`${minutes}:${seconds}`)
     }, 1000)
     start();
 }
