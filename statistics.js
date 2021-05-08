@@ -1,3 +1,4 @@
+const stats = document.querySelector('#stats')
 const populationChart = new Chart(document.querySelector('#chart'), {
     type: 'line',
     data: {
@@ -15,7 +16,7 @@ const populationChart = new Chart(document.querySelector('#chart'), {
             borderColor: '#36CFB6',
         }]
     },
-    options : {
+    options: {
         responsive: true,
         elements: {
             line: {
@@ -39,7 +40,7 @@ const populationChart = new Chart(document.querySelector('#chart'), {
             yAxes: [{
                 gridLines: {
                     display: false
-                }   
+                }
             }]
         },
         events: []
@@ -48,19 +49,19 @@ const populationChart = new Chart(document.querySelector('#chart'), {
 
 let isTabActive = true;
 
-window.onfocus = function () { 
-  isTabActive = true; 
-}; 
+window.onfocus = function() {
+    isTabActive = true;
+};
 
-window.onblur = function () { 
-  isTabActive = false; 
-}; 
+window.onblur = function() {
+    isTabActive = false;
+};
 
 window.setInterval(() => {
-  if (isTabActive) {
-    populationChart.data.labels.push('')
-    populationChart.data.datasets[0].data.push(sharks.length)
-    populationChart.data.datasets[1].data.push(fishes.length)
-    populationChart.update()
-  }
-},1000)
+    if (isTabActive) {
+        populationChart.data.labels.push('')
+        populationChart.data.datasets[0].data.push(sharks.length)
+        populationChart.data.datasets[1].data.push(fishes.length)
+        populationChart.update()
+    }
+}, 1000)

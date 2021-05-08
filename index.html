@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Overfishing Simulator</title>
     <link rel="shortcut icon" href="assets/img/icon.png" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Krona+One&display=swap" rel="stylesheet">
     <style>
       html,
       body {
@@ -25,6 +26,24 @@
         position: absolute;
         width: 20vw;
       }
+
+      #stats {
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 20vw;
+        font-family: 'Krona One', sans-serif;
+        font-size: 1.2rem;
+      }
+
+      #stats > * {
+          text-align: end;
+          padding-right: 0.5rem;
+      }
+
+      #fish #icon {
+          height: 1.2rem
+      }
       
       @media (max-width: 768px) {
         #chart-container {
@@ -38,6 +57,13 @@
     <canvas id="chart"></canvas>
     </div>
     <canvas id="sim"></canvas>
+    <div id="stats">
+        <div id="time">01:30</div>
+        <div id="fish">
+            <span id="caught">0/40</span>
+            <img id="icon" src="assets/img/schoolingFish/fish0.png" alt="schooling fish image">
+        </div>
+    </div>
     <script src="helper.js"></script>
     <script src="canvas.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
