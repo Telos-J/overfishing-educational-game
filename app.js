@@ -19,6 +19,15 @@ let boat;
 let sky;
 let sea;
 
+function displayTime() {
+    let minutes = Math.floor(time / 60)
+    let seconds = time - 60 * minutes
+
+    minutes = minutes < 10 ? '0' + minutes : minutes
+    seconds = seconds < 10 ? '0' + seconds : seconds
+    document.querySelector('#time').innerHTML = `${minutes}:${seconds}`
+}
+
 async function init() {
     await assets.loadAssets();
 
@@ -44,12 +53,12 @@ async function init() {
     addEventListener('keyup', (e) => {
         boat.haltNet();
     });
+
+    displayTime()
     setInterval(function() {
-        if (time === 0) return
-            let minutes = Math.floor(time/60)
-            let seconds = time - 60* minutes
-            time--
-            console.log (`${minutes}:${seconds}`)
+        if (time < 0) return
+        time--
+        displayTime()
     }, 1000)
     start();
 }
