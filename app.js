@@ -56,9 +56,7 @@ async function init() {
 
     displayTime()
     setInterval(function() {
-        if (time < 0) return
-        time--
-        displayTime()
+        if (time > 0) time-- && displayTime()
     }, 1000)
     start();
 }
