@@ -97,8 +97,6 @@ class Boat {
             }
         }
 
-        console.log(this.netFish)
-
         for (let fish of this.netFish) {
             if (this.net.y >= -this.toWindowCoord(140)) {
                 fish.position.y += this.net.speed
@@ -110,7 +108,6 @@ class Boat {
             this.caughtFish.push(...caughtFish)
             fishes = fishes.filter((fish) => !caughtFish.includes(fish))
             numFishes = fishes.length;
-            console.log(this.caughtFish.length)
         }
 
         this.net.y += this.net.speed;
