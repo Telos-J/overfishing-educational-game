@@ -64,14 +64,21 @@
 
       #loading-bar-fish {
         position: relative;
-        left: -50px;
+        left: 60px;
       }
 
       #loading-bar-inner {
+        display: flex;
+        justify-content: flex-end;
         position: relative;
-        width: 0%;
+        width: 10%;
         height: 100%;
         background-color: #009AA4;
+        transition: width 3s;
+      }
+
+      #loading-bar-inner.load {
+        width: 100%;
       }
       
       #chart-container {
@@ -122,8 +129,8 @@
             <div id="loading-text">Overfishing Simulator</div>
         </div>
         <div id="loading-bar">
-            <div id="loading-bar-inner"></div>
-            <img id="loading-bar-fish" src="assets/img/schoolingFish/fish0.png" alt="schooling fish image">
+            <div id="loading-bar-inner"><img id="loading-bar-fish" src="assets/img/schoolingFish/fish0.png" alt="schooling fish image"></div>
+            
         </div>
     </div>
     <script src="helper.js"></script>

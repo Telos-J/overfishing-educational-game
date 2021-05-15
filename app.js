@@ -30,7 +30,9 @@ function displayTime() {
 }
 
 async function init() {
+    document.querySelector('#loading-bar-inner').classList.add('load')
     await assets.loadAssets();
+    document.querySelector('#loading-screen').style.display = 'none'
 
     for (let i = 0; i < numFishes; i++) {
         const fish = new SchoolingFish();
