@@ -57,11 +57,12 @@ window.onblur = function() {
     isTabActive = false;
 };
 
-window.setInterval(() => {
+function pushDataToChart() {
     if (isTabActive) {
         populationChart.data.labels.push('')
         populationChart.data.datasets[0].data.push(sharks.length)
         populationChart.data.datasets[1].data.push(fishes.length)
         populationChart.update()
     }
-}, 1000)
+}
+

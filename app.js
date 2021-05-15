@@ -61,6 +61,8 @@ async function init() {
     setInterval(function() {
         if (time > 0) time-- && displayTime()
     }, 1000)
+
+    window.setInterval(pushDataToChart, 1000)
     start();
 }
 
