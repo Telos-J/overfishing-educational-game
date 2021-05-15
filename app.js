@@ -53,7 +53,14 @@ async function init() {
         if (e.code === 'ArrowDown') boat.lowerNet();
         else if (e.code === 'ArrowUp') boat.raiseNet();
         else if (e.code === 'Space') {
-            mode = mode === 'play' ? 'paused' : 'play';
+            if (mode === 'play') {
+                mode = 'paused';
+                document.querySelector('#menu-container').style.display = 'flex';
+            }
+            else {
+                mode = 'play';
+                document.querySelector('#menu-container').style.display = 'none';
+            }
         }
     });
     addEventListener('keyup', (e) => {
