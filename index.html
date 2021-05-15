@@ -6,6 +6,7 @@
     <title>Overfishing Simulator</title>
     <link rel="shortcut icon" href="assets/img/icon.png" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=Krona+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Ribeye+Marrow&display=swap" rel="stylesheet">
     <style>
       html,
       body {
@@ -20,6 +21,57 @@
       body {
         display: table-cell;
         vertical-align: middle;
+      }
+
+      #loading-screen {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100vw;
+        height: 100vh;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background-color: white;
+      }
+
+      #loading-title {
+        display: flex;
+        justify-content: space-between;
+        width: 70vw;
+      }
+        
+      #loading-icon {
+        width: 300px;
+        height: 300px;
+      }
+
+      #loading-text {
+        width: 630px;
+        font-size: 100px;
+        font-family: 'Ribeye Marrow', cursive;
+      }
+
+      #loading-bar {
+        display: flex;
+        width: 70vw;
+        height: 70px;
+        background-color: #CEFFFC;
+        border: 5px solid black;
+        margin-top: 50px;
+      }
+
+      #loading-bar-fish {
+        position: relative;
+        left: -50px;
+      }
+
+      #loading-bar-inner {
+        position: relative;
+        width: 0%;
+        height: 100%;
+        background-color: #009AA4;
       }
       
       #chart-container {
@@ -62,6 +114,16 @@
         <div id="fish">
             <span id="caught"></span>
             <img id="icon" src="assets/img/schoolingFish/fish0.png" alt="schooling fish image">
+        </div>
+    </div>
+    <div id="loading-screen" draggable="true">
+        <div id="loading-title">
+            <img id="loading-icon" src="assets/img/icon.png" alt="schooling fish image">
+            <div id="loading-text">Overfishing Simulator</div>
+        </div>
+        <div id="loading-bar">
+            <div id="loading-bar-inner"></div>
+            <img id="loading-bar-fish" src="assets/img/schoolingFish/fish0.png" alt="schooling fish image">
         </div>
     </div>
     <script src="helper.js"></script>
