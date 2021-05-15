@@ -1,4 +1,4 @@
-const mode = "display";
+let mode = "play";
 let time = 90;
 let catchGoal = 40;
 
@@ -52,6 +52,9 @@ async function init() {
     addEventListener('keydown', (e) => {
         if (e.code === 'ArrowDown') boat.lowerNet();
         else if (e.code === 'ArrowUp') boat.raiseNet();
+        else if (e.code === 'Space') {
+            mode = mode === 'play' ? 'paused' : 'play';
+        }
     });
     addEventListener('keyup', (e) => {
         boat.haltNet();
@@ -59,11 +62,11 @@ async function init() {
 
     displayTime()
     setInterval(function() {
-        if (time > 0) time-- && displayTime()
+        if (mode === 'play' && time > 0) time-- && displayTime()
     }, 1000)
 
     window.setInterval(pushDataToChart, 1000)
-    start();
+    loop();
 }
 
 function update() {
@@ -139,23 +142,12 @@ function render() {
 };
 
 function loop() {
-    update();
-    render();
+    if (mode === 'play') {
+        update();
+        render();
+    }
     window.requestAnimationFrame(loop);
 };
-
-function start() {
-    if (mode === "display") loop()
-    else if (mode === "nodisplay") {
-        while (fishes.length && sharks.length && populationChart.data.datasets[0].data.length < 10000) {
-            update()
-            populationChart.data.labels.push('')
-            populationChart.data.datasets[0].data.push(sharks.length)
-            populationChart.data.datasets[1].data.push(fishes.length)
-        }
-        populationChart.update()
-    }
-}
 
 init()
 
