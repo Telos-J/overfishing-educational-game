@@ -1,4 +1,4 @@
-let mode = "play";
+let mode = "paused";
 let time = 90;
 let catchGoal = 40;
 
@@ -34,6 +34,10 @@ async function init() {
     await assets.loadAssets();
     document.querySelector('#loading-screen').style.display = 'none'
 
+        document.querySelector('#menu-container').style.display = 'flex';
+        document.querySelector('#menu-buttons').style.display = 'initial';
+        document.querySelector('#pause-buttons').style.display = 'none';
+    
     for (let i = 0; i < numFishes; i++) {
         const fish = new SchoolingFish();
         fishes.push(fish);
@@ -75,6 +79,8 @@ async function init() {
     }, 1000)
 
     window.setInterval(pushDataToChart, 1000)
+    update();
+    render();
     loop();
 }
 
