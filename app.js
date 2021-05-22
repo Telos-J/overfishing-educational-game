@@ -74,11 +74,13 @@ async function init() {
     });
 
     document.querySelector('#start-button').addEventListener('click', () => {
-        // what happens when the start button gets clicked.
+        document.querySelector('#menu-container').style.display = 'none';
+        mode = "play"
     })
 
     document.querySelector('#back-to-menu-button').addEventListener('click', () => {
-        // what happens when the back to menu button gets clicked.
+        document.querySelector('#menu-buttons').style.display = 'initial';
+        document.querySelector('#pause-buttons').style.display = 'none';
     })
 
     displayTime()
