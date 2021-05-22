@@ -34,10 +34,10 @@ async function init() {
     await assets.loadAssets();
     document.querySelector('#loading-screen').style.display = 'none'
 
-        document.querySelector('#menu-container').style.display = 'flex';
-        document.querySelector('#menu-buttons').style.display = 'initial';
-        document.querySelector('#pause-buttons').style.display = 'none';
-    
+    document.querySelector('#menu-container').style.display = 'flex';
+    document.querySelector('#menu-buttons').style.display = 'initial';
+    document.querySelector('#pause-buttons').style.display = 'none';
+
     for (let i = 0; i < numFishes; i++) {
         const fish = new SchoolingFish();
         fishes.push(fish);
@@ -72,6 +72,14 @@ async function init() {
     addEventListener('keyup', (e) => {
         boat.haltNet();
     });
+
+    document.querySelector('#start-button').addEventListener('click', () => {
+        // what happens when the start button gets clicked.
+    })
+
+    document.querySelector('#back-to-menu-button').addEventListener('click', () => {
+        // what happens when the back to menu button gets clicked.
+    })
 
     displayTime()
     setInterval(function() {
