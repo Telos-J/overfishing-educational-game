@@ -49,7 +49,7 @@ function restart() {
     boat = new Boat();
 
     time = 90;
-    catchGoal = 2;
+    catchGoal = 40;
 }
 
 function displayObjective(){
@@ -57,6 +57,7 @@ function displayObjective(){
     document.querySelector('#next-level-buttons').style.display = 'initial';
     window.setTimeout(() => {
         document.querySelector('#menu-container').style.display = 'none';
+        restart()
         mode = 'play'
     }, 1500)
 }
