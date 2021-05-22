@@ -56,6 +56,8 @@ async function init() {
             if (mode === 'play') {
                 mode = 'paused';
                 document.querySelector('#menu-container').style.display = 'flex';
+                document.querySelector('#menu-buttons').style.display = 'none';
+                document.querySelector('#pause-buttons').style.display = 'initial';
             }
             else {
                 mode = 'play';
