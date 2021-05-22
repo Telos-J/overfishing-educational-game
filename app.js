@@ -29,14 +29,11 @@ function displayTime() {
     document.querySelector('#time').innerHTML = `${minutes}:${seconds}`
 }
 
-async function init() {
-    document.querySelector('#loading-bar-inner').classList.add('load')
-    await assets.loadAssets();
-    document.querySelector('#loading-screen').style.display = 'none'
-
-    document.querySelector('#menu-container').style.display = 'flex';
-    document.querySelector('#menu-buttons').style.display = 'initial';
-    document.querySelector('#pause-buttons').style.display = 'none';
+function restart() {
+    fishes = [];
+    sharks = [];
+    populationChart.data.datasets[0].data = []
+    populationChart.data.datasets[1].data = []
 
     for (let i = 0; i < numFishes; i++) {
         const fish = new SchoolingFish();
@@ -50,6 +47,22 @@ async function init() {
     }
 
     boat = new Boat();
+
+    time = 90;
+    catchGoal = 40;
+}
+
+async function init() {
+    document.querySelector('#loading-bar-inner').classList.add('load')
+    await assets.loadAssets();
+    document.querySelector('#loading-screen').style.display = 'none'
+
+    document.querySelector('#menu-container').style.display = 'flex';
+    document.querySelector('#menu-buttons').style.display = 'initial';
+    document.querySelector('#pause-buttons').style.display = 'none';
+
+    restart()
+
     sky = new Sky();
     sea = new Sea()
 
@@ -79,13 +92,15 @@ async function init() {
     })
 
     document.querySelector('#back-to-menu-button').addEventListener('click', () => {
+        restart()
+        update();
+        render();
         document.querySelector('#menu-buttons').style.display = 'initial';
         document.querySelector('#pause-buttons').style.display = 'none';
     })
 
-    displayTime()
     setInterval(function() {
-        if (mode === 'play' && time > 0) time-- && displayTime()
+        if (mode === 'play' && time > 0) time--
     }, 1000)
 
     window.setInterval(pushDataToChart, 1000)
@@ -158,12 +173,7 @@ function render() {
         drawFish(shark);
     }
 
-
-    // context.beginPath()
-    // context.moveTo(0, sealevel)
-    // context.lineTo(canvas.width, sealevel)
-    // context.stroke()
-    // drawNeighborhood(fishes[0]);
+    displayTime()
 };
 
 function loop() {
