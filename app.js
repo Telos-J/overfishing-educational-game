@@ -49,7 +49,16 @@ function restart() {
     boat = new Boat();
 
     time = 90;
-    catchGoal = 40;
+    catchGoal = 2;
+}
+
+function displayObjective(){
+    document.querySelector('#menu-buttons').style.display = 'none';
+    document.querySelector('#next-level-buttons').style.display = 'initial';
+    window.setTimeout(() => {
+        document.querySelector('#menu-container').style.display = 'none';
+        mode = 'play'
+    }, 1500)
 }
 
 async function init() {
@@ -89,12 +98,7 @@ async function init() {
     });
 
     document.querySelector('#start-button').addEventListener('click', () => {
-        document.querySelector('#menu-buttons').style.display = 'none';
-        document.querySelector('#next-level-buttons').style.display = 'initial';
-        window.setTimeout(() => {
-            document.querySelector('#menu-container').style.display = 'none';
-            mode = 'play'
-        }, 1500)
+        displayObjective()
     })
 
     document.querySelector('#back-to-menu-button').addEventListener('click', () => {
@@ -164,6 +168,12 @@ function update() {
     boat.update();
 
     document.querySelector('#caught').innerHTML = `${boat.caughtFish.length}/${catchGoal}`;
+    if (boat.caughtFish.length >= catchGoal){
+        mode = 'pause'
+        document.querySelector('#menu-container').style.display = 'flex';
+        document.querySelector('#next-level-buttons').style.display = 'initial'
+        displayObjective()
+    }
 };
 
 function render() {
