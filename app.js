@@ -89,8 +89,12 @@ async function init() {
     });
 
     document.querySelector('#start-button').addEventListener('click', () => {
-        document.querySelector('#menu-container').style.display = 'none';
-        mode = "play"
+        document.querySelector('#menu-buttons').style.display = 'none';
+        document.querySelector('#next-level-buttons').style.display = 'initial';
+        window.setTimeout(() => {
+            document.querySelector('#menu-container').style.display = 'none';
+            mode = 'play'
+        }, 1500)
     })
 
     document.querySelector('#back-to-menu-button').addEventListener('click', () => {
