@@ -60,6 +60,7 @@ async function init() {
     document.querySelector('#menu-container').style.display = 'flex';
     document.querySelector('#menu-buttons').style.display = 'initial';
     document.querySelector('#pause-buttons').style.display = 'none';
+    document.querySelector('#next-level-buttons').style.display = 'none';
 
     restart()
 
@@ -75,6 +76,7 @@ async function init() {
                 document.querySelector('#menu-container').style.display = 'flex';
                 document.querySelector('#menu-buttons').style.display = 'none';
                 document.querySelector('#pause-buttons').style.display = 'initial';
+                document.querySelector('#next-level-buttons').style.display = 'none';
             }
             else {
                 mode = 'play';
