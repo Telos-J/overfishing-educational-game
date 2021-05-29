@@ -1,6 +1,4 @@
 let mode = "paused";
-let time = 90;
-let catchGoal = 40;
 
 const skyWidth = 1920;
 const skyHeight = 362;
@@ -49,10 +47,12 @@ function restart() {
     boat = new Boat();
 
     time = 90;
-    catchGoal = 40;
+    catchGoal = 2;
+    document.querySelector('#catch-goal').innerHTML = catchGoal
+    document.querySelector('#time').innerHTML = time
 }
 
-function displayObjective(){
+function displayObjective() {
     document.querySelector('#menu-buttons').style.display = 'none';
     document.querySelector('#next-level-buttons').style.display = 'initial';
     window.setTimeout(() => {
@@ -169,10 +169,9 @@ function update() {
     boat.update();
 
     document.querySelector('#caught').innerHTML = `${boat.caughtFish.length}/${catchGoal}`;
-    if (boat.caughtFish.length >= catchGoal){
+    if (boat.caughtFish.length >= catchGoal) {
         mode = 'pause'
         document.querySelector('#menu-container').style.display = 'flex';
-        document.querySelector('#next-level-buttons').style.display = 'initial'
         displayObjective()
     }
 };
