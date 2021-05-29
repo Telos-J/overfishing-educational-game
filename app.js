@@ -10,7 +10,7 @@ let numFishes = 50;
 let numSharks = 0;
 let fishes = [];
 let sharks = [];
-let level = 0;
+let level = -2;
 
 const KFish = 50;
 const rFish = 0.001;
@@ -67,6 +67,7 @@ function displayObjective() {
 
 async function init() {
     document.querySelector('#loading-bar-inner').classList.add('load')
+    document.querySelector('#game-over').style.display = 'none';
     await assets.loadAssets();
     document.querySelector('#loading-screen').style.display = 'none'
 
@@ -177,6 +178,11 @@ function update() {
         level++
         document.querySelector('#menu-container').style.display = 'flex';
         displayObjective()
+    
+    }
+    if (time <= 0) {
+        document.querySelector('#game-over').style.display = 'initial';
+        level = 1
     }
 };
 
