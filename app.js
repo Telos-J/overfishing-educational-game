@@ -11,6 +11,7 @@ let numSharks = 0;
 let fishes = [];
 let sharks = [];
 let level = 1;
+let coins = 50;
 
 const KFish = 50;
 const rFish = 0.001;
@@ -54,10 +55,10 @@ function displayObjective() {
     document.querySelector('#menu-buttons').style.display = 'none';
     document.querySelector('#next-level-buttons').style.display = 'initial';
     time = level * 20 + 70;
-    catchGoal = level * 25 + 10;
+    catchGoal = 5// level * 25 + 10;
     document.querySelector('#catch-goal').innerHTML = catchGoal
     document.querySelector('#catch-time').innerHTML = time
-    console.log(time,catchGoal)
+    console.log(time, catchGoal)
     window.setTimeout(() => {
         document.querySelector('#menu-container').style.display = 'none';
         restart()
@@ -68,6 +69,7 @@ function displayObjective() {
 async function init() {
     document.querySelector('#loading-bar-inner').classList.add('load')
     document.querySelector('#game-over').style.display = 'none';
+    document.querySelector('#coin #balance').innerHTML = coins
     await assets.loadAssets();
     document.querySelector('#loading-screen').style.display = 'none'
 
@@ -115,7 +117,7 @@ async function init() {
     })
 
     document.querySelector('#retry-button').addEventListener('click', () => {
-        restart()  
+        restart()
         time = level * 20 + 70;
         document.querySelector('#game-over').style.display = 'none';
         mode = 'play'
@@ -197,7 +199,8 @@ function update() {
         level++
         document.querySelector('#menu-container').style.display = 'flex';
         displayObjective()
-    
+        coins += boat.caughtFish.length
+        document.querySelector('#coin #balance').innerHTML = coins
     }
     if (time <= 0) {
         mode = 'pause'

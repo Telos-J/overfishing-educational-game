@@ -112,6 +112,7 @@ class Boat {
 
         this.net.y += this.net.speed;
         if (this.net.y < -this.toWindowCoord(140)) this.net.y = -this.toWindowCoord(140);
+
     }
 
     lowerNet() {
