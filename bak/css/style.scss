@@ -1,0 +1,131 @@
+html,
+body {
+    height: 100%;
+    overflow: hidden;
+}
+html {
+    display: table;
+    margin: auto;
+}
+
+body {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+#loading-screen {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: white;
+}
+
+#loading-title {
+    display: flex;
+    justify-content: space-between;
+    width: 70vw;
+}
+
+#loading-icon {
+    width: 300px;
+    height: 300px;
+}
+
+#loading-text {
+    width: 630px;
+    font-size: 100px;
+    font-family: 'Ribeye Marrow', cursive;
+}
+
+#loading-bar {
+    display: flex;
+    width: 70vw;
+    height: 70px;
+    background-color: #CEFFFC;
+    border: 5px solid black;
+    margin-top: 50px;
+}
+
+#loading-bar-fish {
+    position: relative;
+    left: 60px;
+}
+
+#loading-bar-inner {
+    display: flex;
+    justify-content: flex-end;
+    position: relative;
+    width: 10%;
+    height: 100%;
+    background-color: #009AA4;
+    transition: width 3s;
+}
+
+#loading-bar-inner.load {
+    width: 100%;
+}
+
+#chart-container {
+    position: absolute;
+    width: 20vw;
+}
+
+#stats {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 20vw;
+    font-family: 'Krona One', sans-serif;
+    font-size: 1.2rem;
+}
+
+#stats > * {
+    text-align: end;
+    padding-right: 0.5rem;
+}
+
+#fish #icon {
+    height: 1.2rem
+}
+
+#coin #icon {
+    height: 1.3rem
+}
+
+#game-over {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: black;
+}
+
+#menu-container {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.buttons > * {
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    #chart-container {
+        width: 100vw;
+    }
+}
+

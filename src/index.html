@@ -1,150 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Overfishing Simulator</title>
-    <link rel="shortcut icon" href="assets/img/icon.png" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=Krona+One&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Ribeye+Marrow&display=swap" rel="stylesheet">
-    <style>
-      html,
-      body {
-        height: 100%;
-        overflow: hidden;
-      }
-      html {
-        display: table;
-        margin: auto;
-      }
 
-      body {
-        display: table-cell;
-        vertical-align: middle;
-      }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
 
-      #loading-screen {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        width: 100vw;
-        height: 100vh;
-        position: absolute;
-        top: 0;
-        left: 0;
-        background-color: white;
-      }
+    <title>Overfishing Simulator</title>
 
-      #loading-title {
-        display: flex;
-        justify-content: space-between;
-        width: 70vw;
-      }
-        
-      #loading-icon {
-        width: 300px;
-        height: 300px;
-      }
+    <meta name="description" content="Page description">
+    <meta property="og:title" content="Page title">
+    <meta property="og:description" content="Page description">
+    <meta property="og:image" content="https://telos-j.github.io/fishing-game/image.png">
+    <meta property="og:image:alt" content="Image description">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
 
-      #loading-text {
-        width: 630px;
-        font-size: 100px;
-        font-family: 'Ribeye Marrow', cursive;
-      }
+    <meta property="og:url" content="https://telos-j.github.io/fishing-game">
+    <link rel="canonical" href="https://telos-j.github.io/fishing-game">
+  
+    <link rel="icon" href="favicon.svg">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="manifest" href="site.webmanifest">
+    <meta name="theme-color" content="#000">
 
-      #loading-bar {
-        display: flex;
-        width: 70vw;
-        height: 70px;
-        background-color: #CEFFFC;
-        border: 5px solid black;
-        margin-top: 50px;
-      }
-
-      #loading-bar-fish {
-        position: relative;
-        left: 60px;
-      }
-
-      #loading-bar-inner {
-        display: flex;
-        justify-content: flex-end;
-        position: relative;
-        width: 10%;
-        height: 100%;
-        background-color: #009AA4;
-        transition: width 3s;
-      }
-
-      #loading-bar-inner.load {
-        width: 100%;
-      }
-      
-      #chart-container {
-        position: absolute;
-        width: 20vw;
-      }
-
-      #stats {
-        position: absolute;
-        right: 0;
-        top: 0;
-        width: 20vw;
-        font-family: 'Krona One', sans-serif;
-        font-size: 1.2rem;
-      }
-
-      #stats > * {
-          text-align: end;
-          padding-right: 0.5rem;
-      }
-
-      #fish #icon {
-          height: 1.2rem
-      }
-      
-      #coin #icon {
-          height: 1.3rem
-      }
-
-      #game-over {
-        width: 100vw;
-        height: 100vh;
-        position: absolute;
-        top: 0;
-        left: 0;
-        background-color: black;
-      }
-
-      #menu-container {
-        width: 100vw;
-        height: 100vh;
-        position: absolute;
-        top: 0;
-        left: 0;
-        display: none;
-        justify-content: center;
-        align-items: center;
-        background-color: rgba(0, 0, 0, 0.5);
-      }
-
-      .buttons > * {
-          cursor: pointer;
-      }
-      
-      @media (max-width: 768px) {
-        #chart-container {
-          width: 100vw;
-        }
-      }
-    </style>
   </head>
   <body>
+      <!--
     <div id="chart-container">
     <canvas id="chart"></canvas>
     </div>
+      -->
     <canvas id="sim"></canvas>
+    <!--
     <div id="stats">
         <div id="time"></div>
         <div id="fish">
@@ -265,15 +154,7 @@
       </g>
       </g>  
       </svg>
+      -->
       
-
-    <script src="helper.js"></script>
-    <script src="canvas.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
-    <script src="statistics.js"></script>
-    <script src="fish.js"></script>
-    <script src="assets.js"></script>
-    <script src="objects.js"></script>
-    <script src="app.js"></script>
   </body>
 </html>
