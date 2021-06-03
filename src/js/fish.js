@@ -1,5 +1,4 @@
 import * as PIXI from 'pixi.js'
-import { gsap } from 'gsap'
 import { loader } from './assets'
 import { world, horizon } from './game'
 
@@ -28,9 +27,18 @@ function moveFishes(deltaTime) {
     const boundary = world.getChildByName('boundary')
 
     for (const fish of fishes.children) {
+        collideNet(fish)
         fish.position.x += deltaTime
         if (fish.position.x - fish.width / 2 > boundary.width) fish.position.x = -fish.width / 2
     }
+}
+
+function collideNet(fish) {
+    const boat = world.getChildByName('boat')
+    const net = boat.getChildByName('net')
+
+    return fish.position.x > boat.position.x + net.position.x
+    console.log()
 }
 
 export { fishes, spawnFishes, moveFishes }

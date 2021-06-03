@@ -3,10 +3,11 @@ import '../image.png'
 import '../css/style.scss'
 import * as PIXI from 'pixi.js'
 import { resize } from './helper'
-import { world, gameLoop, refactor, createBoundary } from './game'
+import { world, gameLoop, createBoundary, addControls } from './game'
 import { loader } from './assets'
 import { spawnFishes } from './fish'
-import { createSea, createSky, createBoat } from './objects'
+import { createSea, createSky } from './objects'
+import { createBoat } from './boat'
 
 const canvas = document.querySelector('#sim'),
     app = new PIXI.Application({
@@ -14,6 +15,7 @@ const canvas = document.querySelector('#sim'),
         height: innerHeight,
         backgroundColor: 0x49536a,
         view: canvas,
+        antialias: true,
         resolution: devicePixelRatio || 1
     });
 
@@ -27,9 +29,10 @@ function onAssetsLoaded(loader, resources) {
     createSky()
     createBoat()
     spawnFishes()
+    resize()
 
     app.ticker.add(gameLoop);
-    resize()
+    addControls();
 }
 
 export { app }
