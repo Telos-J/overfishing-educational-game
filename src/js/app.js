@@ -3,16 +3,16 @@ import '../image.png'
 import '../css/style.scss'
 import * as PIXI from 'pixi.js'
 import { resize } from './helper'
-import { world, gameLoop, refactor } from './game'
+import { world, gameLoop, refactor, createBoundary } from './game'
 import { loader } from './assets'
 import { spawnFishes } from './fish'
-import { createSea } from './objects'
+import { createSea, createSky, createBoat } from './objects'
 
 const canvas = document.querySelector('#sim'),
     app = new PIXI.Application({
         width: innerWidth,
         height: innerHeight,
-        backgroundAlpha: 0,
+        backgroundColor: 0x49536a,
         view: canvas,
         resolution: devicePixelRatio || 1
     });
@@ -22,11 +22,13 @@ app.stage.addChild(world)
 loader.load(onAssetsLoaded)
 
 function onAssetsLoaded(loader, resources) {
+    createBoundary()
     createSea()
+    createSky()
+    createBoat()
     spawnFishes()
 
     app.ticker.add(gameLoop);
-    refactor()
     resize()
 }
 

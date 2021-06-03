@@ -1,3 +1,4 @@
+import * as PIXI from 'pixi.js'
 import { app } from './app'
 import { world } from './game'
 

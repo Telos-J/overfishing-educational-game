@@ -1,29 +1,22 @@
 import * as PIXI from 'pixi.js'
-import { fishes } from './fish'
+import { moveFishes } from './fish'
 
-const world = new PIXI.Container()
+const world = new PIXI.Container(),
+    _width = 1920,
+    _height = 5760,
+    horizon = 400
 
-world.addChild(fishes)
+function createBoundary() {
+    const boundary = new PIXI.Graphics()
+    boundary.beginFill(0x49536a);
+    boundary.drawRect(0, 0, _width, _height);
+    boundary.endFill();
+    boundary.name = 'boundary'
+    world.addChild(boundary)
+}
 
 function gameLoop(deltaTime) {
-    const sea = world.getChildByName('sea')
-    for (const fish of fishes.children) {
-        fish.position.x += deltaTime
-        if (fish.position.x - fish.width / 2 > sea.width) fish.position.x = -fish.width / 2
-    }
+    moveFishes(deltaTime)
 }
 
-function refactor() {
-    fishes.zIndex = 10
-    world.sortChildren()
-
-    const mask = new PIXI.Graphics();
-    const sea = world.getChildByName('sea')
-    mask.beginFill(0xFF3300);
-    mask.drawRect(0, 0, sea.width, sea.height);
-    mask.endFill();
-
-    fishes.mask = mask
-}
-
-export { world, gameLoop, refactor }
+export { world, gameLoop, createBoundary, horizon }

@@ -35,6 +35,7 @@
     "webpack-dev-server": "^3.11.2"
   },
   "dependencies": {
+    "gsap": "npm:@gsap/shockingly@^3.6.1",
     "pixi.js": "^6.0.4",
     "sanitize.css": "^12.0.1"
   }
