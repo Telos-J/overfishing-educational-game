@@ -39,8 +39,13 @@ function collideNet(fish) {
     const net = boat.getChildByName('net')
     const meshX = net.position.x + boat.position.x - 20 
     const meshY = net.position.y + boat.position.y + 20
-
     console.log(meshX, meshY, fish.position.x, fish.position.y)
+    if (fish.position.y >= -fish.position.x + meshX + meshY && 
+        fish.position.y <= -fish.position.x + meshX + meshY + 120 && 
+        fish.position.y >= meshX -100 &&
+        fish.position.y >= meshY &&
+        fish.position.y <= meshY + 120)
+    console.log("collide")
 }
 
 export { fishes, spawnFishes, moveFishes }
