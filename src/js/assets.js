@@ -13,7 +13,6 @@ loader.add('fish', 'img/fish.png')
     .add('smallCloud4', 'img/small-cloud4.png')
     .add('smallCloud5', 'img/small-cloud5.png')
     .add('boat', 'img/boat.png')
-    .add('net', 'img/net.png')
 
 loader.onProgress.add(handleProgress)
 

@@ -30,12 +30,6 @@ function createBody() {
 function createNet() {
     const boat = world.getChildByName('boat')
     const body = boat.getChildByName('body')
-    const netTexture = loader.resources.net.texture
-    const netRef = new PIXI.Sprite(netTexture)
-    netRef.name = 'netRef'
-    netRef.alpha = 0.5
-    netRef.position.set(-70, boat.height)
-    //boat.addChild(netRef)
 
     const net = new PIXI.Container()
     net.name = 'net'
