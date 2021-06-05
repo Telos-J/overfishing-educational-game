@@ -70,7 +70,7 @@ function createNet() {
         mesh.moveTo(x, 25)
         mesh.lineTo(-120 + x, 145)
     }
-    //mesh.mask = mask
+    mesh.mask = mask
     net.addChild(mesh)
 
     const line = new PIXI.Graphics();

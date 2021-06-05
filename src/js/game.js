@@ -51,9 +51,13 @@ function control() {
     const net = boat.getChildByName('net')
 
     if (boat.netDown)
-        gsap.to(net, { y: `+=${net.speed}` })
+        net.speed = 10
     else if (boat.netUp && net.position.y > 0)
-        gsap.to(net, { y: `-=${net.speed}` })
+        net.speed = -10
+    else
+        net.speed = 0
+
+    gsap.to(net, { y: `+=${net.speed}` })
 }
 
 export { world, horizon, gameLoop, createBoundary, addControls }
