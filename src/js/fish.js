@@ -2,7 +2,7 @@ import * as PIXI from 'pixi.js'
 import { loader } from './assets'
 import { world, horizon } from './game'
 
-const numFish = 1000,
+const numFish = 1,
     fishes = new PIXI.ParticleContainer(numFish)
 
 fishes.name = 'fishes'
@@ -15,7 +15,8 @@ function spawnFishes() {
     for (let i = 0; i < numFish; i++) {
         const fish = new PIXI.Sprite(texture);
         fish.anchor.set(0.5)
-        fish.position.set(Math.random() * boundary.width, Math.random() * (boundary.height - horizon - fish.height) + horizon + fish.height / 2)
+        fish.position.set(boundary.width / 2 - 150 - 20, horizon + fish.height - 15)
+        //fish.position.set(Math.random() * boundary.width, Math.random() * (boundary.height - horizon - fish.height) + horizon + fish.height / 2)
         fishes.addChild(fish);
     }
 
@@ -28,7 +29,7 @@ function moveFishes(deltaTime) {
 
     for (const fish of fishes.children) {
         collideNet(fish)
-        fish.position.x += deltaTime
+        //fish.position.x += deltaTime
         if (fish.position.x - fish.width / 2 > boundary.width) fish.position.x = -fish.width / 2
     }
 }
@@ -36,9 +37,10 @@ function moveFishes(deltaTime) {
 function collideNet(fish) {
     const boat = world.getChildByName('boat')
     const net = boat.getChildByName('net')
+    const meshX = net.position.x + boat.position.x - 20 
+    const meshY = net.position.y + boat.position.y + 20
 
-    return fish.position.x > boat.position.x + net.position.x
-    console.log()
+    console.log(meshX, meshY, fish.position.x, fish.position.y)
 }
 
 export { fishes, spawnFishes, moveFishes }
