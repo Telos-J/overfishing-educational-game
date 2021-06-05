@@ -6,5 +6,62 @@
     left: 0;
     width: 100vw;
     height: 100vh;
+    z-index: -10;
 }
 
+#loading-screen {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: white;
+}
+
+#loading-title {
+    display: flex;
+    justify-content: space-between;
+    width: 70vw;
+}
+
+#loading-icon {
+    width: 300px;
+    height: 300px;
+}
+
+#loading-text {
+    font-size: 100px;
+    font-family: 'Ribeye Marrow', cursive;
+}
+
+#loading-bar {
+    display: flex;
+    width: 70vw;
+    height: 70px;
+    background-color: #CEFFFC;
+    border: 5px solid black;
+    margin-top: 50px;
+}
+
+#loading-bar-fish {
+    position: relative;
+    left: 60px;
+}
+
+#loading-bar-inner {
+    display: flex;
+    justify-content: flex-end;
+    position: relative;
+    width: 0%;
+    height: 100%;
+    background-color: #009AA4;
+    transition: width 0.1s;
+}
+
+#loading-bar-inner.load {
+    width: 100%;
+}

@@ -17,7 +17,8 @@ loader.add('fish', 'img/fish.png')
 loader.onProgress.add(handleProgress)
 
 function handleProgress(loader, resource) {
-    console.log("loading: " + resource.url);
+    // const loadingBar = document.querySelector('#loading-bar-inner')
+    // loadingBar.style.width = loader.progress + '%'
     console.log("progress: " + loader.progress + "%");
 }
 

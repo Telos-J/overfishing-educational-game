@@ -16,8 +16,8 @@ function createBoundary() {
 }
 
 function gameLoop(deltaTime) {
-    moveFishes(deltaTime)
     control()
+    moveFishes(deltaTime)
     updateNet()
 }
 
@@ -50,14 +50,11 @@ function control() {
     const body = boat.getChildByName('body')
     const net = boat.getChildByName('net')
 
-    if (boat.netDown)
-        net.speed = 10
-    else if (boat.netUp && net.position.y > 0)
-        net.speed = -10
-    else
-        net.speed = 0
+    if (boat.netDown) net.vy = net.speed
+    else if (boat.netUp && net.position.y > 0) net.vy = -net.speed
+    else net.vy = 0
 
-    gsap.to(net, { y: `+=${net.speed}` })
+    gsap.to(net, { y: `+=${net.vy}` })
 }
 
 export { world, horizon, gameLoop, createBoundary, addControls }

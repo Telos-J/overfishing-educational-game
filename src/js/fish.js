@@ -3,7 +3,7 @@ import { gsap } from 'gsap'
 import { loader } from './assets'
 import { world, horizon } from './game'
 
-const numFish = 1,
+const numFish = 1000,
     fishes = new PIXI.ParticleContainer(numFish)
 
 fishes.name = 'fishes'
@@ -16,8 +16,8 @@ function spawnFishes() {
     for (let i = 0; i < numFish; i++) {
         const fish = new PIXI.Sprite(texture);
         fish.anchor.set(0.5)
-        fish.position.set(0, horizon + fish.height)
-        // fish.position.set(Math.random() * boundary.width, Math.random() * (boundary.height - horizon - fish.height) + horizon + fish.height / 2)
+        // fish.position.set(0, horizon + fish.height)
+        fish.position.set(Math.random() * boundary.width, Math.random() * (boundary.height - horizon - fish.height) + horizon + fish.height / 2)
         fishes.addChild(fish);
     }
 
@@ -27,10 +27,12 @@ function spawnFishes() {
 
 function moveFishes(deltaTime) {
     const boundary = world.getChildByName('boundary')
+    const boat = world.getChildByName('boat')
+    const net = boat.getChildByName('net')
 
     for (const fish of fishes.children) {
-        collideNet(fish)
-        if (!fish.caught) fish.position.x += deltaTime
+        if (collideNet(fish)) gsap.to(fish, { y: `+=${net.vy}` })
+        else fish.position.x += deltaTime
         if (fish.position.x - fish.width / 2 > boundary.width) fish.position.x = -fish.width / 2
     }
 }
@@ -41,16 +43,11 @@ function collideNet(fish) {
     const meshX = net.position.x + boat.position.x - 20
     const meshY = net.position.y + boat.position.y + 20
 
-    if (fish.position.y >= -fish.position.x + meshX + meshY &&
+    return fish.position.y >= -fish.position.x + meshX + meshY &&
         fish.position.y <= -fish.position.x + meshX + meshY + 120 &&
         fish.position.y >= meshY &&
         fish.position.y <= meshY + 120 &&
-        fish.position.x >= meshX - 100) {
-        fish.caught = true
-        gsap.to(fish, { y: `+=${net.speed}` })
-    } else {
-        fish.caught = false
-    }
+        fish.position.x >= meshX - 100
 }
 
 export { fishes, spawnFishes, moveFishes }
