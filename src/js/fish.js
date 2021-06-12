@@ -22,6 +22,9 @@ function spawnFishes() {
         fish.scale.set(0.8)
         //fish.position.set(0, horizon + fish.height)
         fish.position.set(Math.random() * boundary.width, Math.random() * (boundary.height - horizon - fish.height) + horizon + fish.height / 2)
+        fish.rotation = Math.random() * Math.PI * 2
+        fish.speed = 1.5
+        fish.velocity = new PIXI.Point(fish.speed * Math.cos(fish.rotation), fish.speed * Math.sin(fish.rotation))
         fishes.addChild(fish);
     }
 
@@ -42,11 +45,10 @@ function move(fish, deltaTime) {
 
     if (collideNet(fish)) gsap.to(fish, { y: `+=${net.vy}` })
     else {
-        fish.rotation += 0.1
-        if (fish.rotation > Math.PI * 2) fish.rotation = 0
+        fish.position.x += deltaTime * fish.velocity.x
+        fish.position.y += deltaTime * fish.velocity.y
         if (fish.rotation > Math.PI / 2 && fish.rotation < Math.PI * 3 / 2) fish.scale.y = -0.8
         else fish.scale.y = 0.8
-        // fish.position.x += deltaTime * 1.5
     }
 
     bound(fish)
