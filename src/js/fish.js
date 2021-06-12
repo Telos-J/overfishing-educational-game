@@ -3,6 +3,9 @@ import { gsap } from 'gsap'
 import { loader } from './assets'
 import { world, horizon } from './game'
 
+let caughtFish = 0
+let coins = 0
+
 const numFish = 1000,
     fishes = new PIXI.ParticleContainer(numFish)
 
@@ -38,7 +41,7 @@ function move(fish, deltaTime) {
     const net = boat.getChildByName('net')
 
     if (collideNet(fish)) gsap.to(fish, { y: `+=${net.vy}` })
-    else fish.position.x += deltaTime
+    else fish.position.x += deltaTime * 1.5
     bound(fish)
 }
 
@@ -68,7 +71,14 @@ function collectFish(fish) {
         y: boat.position.y + boat.height / 2,
         onComplete: () => {
             const removed = fishes.removeChild(fish)
-            if (removed) console.log(removed)
+            if (removed) {
+                caughtFish++
+                console.log(caughtFish)
+                document.querySelector('#caught').innerHTML = `${caughtFish}`
+                coins += 3
+                document.querySelector('#coin #balance').innerHTML = coins
+            }
+                
         }
     })
 }

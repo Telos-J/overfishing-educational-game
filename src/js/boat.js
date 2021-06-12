@@ -33,7 +33,7 @@ function createNet() {
 
     const net = new PIXI.Container()
     net.name = 'net'
-    net.speed = 10
+    net.speed = 15
     net.position.set(53, body.height)
     boat.addChild(net)
 
