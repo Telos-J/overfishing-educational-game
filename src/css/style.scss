@@ -65,3 +65,25 @@
 #loading-bar-inner.load {
     width: 100%;
 }
+
+#stats {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 20vw;
+    font-family: 'Krona One', sans-serif;
+    font-size: 1.2rem;
+}
+
+#stats > * {
+    text-align: end;
+    padding-right: 0.5rem;
+}
+
+#fish #icon {
+    height: 1.2rem
+}
+
+#coin #icon {
+    height: 1.3rem
+}

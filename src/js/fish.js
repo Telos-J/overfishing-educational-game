@@ -16,6 +16,7 @@ function spawnFishes() {
     for (let i = 0; i < numFish; i++) {
         const fish = new PIXI.Sprite(texture);
         fish.anchor.set(0.5)
+        fish.scale.set(0.8)
         //fish.position.set(0, horizon + fish.height)
         fish.position.set(Math.random() * boundary.width, Math.random() * (boundary.height - horizon - fish.height) + horizon + fish.height / 2)
         fishes.addChild(fish);
@@ -25,19 +26,26 @@ function spawnFishes() {
     world.addChild(fishes)
 }
 
-function moveFishes(deltaTime) {
-    const boundary = world.getChildByName('boundary')
+function controlFishes(deltaTime) {
+    for (const fish of fishes.children) {
+        move(fish, deltaTime)
+        if (fish.position.y < horizon) collectFish(fish)
+    }
+}
+
+function move(fish, deltaTime) {
     const boat = world.getChildByName('boat')
     const net = boat.getChildByName('net')
 
-    for (const fish of fishes.children) {
-        if (collideNet(fish)) gsap.to(fish, { y: `+=${net.vy}` })
-        else fish.position.x += deltaTime
+    if (collideNet(fish)) gsap.to(fish, { y: `+=${net.vy}` })
+    else fish.position.x += deltaTime
+    bound(fish)
+}
 
-        if (fish.position.x - fish.width / 2 > boundary.width) fish.position.x = -fish.width / 2
-
-        if (fish.position.y < horizon) collectFish(fish)
-    }
+function bound(fish) {
+    const boundary = world.getChildByName('boundary')
+    if (fish.position.x - fish.width / 2 > boundary.width)
+        fish.position.x = -fish.width / 2
 }
 
 function collideNet(fish) {
@@ -58,9 +66,12 @@ function collectFish(fish) {
     gsap.to(fish, {
         x: boat.position.x + boat.width / 3,
         y: boat.position.y + boat.height / 2,
-        onComplete: () => fishes.removeChild(fish)
+        onComplete: () => {
+            const removed = fishes.removeChild(fish)
+            if (removed) console.log(removed)
+        }
     })
 }
 
 
-export { fishes, spawnFishes, moveFishes }
+export { fishes, spawnFishes, controlFishes }

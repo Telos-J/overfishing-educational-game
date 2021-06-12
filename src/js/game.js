@@ -1,12 +1,15 @@
 import * as PIXI from 'pixi.js'
 import { gsap } from 'gsap'
-import { moveFishes } from './fish'
+import { controlFishes } from './fish'
 import { updateNet } from './boat'
+import { app } from './app'
 
 const world = new PIXI.Container(),
     _width = 1920,
     _height = 5760,
     horizon = 400
+
+let time = 90
 
 function createBoundary() {
     const boundary = new PIXI.Graphics()
@@ -16,8 +19,9 @@ function createBoundary() {
 }
 
 function gameLoop(deltaTime) {
+    updateTime()
     control()
-    moveFishes(deltaTime)
+    controlFishes(deltaTime)
     updateNet()
 }
 
@@ -47,7 +51,6 @@ function addControls() {
 
 function control() {
     const boat = world.getChildByName('boat')
-    const body = boat.getChildByName('body')
     const net = boat.getChildByName('net')
 
     if (boat.netDown) net.vy = net.speed
@@ -55,6 +58,17 @@ function control() {
     else net.vy = 0
 
     gsap.to(net, { y: `+=${net.vy}` })
+}
+
+function updateTime() {
+    time -= app.ticker.elapsedMS / 1000
+    if (time < 0) time = 0
+    let minutes = Math.floor(time / 60)
+    let seconds = Math.round(time - 60 * minutes)
+
+    minutes = minutes < 10 ? '0' + minutes : minutes
+    seconds = seconds < 10 ? '0' + seconds : seconds
+    document.querySelector('#time').innerHTML = `${minutes}:${seconds}`
 }
 
 export { world, horizon, gameLoop, createBoundary, addControls }
