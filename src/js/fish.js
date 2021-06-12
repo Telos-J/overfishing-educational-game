@@ -7,7 +7,8 @@ let caughtFish = 0
 let coins = 0
 
 const numFish = 1000,
-    fishes = new PIXI.ParticleContainer(numFish, { vertices: true, rotation: true })
+    // fishes = new PIXI.ParticleContainer(numFish, { vertices: true, rotation: true, tint: true })
+    fishes = new PIXI.Container()
 
 fishes.name = 'fishes'
 
@@ -25,6 +26,7 @@ function spawnFishes() {
         fish.rotation = Math.random() * Math.PI * 2
         fish.speed = 1.5
         fish.velocity = new PIXI.Point(fish.speed * Math.cos(fish.rotation), fish.speed * Math.sin(fish.rotation))
+        fish.serperationSurface = new PIXI.Point()
         fishes.addChild(fish);
     }
 
@@ -45,8 +47,18 @@ function move(fish, deltaTime) {
 
     if (collideNet(fish)) gsap.to(fish, { y: `+=${net.vy}` })
     else {
+        const range = 150
+        const max = 0.1
+        if (fish.position.y < horizon + range) fish.serperationSurface.y = -(max / range) * (fish.position.y - horizon - range)
+        else fish.serperationSurface.y = 0
+
+        fish.velocity.y += fish.serperationSurface.y
+        fish.rotation = Math.atan2(fish.velocity.y, fish.velocity.x)
+        fish.velocity.set(fish.speed * Math.cos(fish.rotation), fish.speed * Math.sin(fish.rotation))
+
         fish.position.x += deltaTime * fish.velocity.x
         fish.position.y += deltaTime * fish.velocity.y
+
         if (fish.rotation > Math.PI / 2 && fish.rotation < Math.PI * 3 / 2) fish.scale.y = -0.8
         else fish.scale.y = 0.8
     }
