@@ -7,7 +7,7 @@ let caughtFish = 0
 let coins = 0
 
 const numFish = 1000,
-    fishes = new PIXI.ParticleContainer(numFish)
+    fishes = new PIXI.ParticleContainer(numFish, { vertices: true, rotation: true })
 
 fishes.name = 'fishes'
 
@@ -41,7 +41,14 @@ function move(fish, deltaTime) {
     const net = boat.getChildByName('net')
 
     if (collideNet(fish)) gsap.to(fish, { y: `+=${net.vy}` })
-    else fish.position.x += deltaTime * 1.5
+    else {
+        fish.rotation += 0.1
+        if (fish.rotation > Math.PI * 2) fish.rotation = 0
+        if (fish.rotation > Math.PI / 2 && fish.rotation < Math.PI * 3 / 2) fish.scale.y = -0.8
+        else fish.scale.y = 0.8
+        // fish.position.x += deltaTime * 1.5
+    }
+
     bound(fish)
 }
 
@@ -78,7 +85,6 @@ function collectFish(fish) {
                 coins += 3
                 document.querySelector('#coin #balance').innerHTML = coins
             }
-                
         }
     })
 }
