@@ -50,7 +50,12 @@ function move(fish, deltaTime) {
     else {
         const range = 200
         const max = 0.1
-        if (fish.position.y < horizon + range) fish.serperationSurface.y = -(max / range) * (fish.position.y - horizon - range)
+        const threshold = horizon + range
+
+        if (fish.position.y < horizon + range)
+            // fish.serperationSurface.y = max
+            // fish.serperationSurface.y = -(max / range) * (fish.position.y - threshold)
+            fish.serperationSurface.y = (max / range ** 2) * (fish.position.y - threshold) ** 2
         else fish.serperationSurface.y = 0
 
         fish.velocity.y += fish.serperationSurface.y
