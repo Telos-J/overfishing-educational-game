@@ -6,7 +6,7 @@ import { world, horizon } from './game'
 let caughtFish = 0
 let coins = 0
 
-const numFish = 1000,
+const numFish = 100,
     // fishes = new PIXI.Container(),
     fishes = new PIXI.ParticleContainer(numFish, { vertices: true, rotation: true })
 
@@ -21,13 +21,14 @@ function spawnFishes() {
         const fish = new PIXI.Sprite(texture);
         fish.anchor.set(0.5)
         fish.scale.set(0.8)
-        //fish.position.set(0, horizon + fish.height)
-        fish.position.set(Math.random() * boundary.width, Math.random() * (boundary.height - horizon - 200) + horizon + 200)
+        fish.position.set(Math.random() * boundary.width, Math.random() * horizon + horizon)
+        // fish.position.set(Math.random() * boundary.width, Math.random() * (boundary.height - horizon - 200) + horizon + 200)
         fish.rotation = Math.random() * Math.PI * 2
         fish.speed = 1.5
         fish.velocity = new PIXI.Point(fish.speed * Math.cos(fish.rotation), fish.speed * Math.sin(fish.rotation))
         fish.serperationSurface = new PIXI.Point()
         fishes.addChild(fish);
+        makeNeighborhood(fish)
     }
 
     fishes.mask = boundary
@@ -42,6 +43,20 @@ function controlFishes(deltaTime) {
     }
 }
 
+function makeNeighborhood(fish) {
+    const neighborhood = new PIXI.Graphics()
+    neighborhood.beginFill(0xffffff, 0.5)
+    neighborhood.arc(fish.x, fish.y, fish.width * 3, 0, Math.PI * 2)
+    world.addChild(neighborhood)
+    fish.neighborhood = neighborhood
+}
+
+function drawNeighborhood(fish) {
+    fish.neighborhood.clear()
+    fish.neighborhood.beginFill(0xffffff, 0.5)
+    fish.neighborhood.arc(fish.x, fish.y, fish.width * 3, 0, Math.PI * 2)
+}
+
 function move(fish, deltaTime) {
     const boat = world.getChildByName('boat')
     const net = boat.getChildByName('net')
@@ -49,10 +64,10 @@ function move(fish, deltaTime) {
     if (fish.caught) gsap.to(fish, { y: `+=${net.vy}` })
     else {
         const range = 200
-        const max = 0.1
+        const max = 0.15
         const threshold = horizon + range
 
-        if (fish.position.y < horizon + range)
+        if (fish.position.y < threshold)
             // fish.serperationSurface.y = max
             // fish.serperationSurface.y = -(max / range) * (fish.position.y - threshold)
             fish.serperationSurface.y = (max / range ** 2) * (fish.position.y - threshold) ** 2
@@ -72,6 +87,7 @@ function move(fish, deltaTime) {
     }
 
     bound(fish)
+    drawNeighborhood(fish)
 }
 
 function bound(fish) {
