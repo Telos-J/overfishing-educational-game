@@ -7,8 +7,8 @@ let caughtFish = 0
 let coins = 0
 
 const numFish = 1000,
-    // fishes = new PIXI.ParticleContainer(numFish, { vertices: true, rotation: true, tint: true })
-    fishes = new PIXI.Container()
+    // fishes = new PIXI.Container(),
+    fishes = new PIXI.ParticleContainer(numFish, { vertices: true, rotation: true })
 
 fishes.name = 'fishes'
 
@@ -22,7 +22,7 @@ function spawnFishes() {
         fish.anchor.set(0.5)
         fish.scale.set(0.8)
         //fish.position.set(0, horizon + fish.height)
-        fish.position.set(Math.random() * boundary.width, Math.random() * (boundary.height - horizon - fish.height) + horizon + fish.height / 2)
+        fish.position.set(Math.random() * boundary.width, Math.random() * (boundary.height - horizon - 200) + horizon + 200)
         fish.rotation = Math.random() * Math.PI * 2
         fish.speed = 1.5
         fish.velocity = new PIXI.Point(fish.speed * Math.cos(fish.rotation), fish.speed * Math.sin(fish.rotation))
@@ -36,8 +36,9 @@ function spawnFishes() {
 
 function controlFishes(deltaTime) {
     for (const fish of fishes.children) {
+        collideNet(fish)
         move(fish, deltaTime)
-        if (fish.position.y < horizon) collectFish(fish)
+        if (fish.caught && fish.position.y < horizon) collectFish(fish)
     }
 }
 
@@ -45,9 +46,9 @@ function move(fish, deltaTime) {
     const boat = world.getChildByName('boat')
     const net = boat.getChildByName('net')
 
-    if (collideNet(fish)) gsap.to(fish, { y: `+=${net.vy}` })
+    if (fish.caught) gsap.to(fish, { y: `+=${net.vy}` })
     else {
-        const range = 150
+        const range = 200
         const max = 0.1
         if (fish.position.y < horizon + range) fish.serperationSurface.y = -(max / range) * (fish.position.y - horizon - range)
         else fish.serperationSurface.y = 0
@@ -78,11 +79,12 @@ function collideNet(fish) {
     const meshX = net.position.x + boat.position.x - 20
     const meshY = net.position.y + boat.position.y + 20
 
-    return fish.position.y >= -fish.position.x + meshX + meshY &&
+    if (fish.position.y >= -fish.position.x + meshX + meshY &&
         fish.position.y <= -fish.position.x + meshX + meshY + 120 &&
         fish.position.y >= meshY &&
         fish.position.y <= meshY + 120 &&
-        fish.position.x >= meshX - 100
+        fish.position.x >= meshX - 100)
+        fish.caught = true
 }
 
 function collectFish(fish) {
@@ -90,6 +92,7 @@ function collectFish(fish) {
     gsap.to(fish, {
         x: boat.position.x + boat.width / 3,
         y: boat.position.y + boat.height / 2,
+        rotation: 0,
         onComplete: () => {
             const removed = fishes.removeChild(fish)
             if (removed) {
