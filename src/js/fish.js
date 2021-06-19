@@ -62,6 +62,8 @@ function move(fish, deltaTime) {
         fish.rotation = Math.atan2(fish.velocity.y, fish.velocity.x)
         fish.velocity.set(fish.speed * Math.cos(fish.rotation), fish.speed * Math.sin(fish.rotation))
 
+        if (fish.position.y < horizon) fish.velocity.y += 0.098
+
         fish.position.x += deltaTime * fish.velocity.x
         fish.position.y += deltaTime * fish.velocity.y
 
