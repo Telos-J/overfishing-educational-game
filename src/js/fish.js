@@ -46,7 +46,8 @@ function controlFishes(deltaTime) {
 function makeNeighborhood(fish) {
     const neighborhood = new PIXI.Graphics()
     neighborhood.beginFill(0xffffff, 0.5)
-    neighborhood.arc(fish.x, fish.y, fish.width * 3, 0, Math.PI * 2)
+    neighborhood.moveTo(fish.x, fish.y)
+    neighborhood.arc(fish.x, fish.y, fish.width * 3, fish.rotation - (Math.PI * 2 / 3), fish.rotation + (Math.PI * 2 / 3))
     world.addChild(neighborhood)
     fish.neighborhood = neighborhood
 }
@@ -54,7 +55,8 @@ function makeNeighborhood(fish) {
 function drawNeighborhood(fish) {
     fish.neighborhood.clear()
     fish.neighborhood.beginFill(0xffffff, 0.5)
-    fish.neighborhood.arc(fish.x, fish.y, fish.width * 3, 0, Math.PI * 2)
+    fish.neighborhood.moveTo(fish.x, fish.y)
+    fish.neighborhood.arc(fish.x, fish.y, fish.width * 3, fish.rotation - (Math.PI * 2 / 3), fish.rotation + (Math.PI * 2 / 3))
 }
 
 function move(fish, deltaTime) {
