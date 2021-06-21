@@ -6,7 +6,7 @@ import { world, horizon } from './game'
 let caughtFish = 0
 let coins = 0
 
-const numFish = 10,
+const numFish = 100,
     fishes = new PIXI.Container()
 // fishes = new PIXI.ParticleContainer(numFish, { vertices: true, rotation: true })
 
@@ -28,7 +28,7 @@ function spawnFishes() {
         fish.velocity = new PIXI.Point(fish.speed * Math.cos(fish.rotation), fish.speed * Math.sin(fish.rotation))
         fish.serperationSurface = new PIXI.Point()
         fishes.addChild(fish);
-        makeNeighborhood(fish)
+        if (i === 0) makeNeighborhood(fish)
     }
 
     fishes.mask = boundary
@@ -53,17 +53,11 @@ function makeNeighborhood(fish) {
     console.log(fish.getGlobalPosition(), neighborhood.getGlobalPosition())
 }
 
-function drawNeighborhood(fish) {
+function inNeighborhood(fish) {
     for (const otherFish of fishes.children) {
-        if (inNeighborhood(fish, otherFish)) {
-            otherFish.tint = 0xff0000
-        } else
-            otherFish.tine = 0xffffff
+        if (fish.neighborhood.containsPoint(otherFish.getGlobalPosition())) otherFish.tint = 0xffff00
+        else otherFish.tint = 0xffffff
     }
-}
-
-function inNeighborhood(fish, otherFish) {
-
 }
 
 function move(fish, deltaTime) {
@@ -94,7 +88,7 @@ function move(fish, deltaTime) {
     }
 
     bound(fish)
-    //if (fish.neighborhood) drawNeighborhood(fish)
+    if (fish.neighborhood) inNeighborhood(fish)
 }
 
 function bound(fish) {
@@ -106,15 +100,10 @@ function bound(fish) {
 function collideNet(fish) {
     const boat = world.getChildByName('boat')
     const net = boat.getChildByName('net')
-    const meshX = net.position.x + boat.position.x - 20
-    const meshY = net.position.y + boat.position.y + 20
+    const mask = net.getChildByName('mask')
 
-    if (fish.position.y >= -fish.position.x + meshX + meshY &&
-        fish.position.y <= -fish.position.x + meshX + meshY + 120 &&
-        fish.position.y >= meshY &&
-        fish.position.y <= meshY + 120 &&
-        fish.position.x >= meshX - 100)
-        fish.caught = true
+    if (mask.containsPoint(fish.getGlobalPosition())) fish.caught = true
+    else fish.caught = false
 }
 
 function collectFish(fish) {

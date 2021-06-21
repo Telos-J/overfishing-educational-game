@@ -34,7 +34,7 @@ function createNet() {
     const net = new PIXI.Container()
     net.name = 'net'
     net.speed = 15
-    net.position.set(53, body.height)
+    net.position.set(53, 0)
     boat.addChild(net)
 
     const outline = new PIXI.Graphics()
