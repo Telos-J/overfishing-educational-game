@@ -6,9 +6,9 @@ import { world, horizon } from './game'
 let caughtFish = 0
 let coins = 0
 
-const numFish = 100,
-    // fishes = new PIXI.Container(),
-    fishes = new PIXI.ParticleContainer(numFish, { vertices: true, rotation: true })
+const numFish = 10,
+    fishes = new PIXI.Container()
+// fishes = new PIXI.ParticleContainer(numFish, { vertices: true, rotation: true })
 
 fishes.name = 'fishes'
 
@@ -21,7 +21,7 @@ function spawnFishes() {
         const fish = new PIXI.Sprite(texture);
         fish.anchor.set(0.5)
         fish.scale.set(0.8)
-        fish.position.set(Math.random() * boundary.width, Math.random() * horizon + horizon)
+        fish.position.set(Math.random() * boundary.width, horizon * Math.random() + horizon)
         // fish.position.set(Math.random() * boundary.width, Math.random() * (boundary.height - horizon - 200) + horizon + 200)
         fish.rotation = Math.random() * Math.PI * 2
         fish.speed = 1.5
@@ -46,17 +46,24 @@ function controlFishes(deltaTime) {
 function makeNeighborhood(fish) {
     const neighborhood = new PIXI.Graphics()
     neighborhood.beginFill(0xffffff, 0.5)
-    neighborhood.moveTo(fish.x, fish.y)
-    neighborhood.arc(fish.x, fish.y, fish.width * 3, fish.rotation - (Math.PI * 2 / 3), fish.rotation + (Math.PI * 2 / 3))
-    world.addChild(neighborhood)
+    neighborhood.moveTo(0, 0)
+    neighborhood.arc(0, 0, fish.width * 3, -Math.PI * 2 / 3, Math.PI * 2 / 3)
+    fish.addChild(neighborhood)
     fish.neighborhood = neighborhood
+    console.log(fish.getGlobalPosition(), neighborhood.getGlobalPosition())
 }
 
 function drawNeighborhood(fish) {
-    fish.neighborhood.clear()
-    fish.neighborhood.beginFill(0xffffff, 0.5)
-    fish.neighborhood.moveTo(fish.x, fish.y)
-    fish.neighborhood.arc(fish.x, fish.y, fish.width * 3, fish.rotation - (Math.PI * 2 / 3), fish.rotation + (Math.PI * 2 / 3))
+    for (const otherFish of fishes.children) {
+        if (inNeighborhood(fish, otherFish)) {
+            otherFish.tint = 0xff0000
+        } else
+            otherFish.tine = 0xffffff
+    }
+}
+
+function inNeighborhood(fish, otherFish) {
+
 }
 
 function move(fish, deltaTime) {
@@ -70,8 +77,6 @@ function move(fish, deltaTime) {
         const threshold = horizon + range
 
         if (fish.position.y < threshold)
-            // fish.serperationSurface.y = max
-            // fish.serperationSurface.y = -(max / range) * (fish.position.y - threshold)
             fish.serperationSurface.y = (max / range ** 2) * (fish.position.y - threshold) ** 2
         else fish.serperationSurface.y = 0
 
@@ -84,12 +89,12 @@ function move(fish, deltaTime) {
         fish.position.x += deltaTime * fish.velocity.x
         fish.position.y += deltaTime * fish.velocity.y
 
-        if (fish.rotation > Math.PI / 2 && fish.rotation < Math.PI * 3 / 2) fish.scale.y = -0.8
+        if (fish.rotation > Math.PI / 2 || fish.rotation < -Math.PI / 2) fish.scale.y = -0.8
         else fish.scale.y = 0.8
     }
 
     bound(fish)
-    drawNeighborhood(fish)
+    //if (fish.neighborhood) drawNeighborhood(fish)
 }
 
 function bound(fish) {
