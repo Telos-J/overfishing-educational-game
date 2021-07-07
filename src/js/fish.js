@@ -6,7 +6,7 @@ import { world, horizon } from './game'
 let caughtFish = 0
 let coins = 0
 
-const numFish = 100,
+const numFish = 1000,
     fishes = new PIXI.Container()
 // fishes = new PIXI.ParticleContainer(numFish, { vertices: true, rotation: true })
 
@@ -21,8 +21,7 @@ function spawnFishes() {
         const fish = new PIXI.Sprite(texture);
         fish.anchor.set(0.5)
         fish.scale.set(0.8)
-        fish.position.set(Math.random() * boundary.width, horizon * Math.random() + horizon)
-        // fish.position.set(Math.random() * boundary.width, Math.random() * (boundary.height - horizon - 200) + horizon + 200)
+        fish.position.set(Math.random() * boundary.width, Math.random() * (boundary.height - horizon - 50) + horizon + 50)
         fish.rotation = Math.random() * Math.PI * 2
         fish.speed = 1.5
         fish.velocity = new PIXI.Point(fish.speed * Math.cos(fish.rotation), fish.speed * Math.sin(fish.rotation))
@@ -103,11 +102,12 @@ function collideNet(fish) {
     const mask = net.getChildByName('mask')
 
     if (mask.containsPoint(fish.getGlobalPosition())) fish.caught = true
-    else fish.caught = false
+    else if (fish.position.y > horizon) fish.caught = false
 }
 
 function collectFish(fish) {
     const boat = world.getChildByName('boat')
+    fish.scale.y = 0.8
     gsap.to(fish, {
         x: boat.position.x + boat.width / 3,
         y: boat.position.y + boat.height / 2,
@@ -116,10 +116,18 @@ function collectFish(fish) {
             const removed = fishes.removeChild(fish)
             if (removed) {
                 caughtFish++
-                console.log(caughtFish)
-                document.querySelector('#caught').innerHTML = `${caughtFish}`
-                coins += 3
-                document.querySelector('#coin #balance').innerHTML = coins
+                const fishMeter = document.querySelector('#fish-meter').contentDocument
+                fishMeter.querySelector('#caught').innerHTML = `${caughtFish}/40`
+                gsap.to(fishMeter.querySelector('#gauge'), {
+                    attr: { width: 220 * caughtFish / 40 }
+                })
+
+                coins += 2
+                const coinMeter = document.querySelector('#coin-meter').contentDocument
+                coinMeter.querySelector('#coin').innerHTML = coins
+                gsap.to(coinMeter.querySelector('#gauge'), {
+                    attr: { width: 220 * coins / 200 }
+                })
             }
         }
     })

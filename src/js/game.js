@@ -26,12 +26,14 @@ function gameLoop(deltaTime) {
 }
 
 function addControls() {
+    const keyCodes = ['ArrowDown', 'ArrowUp']
     const boat = world.getChildByName('boat')
     boat.netDown = false
     boat.netUp = false
 
     addEventListener('keydown', (e) => {
-        e.preventDefault()
+        if (keyCodes.includes(e.code)) e.preventDefault()
+
         if (e.code === 'ArrowDown') {
             boat.netDown = true
             boat.netUp = false
@@ -43,7 +45,8 @@ function addControls() {
     })
 
     addEventListener('keyup', (e) => {
-        e.preventDefault()
+        if (keyCodes.includes(e.code)) e.preventDefault()
+
         if (e.code === 'ArrowDown') boat.netDown = false
         else if (e.code === 'ArrowUp') boat.netUp = false
     })
@@ -68,7 +71,11 @@ function updateTime() {
 
     minutes = minutes < 10 ? '0' + minutes : minutes
     seconds = seconds < 10 ? '0' + seconds : seconds
-    document.querySelector('#time').innerHTML = `${minutes}:${seconds}`
+    const timeMeter = document.querySelector('#time-meter').contentDocument
+    timeMeter.querySelector('#time').innerHTML = `${minutes}:${seconds}`
+    gsap.to(timeMeter.querySelector('#gauge'), {
+        attr: { width: 220 * time / 90 }
+    })
 }
 
 export { world, horizon, gameLoop, createBoundary, addControls }

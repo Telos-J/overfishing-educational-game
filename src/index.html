@@ -24,6 +24,7 @@
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <link rel="manifest" href="site.webmanifest">
     <meta name="theme-color" content="#000">
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans&display=swap" rel="stylesheet">
 
   </head>
   <body>
@@ -34,15 +35,9 @@
       -->
     <canvas id="sim"></canvas>
     <div id="stats">
-        <div id="time"></div>
-        <div id="fish">
-            <span id="caught">0</span>
-            <img id="icon" src="img/fish.png" alt="fish image">
-        </div>
-        <div id="coin">
-          <span id="balance">0</span>
-          <img id="icon" src="img/coin.png" alt="coin image">
-      </div>
+        <object id="time-meter" data="img/clock-meter.svg" type="image/svg+xml"></object>
+        <object id="fish-meter" data="img/fish-meter.svg" type="image/svg+xml"></object>
+        <object id="coin-meter" data="img/coin-meter.svg" type="image/svg+xml"></object>
     </div>
     <!--
     <div id="loading-screen" draggable="true">
