@@ -24,6 +24,9 @@ class Fish extends PIXI.Sprite {
         this.speed = 1.5
         this.velocity = new PIXI.Point(this.speed * Math.cos(this.rotation), this.speed * Math.sin(this.rotation))
         this.serperationSurface = new PIXI.Point()
+        this.seperation = new PIXI.Point()
+        this.alignment = new PIXI.Point()
+        this.cohesion = new PIXI.Point()
         this.bounds = [horizon, horizon + 1000]
         this.makeNeighborhood()
     }
@@ -37,11 +40,8 @@ class Fish extends PIXI.Sprite {
         this.neighborhood = neighborhood
     }
 
-    inNeighborhood() {
-        for (const otherFish of fishes.children) {
-            if (this.neighborhood.containsPoint(otherFish.getGlobalPosition())) otherFish.tint = 0xffff00
-            else otherFish.tint = 0xffffff
-        }
+    inNeighborhood(fish) {
+        return this.neighborhood.containsPoint(fish.getGlobalPosition())
     }
 
     move(deltaTime) {
@@ -60,12 +60,21 @@ class Fish extends PIXI.Sprite {
         else this.scale.y = 0.8
     
         this.bound()
-        if (this.neighborhood) this.inNeighborhood()
     }
 
+
     swim() {
+        this.seperation.set(0,0)
+        for (let fish of fishes.children){
+            if (this.inNeighborhood(fish)){
+                this.seperate(fish)
+                this.align(fish)
+                this.coherce(fish)
+            }
+        }
         this.seperateSurface()
-        this.velocity.y += this.serperationSurface.y
+        this.velocity.x += this.seperation.x
+        this.velocity.y += this.serperationSurface.y + this.seperation.y
         this.rotation = Math.atan2(this.velocity.y, this.velocity.x)
         this.velocity.set(this.speed * Math.cos(this.rotation), this.speed * Math.sin(this.rotation))       
     }    
@@ -87,7 +96,9 @@ class Fish extends PIXI.Sprite {
         else this.serperationSurface.y = 0
     }
 
-    seperate() {
+    seperate(fish) {
+        this.seperation.x += this.position.x - fish.position.x
+        this.seperation.y += this.position.y - fish.position.y
     }
 
     align(){
