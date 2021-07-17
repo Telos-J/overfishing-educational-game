@@ -19,7 +19,8 @@ class Fish extends PIXI.Sprite {
         this.texture = loader.resources.fish.texture
         this.anchor.set(0.5)
         this.scale.set(0.8)
-        this.position.set(Math.random() * boundary.width, Math.random() * (boundary.height - horizon - 50) + horizon + 50)
+        this.bounds = [horizon, horizon + 1000]
+        this.position.set(Math.random() * boundary.width, this.bounds[0] + Math.random() * (this.bounds[1] - this.bounds[0]))
         this.rotation = Math.random() * Math.PI * 2
         this.speed = 1.5
         this.velocity = new PIXI.Point(this.speed * Math.cos(this.rotation), this.speed * Math.sin(this.rotation))
@@ -27,7 +28,6 @@ class Fish extends PIXI.Sprite {
         this.seperation = new PIXI.Point()
         this.alignment = new PIXI.Point()
         this.cohesion = new PIXI.Point()
-        this.bounds = [horizon, horizon + 1000]
         this.makeNeighborhood()
     }
 
