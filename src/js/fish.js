@@ -96,7 +96,7 @@ class Fish extends PIXI.Sprite {
     }
 
     seperate(fish) {
-        this.seperation = sub(this.position, fish.position)
+        this.seperation = add(this.seperation, normalize(sub(this.position, fish.position)))
     }
 
     align() {
