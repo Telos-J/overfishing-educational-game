@@ -66,7 +66,7 @@ class Fish extends PIXI.Sprite {
     swim() {
         this.seperation.set(0, 0)
         this.alignment.set(0, 0)
-        let neighborhoodFish= 0
+        let neighborhoodFish = 0
         for (let fish of fishes.children) {
             if (this.inNeighborhood(fish)) {
                 this.seperate(fish)
@@ -75,7 +75,12 @@ class Fish extends PIXI.Sprite {
             }
         }
         this.seperateSurface()
-        this.velocity = add(this.velocity, add(this.seperationSurface, add(normalize(this.seperation, 0.15), normalize(this.alignment, 0.1))))
+        this.velocity = add(
+            this.velocity,
+            this.seperationSurface,
+            normalize(this.seperation, 0.05),
+            normalize(this.alignment, 0.1)
+        )
         this.rotation = Math.atan2(this.velocity.y, this.velocity.x)
         this.velocity.set(this.speed * Math.cos(this.rotation), this.speed * Math.sin(this.rotation))
     }

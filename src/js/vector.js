@@ -1,6 +1,7 @@
-function add(point1, point2) {
-    const newPoint = point1.clone()
-    newPoint.set(point1.x + point2.x, point1.y + point2.y)
+function add(...points) {
+    const newPoint = points[0].clone().set(0, 0)
+    for (const point of points)
+        newPoint.set(newPoint.x + point.x, newPoint.y + point.y)
     return newPoint
 }
 
