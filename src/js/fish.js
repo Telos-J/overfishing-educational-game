@@ -2,6 +2,7 @@ import * as PIXI from 'pixi.js'
 import { gsap } from 'gsap'
 import { loader } from './assets'
 import { world, horizon } from './game'
+import { add, sub, dot, magnitude, scale, normalize } from './vector'
 
 let caughtFish = 0
 let coins = 0
@@ -24,7 +25,7 @@ class Fish extends PIXI.Sprite {
         this.rotation = Math.random() * Math.PI * 2
         this.speed = 1.5
         this.velocity = new PIXI.Point(this.speed * Math.cos(this.rotation), this.speed * Math.sin(this.rotation))
-        this.serperationSurface = new PIXI.Point()
+        this.seperationSurface = new PIXI.Point()
         this.seperation = new PIXI.Point()
         this.alignment = new PIXI.Point()
         this.cohesion = new PIXI.Point()
@@ -33,7 +34,7 @@ class Fish extends PIXI.Sprite {
 
     makeNeighborhood() {
         const neighborhood = new PIXI.Graphics()
-        neighborhood.beginFill(0xffffff, 0.5)
+        neighborhood.beginFill(0xffffff, 0.00001)
         neighborhood.moveTo(0, 0)
         neighborhood.arc(0, 0, this.width * 3, -Math.PI * 2 / 3, Math.PI * 2 / 3)
         this.addChild(neighborhood)
@@ -47,72 +48,72 @@ class Fish extends PIXI.Sprite {
     move(deltaTime) {
         const boat = world.getChildByName('boat')
         const net = boat.getChildByName('net')
-    
+
         if (this.caught) return gsap.to(this, { y: `+=${net.vy}` })
 
         if (this.position.y < horizon) this.applyGravity()
-        else this.swim() 
-                           
-        this.position.x += deltaTime * this.velocity.x
-        this.position.y += deltaTime * this.velocity.y
-    
+        else this.swim()
+
+        this.position = add(this.position, scale(this.velocity, deltaTime))
+
         if (this.rotation > Math.PI / 2 || this.rotation < -Math.PI / 2) this.scale.y = -0.8
         else this.scale.y = 0.8
-    
+
         this.bound()
     }
 
 
     swim() {
-        this.seperation.set(0,0)
-        for (let fish of fishes.children){
-            if (this.inNeighborhood(fish)){
+        this.seperation.set(0, 0)
+        for (let fish of fishes.children) {
+            if (this.inNeighborhood(fish)) {
                 this.seperate(fish)
                 this.align(fish)
                 this.coherce(fish)
             }
         }
         this.seperateSurface()
-        this.velocity.x += this.seperation.x
-        this.velocity.y += this.serperationSurface.y + this.seperation.y
+        this.velocity = add(this.velocity, add(this.seperationSurface, normalize(this.seperation, 0.1)))
         this.rotation = Math.atan2(this.velocity.y, this.velocity.x)
-        this.velocity.set(this.speed * Math.cos(this.rotation), this.speed * Math.sin(this.rotation))       
-    }    
+        this.velocity.set(this.speed * Math.cos(this.rotation), this.speed * Math.sin(this.rotation))
+    }
 
-    applyGravity(){
+    applyGravity() {
         this.velocity.y += 0.098
         this.rotation = Math.atan2(this.velocity.y, this.velocity.x)
     }
 
-    seperateSurface(){
+    seperateSurface() {
         const range = 200
         const max = 0.15
         const threshold = [this.bounds[0] + range, this.bounds[1] - range]
-    
+
         if (this.position.y < threshold[0])
-            this.serperationSurface.y = (max / range ** 2) * (this.position.y - threshold[0]) ** 2
+            this.seperationSurface.y = (max / range ** 2) * (this.position.y - threshold[0]) ** 2
         else if (this.position.y > threshold[1])
-            this.serperationSurface.y = -(max / range ** 2) * (this.position.y - threshold[1]) ** 2
-        else this.serperationSurface.y = 0
+            this.seperationSurface.y = -(max / range ** 2) * (this.position.y - threshold[1]) ** 2
+        else this.seperationSurface.y = 0
     }
 
     seperate(fish) {
-        this.seperation.x += this.position.x - fish.position.x
-        this.seperation.y += this.position.y - fish.position.y
+        this.seperation = sub(this.position, fish.position)
     }
 
-    align(){
+    align() {
     }
 
-    coherce(){
+    coherce() {
     }
 
-    bound(){
+    bound() {
         const boundary = world.getChildByName('boundary')
-        if (this.position.x - this.width / 2 > boundary.width)
+        if (this.position.x < - this.width / 2)
+            this.position.x = boundary.width + this.width / 2
+        else if (this.position.x > boundary.width + this.width / 2)
             this.position.x = -this.width / 2
     }
-    collideNet(){
+
+    collideNet() {
         const boat = world.getChildByName('boat')
         const net = boat.getChildByName('net')
         const mask = net.getChildByName('mask')
