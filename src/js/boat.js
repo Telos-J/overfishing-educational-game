@@ -52,11 +52,11 @@ function createNet() {
     const mask = new PIXI.Graphics()
     mask.name = 'mask'
     mask.beginFill(0xfff, 0.5)
-    mask.moveTo(0, 5)
+    mask.moveTo(-19, 24)
     mask.lineTo(-120, 125)
     mask.lineTo(-120, 145)
     mask.lineTo(-20, 145)
-    mask.lineTo(120, 5)
+    mask.lineTo(101, 24)
     net.addChild(mask)
 
     const mesh = new PIXI.Graphics()

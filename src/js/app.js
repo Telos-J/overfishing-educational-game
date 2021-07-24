@@ -34,10 +34,12 @@ function onAssetsLoaded(loader, resources) {
     createSky()
     createBoat()
     spawnFishes()
+    addControls();
     resize()
 
-    app.ticker.add(gameLoop);
-    addControls();
+    setTimeout(() => {
+        app.ticker.add(gameLoop);
+    }, 100)
 }
 
 export { app }

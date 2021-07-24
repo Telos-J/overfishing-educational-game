@@ -21,7 +21,10 @@ class Fish extends PIXI.Sprite {
         this.anchor.set(0.5)
         this.scale.set(0.8)
         this.bounds = [horizon, horizon + 1000]
+        //this.position.set(boundary.width, this.bounds[0] + 50)
+        //this.rotation = Math.PI
         this.position.set(Math.random() * boundary.width, this.bounds[0] + Math.random() * (this.bounds[1] - this.bounds[0]))
+        this.prevPos = this.position.clone()
         this.rotation = Math.random() * Math.PI * 2
         this.speed = 1.5
         this.velocity = new PIXI.Point(this.speed * Math.cos(this.rotation), this.speed * Math.sin(this.rotation))
@@ -49,11 +52,10 @@ class Fish extends PIXI.Sprite {
         const boat = world.getChildByName('boat')
         const net = boat.getChildByName('net')
 
-        if (this.caught) return gsap.to(this, { y: `+=${net.vy}` })
-
         if (this.position.y < horizon) this.applyGravity()
         else this.swim()
 
+        this.prevPos = this.position.clone()
         this.position = add(this.position, scale(this.velocity, deltaTime))
 
         if (this.rotation > Math.PI / 2 || this.rotation < -Math.PI / 2) this.scale.y = -0.8
@@ -66,7 +68,7 @@ class Fish extends PIXI.Sprite {
     swim() {
         this.seperation.set(0, 0)
         this.alignment.set(0, 0)
-        this.cohesion.set(0,0)
+        this.cohesion.set(0, 0)
         for (let fish of fishes.children) {
             if (this.inNeighborhood(fish)) {
                 this.seperate(fish)
@@ -117,10 +119,19 @@ class Fish extends PIXI.Sprite {
 
     bound() {
         const boundary = world.getChildByName('boundary')
-        if (this.position.x < - this.width / 2)
-            this.position.x = boundary.width + this.width / 2
-        else if (this.position.x > boundary.width + this.width / 2)
-            this.position.x = -this.width / 2
+        const boat = world.getChildByName('boat')
+        const net = boat.getChildByName('net')
+        const mask = net.getChildByName('mask')
+
+        if (this.caught && !mask.containsPoint(this.getGlobalPosition())) {
+            this.position = this.prevPos.clone()
+            gsap.to(this, { y: `+=${net.vy}` })
+        }
+
+        if (this.x < - this.width / 2)
+            this.x = boundary.width + this.width / 2
+        else if (this.x > boundary.width + this.width / 2)
+            this.x = -this.width / 2
     }
 
     collideNet() {
@@ -129,7 +140,6 @@ class Fish extends PIXI.Sprite {
         const mask = net.getChildByName('mask')
 
         if (mask.containsPoint(this.getGlobalPosition())) this.caught = true
-        else if (this.position.y > horizon) this.caught = false
     }
 }
 
