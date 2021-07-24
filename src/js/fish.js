@@ -78,9 +78,9 @@ class Fish extends PIXI.Sprite {
         this.velocity = add(
             this.velocity,
             this.seperationSurface,
-            normalize(this.seperation, 0),
-            normalize(this.alignment, 0),
-            normalize(this.cohesion, 0.05)
+            normalize(this.seperation, 0.03),
+            normalize(this.alignment, 0.04),
+            normalize(this.cohesion, 0.02)
         )
         this.rotation = Math.atan2(this.velocity.y, this.velocity.x)
         this.velocity.set(this.speed * Math.cos(this.rotation), this.speed * Math.sin(this.rotation))
