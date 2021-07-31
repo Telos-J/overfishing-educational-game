@@ -76,6 +76,8 @@ function createNet() {
     const line = new PIXI.Graphics();
     line.name = 'line'
     net.addChild(line)
+    net.fishes = []
+    net.capacity = 20
     drawline(10)
 
     return net
@@ -87,6 +89,7 @@ function updateNet() {
     const net = boat.getChildByName('net')
 
     drawline(net.position.y - body.height)
+    console.log (net.fishes.length)
 }
 
 function drawline(length) {

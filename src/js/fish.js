@@ -161,11 +161,12 @@ class Fish extends PIXI.Sprite {
         const net = boat.getChildByName('net')
         const mask = net.getChildByName('mask')
 
-        if (!this.caught && mask.containsPoint(this.getGlobalPosition())) {
+        if (net.fishes.length < net.capacity && !this.caught && mask.containsPoint(this.getGlobalPosition())) {
             this.caught = true
             this.seperateSurfaceConstant = 0.05
             this.seperationConstant = 0.05
             this.speed = 0.8
+            net.fishes.push(this)
         }
     }
 }
@@ -194,8 +195,10 @@ function controlFishes(deltaTime) {
 
 function collectFish(fish) {
     const boat = world.getChildByName('boat')
+    const net = boat.getChildByName('net')
     fish.scale.y = 0.8
     fish.collected = true
+    net.fishes = net.fishes.filter(somefish => somefish !== fish)
     gsap.to(fish, {
         x: boat.position.x + boat.width / 3,
         y: boat.position.y + boat.height / 2,
