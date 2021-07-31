@@ -3,6 +3,7 @@ import { gsap } from 'gsap'
 import { controlFishes } from './fish'
 import { updateNet } from './boat'
 import { app } from './app'
+import { MaskData } from 'pixi.js'
 
 const world = new PIXI.Container(),
     _width = 1920,
@@ -55,12 +56,16 @@ function addControls() {
 function control() {
     const boat = world.getChildByName('boat')
     const net = boat.getChildByName('net')
+    const mask = net.getChildByName('mask')
 
     if (boat.netDown) net.vy = net.speed
     else if (boat.netUp && net.position.y > 0) net.vy = -net.speed
     else net.vy = 0
 
     gsap.to(net, { y: `+=${net.vy}` })
+    if ((boat.netUp && net.getGlobalPosition().y < 100) || (boat.netDown && net.getGlobalPosition().y > innerHeight - mask.height - 100)){
+        gsap.to(world, { y: `-=${net.vy}` })
+    }
 }
 
 function updateTime() {
