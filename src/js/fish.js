@@ -32,11 +32,14 @@ class Fish extends PIXI.Sprite {
         this.seperation = new PIXI.Point()
         this.alignment = new PIXI.Point()
         this.cohesion = new PIXI.Point()
+        this.seperateSurfaceConstant = 0.15
         this.seperationNetConstant = 0.05
         this.seperationConstant = 0.03
         this.alignmentConstant = 0.04
         this.cohesionConstant = 0.02
         this.makeNeighborhood()
+        this.caught = false
+        this.collected = false
     }
 
     makeNeighborhood() {
@@ -94,13 +97,15 @@ class Fish extends PIXI.Sprite {
     }
 
     applyGravity() {
-        this.velocity.y += 0.098
-        this.rotation = Math.atan2(this.velocity.y, this.velocity.x)
+        if (!this.collected) {
+            this.velocity.y += 0.098
+            this.rotation = Math.atan2(this.velocity.y, this.velocity.x)
+        }
     }
 
     seperateSurface() {
         const range = 200
-        const max = 0.15
+        const max = this.seperateSurfaceConstant
         const threshold = [this.bounds[0] + range, this.bounds[1] - range]
 
         if (this.position.y < threshold[0])
@@ -158,6 +163,7 @@ class Fish extends PIXI.Sprite {
 
         if (!this.caught && mask.containsPoint(this.getGlobalPosition())) {
             this.caught = true
+            this.seperateSurfaceConstant = 0.05
             this.seperationConstant = 0.05
             this.speed = 0.8
         }
@@ -182,13 +188,14 @@ function controlFishes(deltaTime) {
     for (const fish of fishes.children) {
         fish.collideNet()
         fish.move(deltaTime)
-        if (fish.caught && fish.position.y < horizon) collectFish(fish)
+        if (fish.caught && fish.position.y < horizon - 35) collectFish(fish)
     }
 }
 
 function collectFish(fish) {
     const boat = world.getChildByName('boat')
     fish.scale.y = 0.8
+    fish.collected = true
     gsap.to(fish, {
         x: boat.position.x + boat.width / 3,
         y: boat.position.y + boat.height / 2,
