@@ -3,10 +3,15 @@ import { app } from './app'
 import { world } from './game'
 
 function resize() {
-    app.renderer.resize(innerWidth, innerHeight);
+    const boat = world.getChildByName('boat')
+    const net = boat.getChildByName('net')
     const ratio = world.height / world.width
-    app.stage.width = innerWidth
-    app.stage.height = app.stage.width * ratio
+
+    app.renderer.resize(innerWidth, innerHeight);
+    world.width = innerWidth
+    world.height = world.width * ratio
+
+    world.boundary = net.getGlobalPosition().y
 }
 
 addEventListener('resize', resize)

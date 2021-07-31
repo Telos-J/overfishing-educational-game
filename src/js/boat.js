@@ -89,7 +89,6 @@ function updateNet() {
     const net = boat.getChildByName('net')
 
     drawline(net.position.y - body.height)
-    console.log (net.fishes.length)
 }
 
 function drawline(length) {

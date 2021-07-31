@@ -59,11 +59,15 @@ function control() {
     const mask = net.getChildByName('mask')
 
     if (boat.netDown) net.vy = net.speed
-    else if (boat.netUp && net.position.y > 0) net.vy = -net.speed
+    else if (boat.netUp && net.y > 0) net.vy = -net.speed
     else net.vy = 0
 
     gsap.to(net, { y: `+=${net.vy}` })
-    if ((boat.netUp && net.getGlobalPosition().y < 100) || (boat.netDown && net.getGlobalPosition().y > innerHeight - mask.height - 100)){
+    //if (boat.netUp && net.y <= 0 && world.y < 0) {
+    //    gsap.to(world, { y: `+=${net.speed}` })
+    //}
+    if ((boat.netUp && net.getGlobalPosition().y < world.boundary) ||
+        (boat.netDown && net.getGlobalPosition().y > innerHeight - mask.height - world.boundary)) {
         gsap.to(world, { y: `-=${net.vy}` })
     }
 }
