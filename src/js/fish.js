@@ -7,7 +7,7 @@ import { add, sub, dot, magnitude, scale, normalize } from './vector'
 let caughtFish = 0
 let coins = 0
 
-const numFish = 1,
+const numFish = 100,
     fishes = new PIXI.Container()
 // fishes = new PIXI.ParticleContainer(numFish, { vertices: true, rotation: true })
 
@@ -21,11 +21,10 @@ class Fish extends PIXI.Sprite {
         this.anchor.set(0.5)
         this.scale.set(0.8)
         this.bounds = [horizon, horizon + 1000]
-        this.position.set(boundary.width, this.bounds[0] + 50)
-        this.rotation = Math.PI
-        //this.position.set(Math.random() * boundary.width, this.bounds[0] + Math.random() * (this.bounds[1] - this.bounds[0]))
-        this.prevPos = this.position.clone()
-        //this.rotation = Math.random() * Math.PI * 2
+        //this.position.set(boundary.width, this.bounds[0] + 50)
+        //this.rotation = Math.PI
+        this.position.set(Math.random() * boundary.width, this.bounds[0] + Math.random() * (this.bounds[1] - this.bounds[0]))
+        this.rotation = Math.random() * Math.PI * 2
         this.speed = 1.5
         this.velocity = new PIXI.Point(this.speed * Math.cos(this.rotation), this.speed * Math.sin(this.rotation))
         this.seperationSurface = new PIXI.Point()
@@ -56,7 +55,6 @@ class Fish extends PIXI.Sprite {
         if (this.position.y < horizon) this.applyGravity()
         else this.swim()
 
-        this.prevPos = this.position.clone()
         this.position = add(this.position, scale(this.velocity, deltaTime))
 
         if (this.rotation > Math.PI / 2 || this.rotation < -Math.PI / 2) this.scale.y = -0.8
@@ -81,7 +79,7 @@ class Fish extends PIXI.Sprite {
         this.seperateNet()
         this.velocity = add(
             this.velocity,
-            //this.seperationSurface,
+            this.seperationSurface,
             normalize(this.seperationNet, 0.1),
             normalize(this.seperation, 0.03),
             normalize(this.alignment, 0.04),
@@ -137,7 +135,11 @@ class Fish extends PIXI.Sprite {
         const mask = net.getChildByName('mask')
 
         if (this.caught && !mask.containsPoint(this.getGlobalPosition())) {
-            this.position = this.prevPos.clone()
+            const netCenter = new PIXI.Point(boat.x + net.x - 9.5, boat.y + net.y + 84.5)
+            while (!mask.containsPoint(this.getGlobalPosition())) {
+                this.position = add(this.position, normalize(sub(netCenter, this.position)))
+            }
+
             gsap.to(this, { y: `+=${net.vy}` })
         }
 
