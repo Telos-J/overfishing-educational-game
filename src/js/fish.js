@@ -32,6 +32,10 @@ class Fish extends PIXI.Sprite {
         this.seperation = new PIXI.Point()
         this.alignment = new PIXI.Point()
         this.cohesion = new PIXI.Point()
+        this.seperationNetConstant = 0.05
+        this.seperationConstant = 0.03
+        this.alignmentConstant = 0.04
+        this.cohesionConstant = 0.02
         this.makeNeighborhood()
     }
 
@@ -80,10 +84,10 @@ class Fish extends PIXI.Sprite {
         this.velocity = add(
             this.velocity,
             this.seperationSurface,
-            normalize(this.seperationNet, 0.1),
-            normalize(this.seperation, 0.03),
-            normalize(this.alignment, 0.04),
-            normalize(this.cohesion, 0.02)
+            normalize(this.seperationNet, this.seperationNetConstant),
+            normalize(this.seperation, this.seperationConstant),
+            normalize(this.alignment, this.alignmentConstant),
+            normalize(this.cohesion, this.cohesionConstant)
         )
         this.rotation = Math.atan2(this.velocity.y, this.velocity.x)
         this.velocity.set(this.speed * Math.cos(this.rotation), this.speed * Math.sin(this.rotation))
@@ -139,8 +143,6 @@ class Fish extends PIXI.Sprite {
             while (!mask.containsPoint(this.getGlobalPosition())) {
                 this.position = add(this.position, normalize(sub(netCenter, this.position)))
             }
-
-            gsap.to(this, { y: `+=${net.vy}` })
         }
 
         if (this.x < - this.width / 2)
@@ -154,7 +156,11 @@ class Fish extends PIXI.Sprite {
         const net = boat.getChildByName('net')
         const mask = net.getChildByName('mask')
 
-        if (mask.containsPoint(this.getGlobalPosition())) this.caught = true
+        if (!this.caught && mask.containsPoint(this.getGlobalPosition())) {
+            this.caught = true
+            this.seperationConstant = 0.05
+            this.speed = 0.8
+        }
     }
 }
 
