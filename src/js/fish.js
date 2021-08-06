@@ -1,11 +1,9 @@
 import * as PIXI from 'pixi.js'
 import { gsap } from 'gsap'
 import { loader } from './assets'
-import { world, horizon } from './game'
+import { colorNet } from './boat'
+import { world, horizon, status, updateCaughtFish, updateCoins } from './game'
 import { add, sub, dot, magnitude, scale, normalize } from './vector'
-
-let caughtFish = 0
-let coins = 0
 
 const numFish = 100,
     fishes = new PIXI.Container()
@@ -21,8 +19,6 @@ class Fish extends PIXI.Sprite {
         this.anchor.set(0.5)
         this.scale.set(0.8)
         this.bounds = [horizon, horizon + 1000]
-        //this.position.set(boundary.width, this.bounds[0] + 50)
-        //this.rotation = Math.PI
         this.position.set(Math.random() * boundary.width, this.bounds[0] + Math.random() * (this.bounds[1] - this.bounds[0]))
         this.rotation = Math.random() * Math.PI * 2
         this.speed = 1.5
@@ -72,10 +68,12 @@ class Fish extends PIXI.Sprite {
 
 
     swim() {
+        const boat = world.getChildByName('boat')
+        const net = boat.getChildByName('net')
         this.seperation.set(0, 0)
         this.alignment.set(0, 0)
         this.cohesion.set(0, 0)
-        for (let fish of fishes.children) {
+        for (let fish of this.caught ? net.fishes : fishes.children) {
             if (this.inNeighborhood(fish)) {
                 this.seperate(fish)
                 this.align(fish)
@@ -143,7 +141,7 @@ class Fish extends PIXI.Sprite {
         const net = boat.getChildByName('net')
         const mask = net.getChildByName('mask')
 
-        if (this.caught && !mask.containsPoint(this.getGlobalPosition())) {
+        if (this.caught && !this.collected && !mask.containsPoint(this.getGlobalPosition())) {
             const netCenter = new PIXI.Point(boat.x + net.x - 9.5, boat.y + net.y + 84.5)
             while (!mask.containsPoint(this.getGlobalPosition())) {
                 this.position = add(this.position, normalize(sub(netCenter, this.position)))
@@ -167,6 +165,7 @@ class Fish extends PIXI.Sprite {
             this.seperationConstant = 0.05
             this.speed = 0.8
             net.fishes.push(this)
+            if (net.fishes.length === net.capacity) colorNet(0xdd636e)
         }
     }
 }
@@ -185,6 +184,14 @@ function spawnFishes() {
     world.addChild(fishes)
 }
 
+function resetFishes() {
+    fishes.removeChildren()
+    for (let i = 0; i < numFish; i++) {
+        const fish = new Fish()
+        fishes.addChild(fish)
+    }
+}
+
 function controlFishes(deltaTime) {
     for (const fish of fishes.children) {
         fish.collideNet()
@@ -196,6 +203,7 @@ function controlFishes(deltaTime) {
 function collectFish(fish) {
     const boat = world.getChildByName('boat')
     const net = boat.getChildByName('net')
+    colorNet(0x135c77)
     fish.scale.y = 0.8
     fish.collected = true
     net.fishes = net.fishes.filter(somefish => somefish !== fish)
@@ -206,23 +214,12 @@ function collectFish(fish) {
         onComplete: () => {
             const removed = fishes.removeChild(fish)
             if (removed) {
-                caughtFish++
-                const fishMeter = document.querySelector('#fish-meter').contentDocument
-                fishMeter.querySelector('#caught').innerHTML = `${caughtFish}/40`
-                gsap.to(fishMeter.querySelector('#gauge'), {
-                    attr: { width: 220 * caughtFish / 40 }
-                })
-
-                coins += 2
-                const coinMeter = document.querySelector('#coin-meter').contentDocument
-                coinMeter.querySelector('#coin').innerHTML = coins
-                gsap.to(coinMeter.querySelector('#gauge'), {
-                    attr: { width: 220 * coins / 100 }
-                })
+                updateCaughtFish(status.caughtFish + 1)
+                updateCoins(status.coins + 2)
             }
         }
     })
 }
 
 
-export { fishes, spawnFishes, controlFishes }
+export { fishes, spawnFishes, resetFishes, controlFishes }

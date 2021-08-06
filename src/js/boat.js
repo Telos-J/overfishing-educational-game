@@ -29,7 +29,6 @@ function createBody() {
 
 function createNet() {
     const boat = world.getChildByName('boat')
-    const body = boat.getChildByName('body')
 
     const net = new PIXI.Container()
     net.name = 'net'
@@ -39,14 +38,6 @@ function createNet() {
 
     const outline = new PIXI.Graphics()
     outline.name = 'outline'
-    outline.lineStyle(2, 0x135c77);
-    outline.moveTo(0, 0)
-    outline.lineTo(0, 5)
-    outline.lineTo(-120, 125)
-    outline.lineTo(-120, 145)
-    outline.lineTo(-20, 145)
-    outline.lineTo(120, 5)
-    outline.lineTo(120, 0)
     net.addChild(outline)
 
     const mask = new PIXI.Graphics()
@@ -61,15 +52,6 @@ function createNet() {
 
     const mesh = new PIXI.Graphics()
     mesh.name = 'mesh'
-    mesh.lineStyle(1, 0x135c77);
-    for (let y = 25; y <= 145; y += 15) {
-        mesh.moveTo(-120, y)
-        mesh.lineTo(100, y)
-    }
-    for (let x = 0; x <= 90; x += 20) {
-        mesh.moveTo(x, 25)
-        mesh.lineTo(-120 + x, 145)
-    }
     mesh.mask = mask
     net.addChild(mesh)
 
@@ -79,8 +61,37 @@ function createNet() {
     net.fishes = []
     net.capacity = 20
     drawline(10)
+    colorNet(0x135c77)
 
     return net
+}
+
+function colorNet(color) {
+    const boat = world.getChildByName('boat')
+    const net = boat.getChildByName('net')
+    const outline = net.getChildByName('outline')
+    const mesh = net.getChildByName('mesh')
+
+    outline.clear()
+    outline.lineStyle(2, color);
+    outline.moveTo(0, 0)
+    outline.lineTo(0, 5)
+    outline.lineTo(-120, 125)
+    outline.lineTo(-120, 145)
+    outline.lineTo(-20, 145)
+    outline.lineTo(120, 5)
+    outline.lineTo(120, 0)
+
+    mesh.clear()
+    mesh.lineStyle(1, color);
+    for (let y = 25; y <= 145; y += 15) {
+        mesh.moveTo(-120, y)
+        mesh.lineTo(100, y)
+    }
+    for (let x = 0; x <= 90; x += 20) {
+        mesh.moveTo(x, 25)
+        mesh.lineTo(-120 + x, 145)
+    }
 }
 
 function updateNet() {
@@ -104,4 +115,4 @@ function drawline(length) {
     line.lineTo(120, -length);
 }
 
-export { createBoat, updateNet }
+export { createBoat, updateNet, colorNet }

@@ -29,10 +29,31 @@
   </head>
   <body>
     <canvas id="sim"></canvas>
-    <div id="stats">
-        <object id="time-meter" data="img/clock-meter.svg" type="image/svg+xml"></object>
-        <object id="fish-meter" data="img/fish-meter.svg" type="image/svg+xml"></object>
-        <object id="coin-meter" data="img/coin-meter.svg" type="image/svg+xml"></object>
+    <header>
+        <img id="hamburger-menu" src="img/menu.svg" alt="hambuger menu"></img>
+        <div id="stats">
+            <object id="time-meter" data="img/clock-meter.svg" type="image/svg+xml"></object>
+            <object id="fish-meter" data="img/fish-meter.svg" type="image/svg+xml"></object>
+            <object id="coin-meter" data="img/coin-meter.svg" type="image/svg+xml"></object>
+        </div>
+    </header>
+    <div id="drawer">
+        <div id="message">
+            <div id="phrase"></div>
+            <div id="objective">
+                <div>Next Objective:</div>
+                <div id="content"></div>
+            </div>
+        </div>
+        <button id="resume-button">
+            <span data-text="loading">resume level</span>
+        </button>
+        <button id="reset-button">
+            <span data-text="loading">reset level</span>
+        </button>
+        <button id="next-level-button">
+            <span data-text="loading">next level</span>
+        </button>
     </div>
   </body>
 </html>
