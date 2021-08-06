@@ -56,19 +56,14 @@ class Fish extends PIXI.Sprite {
         else this.swim()
 
         this.position = add(this.position, scale(this.velocity, deltaTime))
+        for (const fish of fishes.children) {
+            this.collide(fish)
+        }
 
         if (this.rotation > Math.PI / 2 || this.rotation < -Math.PI / 2) this.scale.y = -0.8
         else this.scale.y = 0.8
 
         this.bound()
-    }
-
-
-    collide(fish) {
-        const vec = sub(this.position, fish.position)
-        if (magnitude(vec) < this.height / 2) {
-            this.position = add(this.position, normalize(vec, this.speed))
-        }
     }
 
     swim() {
@@ -79,7 +74,6 @@ class Fish extends PIXI.Sprite {
         this.cohesion.set(0, 0)
         for (let fish of this.caught ? net.fishes : fishes.children) {
             if (this.inNeighborhood(fish)) {
-                this.collide(fish)
                 this.seperate(fish)
                 this.align(fish)
                 this.coherce(fish)
@@ -122,7 +116,7 @@ class Fish extends PIXI.Sprite {
     seperateNet() {
         const net = world.getChildByName('net')
         const mask = net.getChildByName('mask')
-        const netCenter = new PIXI.Point(net.x + mask.width / 2, net.y + mask.height / 2)
+        const netCenter = new PIXI.Point(net.x + mask.width / 2, net.y + mask.y + mask.height / 2)
 
         if (this.caught) this.seperationNet = sub(netCenter, this.position)
         else this.seperationNet.set(0, 0)
@@ -168,6 +162,13 @@ class Fish extends PIXI.Sprite {
             this.x = -this.width / 2
     }
 
+    collide(fish) {
+        const vec = sub(this.position, fish.position)
+        if (magnitude(vec) < this.height / 2) {
+            this.position = add(this.position, normalize(vec, this.speed))
+        }
+    }
+
     collideNet() {
         const net = world.getChildByName('net')
         const mask = net.getChildByName('mask')
@@ -176,6 +177,7 @@ class Fish extends PIXI.Sprite {
             this.caught = true
             this.seperateSurfaceConstant = 0.05
             this.seperationConstant = 0.05
+            //this.alignmentConstant = 0.01
             this.speed = 0.8
             net.fishes.push(this)
             if (net.fishes.length === net.capacity) colorNet(0xdd636e)

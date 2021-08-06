@@ -129,16 +129,6 @@ function updateTime(time) {
     if (status.time === 0 && status.caughtFish < status.objective) gameOver()
 }
 
-function gameOver() {
-    resumeButton.style.display = 'none'
-    nextLevelButton.style.display = 'none'
-    message.style.display = 'block'
-    message.querySelector('#phrase').innerHTML = 'Game Over'
-    message.querySelector('#objective').style.display = 'none'
-
-    openDrawer()
-}
-
 function updateCaughtFish(caughtFish) {
     status.caughtFish = caughtFish
     const fishMeter = document.querySelector('#fish-meter').contentDocument
@@ -148,19 +138,6 @@ function updateCaughtFish(caughtFish) {
     })
 
     if (status.caughtFish === status.objective) showObjective(levels[level][0], levels[level][1])
-}
-
-function showObjective(objective, time) {
-    const minutes = Math.floor(time / 60)
-    const seconds = Math.round(time - 60 * minutes)
-
-    nextLevelButton.style.display = 'block'
-    message.style.display = 'block'
-    message.querySelector('#phrase').innerHTML = 'Good Job!'
-    message.querySelector('#content').innerHTML = `Catch ${objective} fish in ${minutes} minutes`
-    if (parseInt(seconds) > 0) message.querySelector('#content').innerHTML += ` ${seconds} seconds`
-
-    openDrawer()
 }
 
 function updateCoins(coins) {
@@ -183,6 +160,29 @@ function closeDrawer() {
     gsap.to(drawer, 0.2, { x: `-${style.getPropertyValue('width')}`, display: 'none' })
     app.ticker.start()
     app.view.classList.remove('inactive')
+}
+
+function showObjective(objective, time) {
+    const minutes = Math.floor(time / 60)
+    const seconds = Math.round(time - 60 * minutes)
+
+    nextLevelButton.style.display = 'block'
+    message.style.display = 'block'
+    message.querySelector('#phrase').innerHTML = 'Good Job!'
+    message.querySelector('#content').innerHTML = `Catch ${objective} fish in ${minutes} minutes`
+    if (parseInt(seconds) > 0) message.querySelector('#content').innerHTML += ` ${seconds} seconds`
+
+    openDrawer()
+}
+
+function gameOver() {
+    resumeButton.style.display = 'none'
+    nextLevelButton.style.display = 'none'
+    message.style.display = 'block'
+    message.querySelector('#phrase').innerHTML = 'Game Over'
+    message.querySelector('#objective').style.display = 'none'
+
+    openDrawer()
 }
 
 function handleClickAnimation(button, callback) {

@@ -39,12 +39,13 @@ function createNet() {
 
     const mask = new PIXI.Graphics()
     mask.name = 'mask'
+    mask.y = 24
     mask.beginFill(0xfff, 0.5)
-    mask.moveTo(101, 24)
-    mask.lineTo(0, 125)
-    mask.lineTo(0, 145)
-    mask.lineTo(100, 145)
-    mask.lineTo(101 + 120, 24)
+    mask.moveTo(101, 0)
+    mask.lineTo(0, 101)
+    mask.lineTo(0, 121)
+    mask.lineTo(100, 121)
+    mask.lineTo(101 + 120, 0)
     net.addChild(mask)
 
     const mesh = new PIXI.Graphics()
