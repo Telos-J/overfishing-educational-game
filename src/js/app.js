@@ -24,11 +24,6 @@ app.stage.addChild(world)
 loader.load(onAssetsLoaded)
 
 function onAssetsLoaded(loader, resources) {
-    // const loadingBar = document.querySelector('#loading-bar-inner')
-    // const loadingScreen = document.querySelector('#loading-screen')
-    // loadingBar.style.width = '100%'
-    // loadingScreen.style.display = 'none'
-
     createBoundary()
     createSea()
     createSky()

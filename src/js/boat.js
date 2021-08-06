@@ -8,11 +8,9 @@ function createBoat() {
     const boat = new PIXI.Container()
     boat.name = 'boat'
     world.addChild(boat);
-
-    const body = createBody()
-    const net = createNet()
-
-    boat.position.set(boundary.width / 2 - body.width / 2, horizon - body.height)
+    createBody()
+    boat.position.set(boundary.width / 2 - boat.body.width / 2, horizon - boat.body.height)
+    createNet()
 }
 
 function createBody() {
@@ -21,10 +19,8 @@ function createBody() {
     const body = new PIXI.Sprite(texture)
     body.name = 'body'
     boat.addChild(body)
-
+    boat.body = body
     gsap.to(body, { y: 4, repeat: -1, yoyo: true, ease: 'power1.inOut' })
-
-    return body
 }
 
 function createNet() {
@@ -33,8 +29,9 @@ function createNet() {
     const net = new PIXI.Container()
     net.name = 'net'
     net.speed = 15
-    net.position.set(53, 0)
-    boat.addChild(net)
+    net.position.set(boat.x - 70, boat.y)
+    net.zIndex = 10
+    world.addChild(net)
 
     const outline = new PIXI.Graphics()
     outline.name = 'outline'
@@ -43,11 +40,11 @@ function createNet() {
     const mask = new PIXI.Graphics()
     mask.name = 'mask'
     mask.beginFill(0xfff, 0.5)
-    mask.moveTo(-19, 24)
-    mask.lineTo(-120, 125)
-    mask.lineTo(-120, 145)
-    mask.lineTo(-20, 145)
-    mask.lineTo(101, 24)
+    mask.moveTo(101, 24)
+    mask.lineTo(0, 125)
+    mask.lineTo(0, 145)
+    mask.lineTo(100, 145)
+    mask.lineTo(101 + 120, 24)
     net.addChild(mask)
 
     const mesh = new PIXI.Graphics()
@@ -63,56 +60,61 @@ function createNet() {
     drawline(10)
     colorNet(0x135c77)
 
-    return net
+    boat.net = net
 }
 
 function colorNet(color) {
-    const boat = world.getChildByName('boat')
-    const net = boat.getChildByName('net')
+    const net = world.getChildByName('net')
     const outline = net.getChildByName('outline')
     const mesh = net.getChildByName('mesh')
 
     outline.clear()
     outline.lineStyle(2, color);
-    outline.moveTo(0, 0)
-    outline.lineTo(0, 5)
-    outline.lineTo(-120, 125)
-    outline.lineTo(-120, 145)
-    outline.lineTo(-20, 145)
+    outline.moveTo(120, 0)
     outline.lineTo(120, 5)
-    outline.lineTo(120, 0)
+    outline.lineTo(0, 125)
+    outline.lineTo(0, 145)
+    outline.lineTo(100, 145)
+    outline.lineTo(240, 5)
+    outline.lineTo(240, 0)
 
     mesh.clear()
     mesh.lineStyle(1, color);
     for (let y = 25; y <= 145; y += 15) {
-        mesh.moveTo(-120, y)
-        mesh.lineTo(100, y)
+        mesh.moveTo(0, y)
+        mesh.lineTo(220, y)
     }
     for (let x = 0; x <= 90; x += 20) {
-        mesh.moveTo(x, 25)
-        mesh.lineTo(-120 + x, 145)
+        mesh.moveTo(x + 120, 25)
+        mesh.lineTo(x, 145)
     }
 }
 
 function updateNet() {
     const boat = world.getChildByName('boat')
     const body = boat.getChildByName('body')
-    const net = boat.getChildByName('net')
+    const net = world.getChildByName('net')
 
     drawline(net.position.y - body.height)
 }
 
+function resetNet() {
+    const net = world.getChildByName('net')
+    net.fishes = []
+    colorNet(0x135c77)
+}
+
 function drawline(length) {
     const boat = world.getChildByName('boat')
-    const net = boat.getChildByName('net')
+    const net = world.getChildByName('net')
     const line = net.getChildByName('line')
 
     line.clear()
     line.lineStyle(2, 0x135c77);
-    line.moveTo(0, 0);
-    line.lineTo(0, -length);
     line.moveTo(120, 0);
-    line.lineTo(120, -length);
+    line.lineTo(120, -length + boat.y);
+    line.moveTo(240, 0);
+    line.lineTo(240, -length + boat.y);
 }
 
-export { createBoat, updateNet, colorNet }
+export { createBoat, updateNet, colorNet, resetNet }

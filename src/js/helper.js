@@ -4,7 +4,7 @@ import { world } from './game'
 
 function resize() {
     const boat = world.getChildByName('boat')
-    const net = boat.getChildByName('net')
+    const net = world.getChildByName('net')
     const ratio = world.height / world.width
 
     app.renderer.resize(innerWidth, innerHeight);

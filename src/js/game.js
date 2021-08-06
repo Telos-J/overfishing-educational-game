@@ -15,13 +15,14 @@ const world = new PIXI.Container(),
     nextLevelButton = document.querySelector('#next-level-button'),
     message = document.querySelector('#message')
 
+world.sortableChildren = true
 
 let level = 1
 const levels = [
     [40, 90],
     [60, 120],
-    //   [80, 150],
-    //   [100, 180]
+    [80, 150],
+    [100, 180]
 ]
 
 
@@ -50,6 +51,10 @@ function gameLoop(deltaTime) {
 }
 
 function reset() {
+    const boat = world.getChildByName('boat')
+
+    world.y = 0
+    boat.net.y = boat.y
     message.style.display = 'none'
     resumeButton.style.display = 'block'
     resetButton.style.display = 'block'
@@ -90,11 +95,11 @@ function addControls() {
 
 function control() {
     const boat = world.getChildByName('boat')
-    const net = boat.getChildByName('net')
+    const net = world.getChildByName('net')
     const mask = net.getChildByName('mask')
 
     if (boat.netDown) net.vy = net.speed
-    else if (boat.netUp && net.y > 0) net.vy = -net.speed
+    else if (boat.netUp && net.y > boat.y) net.vy = -net.speed
     else net.vy = 0
 
     gsap.to(net, { y: `+= ${net.vy}` })

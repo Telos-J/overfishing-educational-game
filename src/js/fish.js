@@ -1,7 +1,7 @@
 import * as PIXI from 'pixi.js'
 import { gsap } from 'gsap'
 import { loader } from './assets'
-import { colorNet } from './boat'
+import { colorNet, resetNet } from './boat'
 import { world, horizon, status, updateCaughtFish, updateCoins } from './game'
 import { add, sub, dot, magnitude, scale, normalize } from './vector'
 
@@ -52,9 +52,6 @@ class Fish extends PIXI.Sprite {
     }
 
     move(deltaTime) {
-        const boat = world.getChildByName('boat')
-        const net = boat.getChildByName('net')
-
         if (this.position.y < horizon) this.applyGravity()
         else this.swim()
 
@@ -67,14 +64,22 @@ class Fish extends PIXI.Sprite {
     }
 
 
+    collide(fish) {
+        const vec = sub(this.position, fish.position)
+        if (magnitude(vec) < this.height / 2) {
+            this.position = add(this.position, normalize(vec, this.speed))
+        }
+    }
+
     swim() {
         const boat = world.getChildByName('boat')
-        const net = boat.getChildByName('net')
+        const net = world.getChildByName('net')
         this.seperation.set(0, 0)
         this.alignment.set(0, 0)
         this.cohesion.set(0, 0)
         for (let fish of this.caught ? net.fishes : fishes.children) {
             if (this.inNeighborhood(fish)) {
+                this.collide(fish)
                 this.seperate(fish)
                 this.align(fish)
                 this.coherce(fish)
@@ -95,7 +100,8 @@ class Fish extends PIXI.Sprite {
     }
 
     applyGravity() {
-        if (!this.collected) {
+        const boat = world.getChildByName('boat')
+        if (!this.collected && !boat.netUp) {
             this.velocity.y += 0.098
             this.rotation = Math.atan2(this.velocity.y, this.velocity.x)
         }
@@ -114,10 +120,9 @@ class Fish extends PIXI.Sprite {
     }
 
     seperateNet() {
-        const boat = world.getChildByName('boat')
-        const net = boat.getChildByName('net')
+        const net = world.getChildByName('net')
         const mask = net.getChildByName('mask')
-        const netCenter = new PIXI.Point(boat.x + net.x - 9.5, boat.y + net.y + 84.5)
+        const netCenter = new PIXI.Point(net.x + mask.width / 2, net.y + mask.height / 2)
 
         if (this.caught) this.seperationNet = sub(netCenter, this.position)
         else this.seperationNet.set(0, 0)
@@ -137,14 +142,23 @@ class Fish extends PIXI.Sprite {
 
     bound() {
         const boundary = world.getChildByName('boundary')
-        const boat = world.getChildByName('boat')
-        const net = boat.getChildByName('net')
+        const net = world.getChildByName('net')
         const mask = net.getChildByName('mask')
 
         if (this.caught && !this.collected && !mask.containsPoint(this.getGlobalPosition())) {
-            const netCenter = new PIXI.Point(boat.x + net.x - 9.5, boat.y + net.y + 84.5)
+            const netCenter = new PIXI.Point(net.x + mask.width / 2, net.y + mask.height / 2)
+            let max = 100
             while (!mask.containsPoint(this.getGlobalPosition())) {
-                this.position = add(this.position, normalize(sub(netCenter, this.position)))
+                const vec = sub(netCenter, this.position)
+                this.position = add(this.position, normalize(vec))
+                max--
+                if (max < 0) {
+                    this.caught = false
+                    this.collected = false
+                    this.speed = 1.5
+                    net.fishes = net.fishes.filter(fish => fish !== this)
+                    break
+                }
             }
         }
 
@@ -155,8 +169,7 @@ class Fish extends PIXI.Sprite {
     }
 
     collideNet() {
-        const boat = world.getChildByName('boat')
-        const net = boat.getChildByName('net')
+        const net = world.getChildByName('net')
         const mask = net.getChildByName('mask')
 
         if (net.fishes.length < net.capacity && !this.caught && mask.containsPoint(this.getGlobalPosition())) {
@@ -172,8 +185,6 @@ class Fish extends PIXI.Sprite {
 
 function spawnFishes() {
     const boundary = world.getChildByName('boundary')
-    const sea = world.getChildByName('sea')
-    const texture = loader.resources.fish.texture
 
     for (let i = 0; i < numFish; i++) {
         const fish = new Fish()
@@ -185,6 +196,7 @@ function spawnFishes() {
 }
 
 function resetFishes() {
+    resetNet()
     fishes.removeChildren()
     for (let i = 0; i < numFish; i++) {
         const fish = new Fish()
@@ -202,7 +214,7 @@ function controlFishes(deltaTime) {
 
 function collectFish(fish) {
     const boat = world.getChildByName('boat')
-    const net = boat.getChildByName('net')
+    const net = world.getChildByName('net')
     colorNet(0x135c77)
     fish.scale.y = 0.8
     fish.collected = true
