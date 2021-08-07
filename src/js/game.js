@@ -1,6 +1,6 @@
 import * as PIXI from 'pixi.js'
 import { gsap } from 'gsap'
-import { resetFishes, controlFishes } from './fish'
+import { resetFishes, controlFishes, addFishes } from './fish'
 import { updateNet } from './boat'
 import { app } from './app'
 
@@ -47,6 +47,7 @@ function gameLoop(deltaTime) {
     updateTime()
     control()
     controlFishes(deltaTime)
+    addFishes()
     updateNet()
 }
 
