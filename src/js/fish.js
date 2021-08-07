@@ -179,7 +179,6 @@ class Fish extends PIXI.Sprite {
             this.caught = true
             this.seperateSurfaceConstant = 0.05
             this.seperationConstant = 0.05
-            //this.alignmentConstant = 0.01
             this.speed = 0.8
             net.fishes.push(this)
             if (net.fishes.length === net.capacity) colorNet(0xdd636e)
@@ -203,15 +202,14 @@ function addFishes() {
     numFish += rFish * numFish * (1 - numFish / kFish);
     for (let i = 0; i < Math.floor(numFish - fishes.children.length); i++) {
         const fish = new Fish()
-        console.log(fish)
         fishes.addChild(fish);
     }
-    console.log(numFish)
-
 }
+
 function resetFishes() {
     resetNet()
     fishes.removeChildren()
+    numFish = kFish
     for (let i = 0; i < numFish; i++) {
         const fish = new Fish()
         fishes.addChild(fish)
