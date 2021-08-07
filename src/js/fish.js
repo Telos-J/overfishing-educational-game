@@ -22,7 +22,6 @@ class Fish extends PIXI.Sprite {
         this.scale.set(0.8)
         this.bounds = [horizon, horizon + 1000]
         this.position.set(Math.random() * boundary.width, this.bounds[0] + Math.random() * (this.bounds[1] - this.bounds[0]))
-        this.rotation = Math.random() * Math.PI * 2
         this.speed = 1.5
         this.velocity = new PIXI.Point(this.speed * Math.cos(this.rotation), this.speed * Math.sin(this.rotation))
         this.seperationSurface = new PIXI.Point()
@@ -199,9 +198,12 @@ function spawnFishes() {
 }
 
 function addFishes() {
+    const boundary = world.getChildByName('boundary')
+
     numFish += rFish * numFish * (1 - numFish / kFish);
     for (let i = 0; i < Math.floor(numFish - fishes.children.length); i++) {
-        const fish = new Fish()
+        const fish = new Fish(boundary.width)
+        fish.x = boundary.width + fish.width / 2
         fishes.addChild(fish);
     }
 }
