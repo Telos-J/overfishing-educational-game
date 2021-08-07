@@ -17,21 +17,21 @@ const world = new PIXI.Container(),
 
 world.sortableChildren = true
 
-let level = 1
+let level = 4
 const levels = [
-    [40, 90],
-    [60, 120],
-    [80, 150],
-    [100, 180]
+    [40, 50],
+    [60, 60],
+    [80, 70],
+    [100, 80]
 ]
 
 
 const status = {
-    time: levels[0][1],
+    time: levels[level - 1][1],
     caughtFish: 0,
     coins: 0,
-    maxTime: levels[0][1],
-    objective: levels[0][0],
+    maxTime: levels[level - 1][1],
+    objective: levels[level - 1][0],
     maxCoins: 100,
 }
 
