@@ -3,6 +3,7 @@
   <head>
     <link href="https://fonts.googleapis.com/css2?family=Krona+One&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Ribeye+Marrow&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans&display=swap" rel="stylesheet">
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width">
@@ -24,13 +25,14 @@
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <link rel="manifest" href="site.webmanifest">
     <meta name="theme-color" content="#000">
-    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans&display=swap" rel="stylesheet">
-
   </head>
   <body>
     <canvas id="sim"></canvas>
     <header>
-        <img id="hamburger-menu" src="img/menu.svg" alt="hambuger menu"></img>
+        <div id="icons">
+            <img id="hamburger-menu" class="icon" src="img/menu.svg" alt="hambuger menu"></img>
+            <img id="chart-icon" class="icon" src="img/chart-icon.svg" alt="line chart"></img>
+        </div>
         <div id="stats">
             <object id="time-meter" data="img/clock-meter.svg" type="image/svg+xml"></object>
             <object id="fish-meter" data="img/fish-meter.svg" type="image/svg+xml"></object>
@@ -54,6 +56,9 @@
         <button id="next-level-button">
             <span data-text="loading">next level</span>
         </button>
+    </div>
+    <div id="curtain">
+        <object id="graph" data="img/population-graph.svg" type="image/svg+xml"></object>
     </div>
   </body>
 </html>

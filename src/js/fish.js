@@ -22,6 +22,7 @@ class Fish extends PIXI.Sprite {
         this.scale.set(0.8)
         this.bounds = [horizon, horizon + 1000]
         this.position.set(Math.random() * boundary.width, this.bounds[0] + Math.random() * (this.bounds[1] - this.bounds[0]))
+        this.rotation = Math.random() * Math.PI * 2
         this.speed = 1.5
         this.velocity = new PIXI.Point(this.speed * Math.cos(this.rotation), this.speed * Math.sin(this.rotation))
         this.seperationSurface = new PIXI.Point()

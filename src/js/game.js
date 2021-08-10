@@ -9,7 +9,9 @@ const world = new PIXI.Container(),
     _height = 5760,
     horizon = 400,
     menu = document.querySelector('#hamburger-menu'),
+    chartIcon = document.querySelector('#chart-icon'),
     drawer = document.querySelector('#drawer'),
+    curtain = document.querySelector('#curtain'),
     resumeButton = document.querySelector('#resume-button'),
     resetButton = document.querySelector('#reset-button'),
     nextLevelButton = document.querySelector('#next-level-button'),
@@ -163,6 +165,15 @@ function closeDrawer() {
     app.view.classList.remove('inactive')
 }
 
+function openCurtain() {
+    gsap.to(curtain, 0.2, { y: 0, display: 'flex' })
+}
+
+function closeCurtain() {
+    const style = getComputedStyle(curtain)
+    gsap.to(curtain, 0.2, { y: `-${style.getPropertyValue('height')}`, display: 'none' })
+}
+
 function showObjective(objective, time) {
     const minutes = Math.floor(time / 60)
     const seconds = Math.round(time - 60 * minutes)
@@ -219,7 +230,15 @@ menu.addEventListener('click', () => {
 
     const style = getComputedStyle(drawer)
     if (style.getPropertyValue('display') === 'none') openDrawer()
-    //else closeDrawer()
+})
+
+chartIcon.addEventListener('click', () => {
+    console.log('chart')
+    if (gsap.isTweening(curtain)) return
+
+    const style = getComputedStyle(curtain)
+    if (style.getPropertyValue('display') === 'none') openCurtain()
+    else closeCurtain()
 })
 
 resumeButton.addEventListener('click', () => {
