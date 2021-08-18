@@ -94,7 +94,6 @@ header {
 }
 
 #curtain {
-    display: none;
     position: absolute;
     width: 25rem;
     height: 20rem;
@@ -102,7 +101,6 @@ header {
     flex-direction: column;
     padding: 4rem 2rem 0rem 2rem;
     background: #49536A;
-    transform: translateY(-20rem);
     align-items: center;
     color: white;
     font-family: "Josefin Sans", sans-serif;

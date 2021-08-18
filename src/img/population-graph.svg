@@ -6,7 +6,7 @@
 </defs>
 <path id="population-curve" d="M362.999 156.891C289.564 -8.71104 135.9 -8.71103 55.6728 156.891" stroke="white" stroke-width="4" stroke-linecap="round"/>
 <text id="x-label" fill="white" xml:space="preserve" style="white-space: pre" font-family="Josefin Sans" font-size="15" font-style="italic" letter-spacing="0em"><tspan x="157.101" y="198.25">Population Size</tspan></text>
-<g id="harvest-line">
+<g id="harvest">
 <line x1="55.6733" y1="19.1741" x2="363" y2="19.174" stroke="white" stroke-width="4"/>
 <text id="harvest-rate" fill="white" xml:space="preserve" style="white-space: pre" font-family="Josefin Sans" font-size="15" font-style="italic" letter-spacing="0em"><tspan x="55.6733" y="11.7637">H = 2</tspan></text>
 </g>

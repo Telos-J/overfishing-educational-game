@@ -1,8 +1,11 @@
 import * as PIXI from 'pixi.js'
 import { gsap } from 'gsap'
-import { resetFishes, controlFishes, addFishes } from './fish'
+import { MotionPathPlugin } from 'gsap/MotionPathPlugin'
+import { resetFishes, controlFishes, addFishes, fishes } from './fish'
 import { updateNet } from './boat'
 import { app } from './app'
+
+gsap.registerPlugin(MotionPathPlugin);
 
 const world = new PIXI.Container(),
     _width = 1920,
@@ -19,9 +22,9 @@ const world = new PIXI.Container(),
 
 world.sortableChildren = true
 
-let level = 4
+let level = 1
 const levels = [
-    [40, 50],
+    [40, 1000],//50],
     [60, 60],
     [80, 70],
     [100, 80]
@@ -31,6 +34,7 @@ const levels = [
 const status = {
     time: levels[level - 1][1],
     caughtFish: 0,
+    addedFish: 0,
     coins: 0,
     maxTime: levels[level - 1][1],
     objective: levels[level - 1][0],
@@ -49,8 +53,8 @@ function gameLoop(deltaTime) {
     updateTime()
     control()
     controlFishes(deltaTime)
-    addFishes()
     updateNet()
+    updateChart()
 }
 
 function reset() {
@@ -81,8 +85,7 @@ function addControls() {
         if (e.code === 'ArrowDown') {
             boat.netDown = true
             boat.netUp = false
-        }
-        else if (e.code === 'ArrowUp') {
+        } else if (e.code === 'ArrowUp') {
             boat.netDown = false
             boat.netUp = true
         }
@@ -225,6 +228,45 @@ function goToNextLevel() {
     if (level < levels.length) level++
 }
 
+const chartTimeline = gsap.timeline({ paused: true })
+
+function setupChart() {
+    const graph = document.querySelector('#graph')
+    const curve = graph.querySelector('#population-curve')
+    const pointer = graph.querySelector('#pointer')
+    chartTimeline
+        .to(pointer, {
+            duration: 2,
+            ease: 'none',
+            motionPath:
+            {
+                path: curve,
+                align: curve,
+                alignOrigin: [0.08, 0.5],
+                start: 1,
+                end: 0,
+            }
+        })
+}
+
+function updateChart() {
+    const graph = document.querySelector('#graph')
+    const harvest = graph.querySelector('#harvest')
+    const harvestRate = harvest.querySelector('#harvest-rate')
+    const numFish = graph.querySelector('#numFish')
+
+    let caughtPerSec = status.caughtFish / (status.maxTime - status.time)
+    caughtPerSec = Math.round(caughtPerSec * 100) / 100
+
+    harvestRate.innerHTML = caughtPerSec
+    let y = -244 * caughtPerSec + 3
+    if (y < -180) y = -180
+    gsap.set(harvest, { y: y })
+
+    numFish.innerHTML = fishes.children.length
+    chartTimeline.progress(fishes.children.length / 100)
+}
+
 menu.addEventListener('click', () => {
     if (gsap.isTweening(drawer)) return
 
@@ -260,5 +302,4 @@ nextLevelButton.addEventListener('click', () => {
     })
 })
 
-
-export { world, horizon, gameLoop, createBoundary, addControls, status, updateCaughtFish, updateCoins }
+export { world, horizon, gameLoop, createBoundary, addControls, status, updateCaughtFish, updateCoins, setupChart, updateChart }

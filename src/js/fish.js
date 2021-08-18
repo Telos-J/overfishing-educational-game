@@ -6,7 +6,7 @@ import { world, horizon, status, updateCaughtFish, updateCoins } from './game'
 import { add, sub, dot, magnitude, scale, normalize } from './vector'
 
 let numFish = 100
-const rFish = 0.001,
+const rFish = 0.02,
     kFish = 100,
     fishes = new PIXI.Container()
 // fishes = new PIXI.ParticleContainer(numFish, { vertices: true, rotation: true })
@@ -198,17 +198,6 @@ function spawnFishes() {
     world.addChild(fishes)
 }
 
-function addFishes() {
-    const boundary = world.getChildByName('boundary')
-
-    numFish += rFish * numFish * (1 - numFish / kFish);
-    for (let i = 0; i < Math.floor(numFish - fishes.children.length); i++) {
-        const fish = new Fish(boundary.width)
-        fish.x = boundary.width + fish.width / 2
-        fishes.addChild(fish);
-    }
-}
-
 function resetFishes() {
     resetNet()
     fishes.removeChildren()
@@ -249,6 +238,20 @@ function collectFish(fish) {
         }
     })
 }
+
+function addFishes() {
+    const boundary = world.getChildByName('boundary')
+
+    numFish += rFish * numFish * (1 - numFish / kFish);
+    for (let i = 0; i < Math.floor(numFish - fishes.children.length); i++) {
+        const fish = new Fish(boundary.width)
+        fish.x = boundary.width + fish.width / 2
+        fishes.addChild(fish)
+        status.addedFish++
+    }
+}
+
+setInterval(addFishes, 1000)
 
 
 export { fishes, spawnFishes, resetFishes, controlFishes, addFishes }
