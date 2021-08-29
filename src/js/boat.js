@@ -25,8 +25,8 @@ function createBody() {
 
 function createNet() {
     const boat = world.getChildByName('boat')
-
     const net = new PIXI.Container()
+    net.size = 1.6
     net.name = 'net'
     net.speed = 15
     net.position.set(boat.x - 70, boat.y)
@@ -42,15 +42,15 @@ function createNet() {
     mask.y = 24
     mask.beginFill(0xfff, 0.5)
     mask.moveTo(101, 0)
-    mask.lineTo(0, 101)
-    mask.lineTo(0, 121)
-    mask.lineTo(100, 121)
-    mask.lineTo(101 + 120, 0)
+    mask.lineTo(0 - (101 * (net.size - 1)), net.size * 101)
+    mask.lineTo(0 - (101 * (net.size - 1)), net.size * 121)
+    mask.lineTo(100 * net.size , net.size * 121)
+    mask.lineTo(net.size * 221, 0)
     net.addChild(mask)
 
     const mesh = new PIXI.Graphics()
     mesh.name = 'mesh'
-    mesh.mask = mask
+    //mesh.mask = mask
     net.addChild(mesh)
 
     const line = new PIXI.Graphics();
@@ -73,11 +73,11 @@ function colorNet(color) {
     outline.lineStyle(2, color);
     outline.moveTo(120, 0)
     outline.lineTo(120, 5)
-    outline.lineTo(0, 125)
-    outline.lineTo(0, 145)
-    outline.lineTo(100, 145)
-    outline.lineTo(240, 5)
-    outline.lineTo(240, 0)
+    outline.lineTo(0 - (101 * (net.size - 1)), net.size * 119)
+    outline.lineTo(0 - (101 * (net.size - 1)), net.size * 139)
+    outline.lineTo(100 * net.size , net.size * 139)
+    outline.lineTo(net.size * 234, 5)
+    outline.lineTo(net.size * 234, 0)
 
     mesh.clear()
     mesh.lineStyle(1, color);
