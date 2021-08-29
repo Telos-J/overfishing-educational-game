@@ -44,7 +44,7 @@ function createNet() {
     mask.moveTo(101, 0)
     mask.lineTo(0 - (101 * (net.size - 1)), net.size * 101)
     mask.lineTo(0 - (101 * (net.size - 1)), net.size * 121)
-    mask.lineTo(100 * net.size , net.size * 121)
+    mask.lineTo(100 * net.size, net.size * 121)
     mask.lineTo(net.size * 221, 0)
     net.addChild(mask)
 
@@ -73,11 +73,11 @@ function colorNet(color) {
     outline.lineStyle(2, color);
     outline.moveTo(120, 0)
     outline.lineTo(120, 5)
-    outline.lineTo(0 - (101 * (net.size - 1)), net.size * 119)
-    outline.lineTo(0 - (101 * (net.size - 1)), net.size * 139)
-    outline.lineTo(100 * net.size , net.size * 139)
-    outline.lineTo(net.size * 234, 5)
-    outline.lineTo(net.size * 234, 0)
+    outline.lineTo(0 - (101 * (net.size - 1)), net.size * 101 + 24)
+    outline.lineTo(0 - (101 * (net.size - 1)), net.size * 121 + 24)
+    outline.lineTo(100 * net.size, net.size * 121 + 24)
+    outline.lineTo(net.size * 221 + 19, 5)
+    outline.lineTo(net.size * 221 + 19, 0)
 
     mesh.clear()
     mesh.lineStyle(1, color);
