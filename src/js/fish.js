@@ -217,6 +217,8 @@ function controlFishes(deltaTime) {
 }
 
 function collectFish(fish) {
+    if (fish.collected) return
+
     const boat = world.getChildByName('boat')
     const net = world.getChildByName('net')
     colorNet(0x135c77)
@@ -228,13 +230,17 @@ function collectFish(fish) {
         y: boat.position.y + boat.height / 2,
         rotation: 0,
         onComplete: () => {
-            const removed = fishes.removeChild(fish)
+            fish.texture = loader.resources.coin.texture
+            gsap.to(fish, {
+                y: '-=100',
+                onComplete: () => {
+                    fishes.removeChild(fish)
+                    updateCaughtFish(status.caughtFish + 1)
+                    updateCoins(status.coins + 2)
+                    numFish--
+                }
 
-            if (removed) {
-                updateCaughtFish(status.caughtFish + 1)
-                updateCoins(status.coins + 2)
-                numFish--
-            }
+            })
         }
     })
 }
