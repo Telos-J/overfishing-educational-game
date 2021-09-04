@@ -105,7 +105,7 @@ function control() {
     const mask = net.getChildByName('mask')
 
     if (boat.netDown) net.vy = net.speed
-    else if (boat.netUp && net.y > boat.y) net.vy = -net.speed
+    else if (boat.netUp && net.y > boat.y - (net.size - 6) * 15) net.vy = -net.speed
     else net.vy = 0
 
     gsap.to(net, { y: `+= ${net.vy}` })
