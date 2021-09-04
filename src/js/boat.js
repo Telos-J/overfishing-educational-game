@@ -26,10 +26,10 @@ function createBody() {
 function createNet() {
     const boat = world.getChildByName('boat')
     const net = new PIXI.Container()
-    net.size = 6
+    net.size = 12
     net.name = 'net'
     net.speed = 15
-    net.position.set(boat.x - 70, boat.y)
+    net.position.set(boat.x + 30 - net.size * 15, boat.y)
     net.zIndex = 10
     world.addChild(net)
 
@@ -41,11 +41,11 @@ function createNet() {
     mask.name = 'mask'
     mask.y = 24
     mask.beginFill(0xfff, 0.5)
-    mask.moveTo(100, 0)
-    mask.lineTo(100 - net.size * 15, net.size * 15)
-    mask.lineTo(100 - net.size * 15, (net.size + 1) * 15 + 2)
-    mask.lineTo(100 + net.size * 20 - (net.size + 1) * 15, (net.size + 1) * 15 + 2)
-    mask.lineTo(100 + net.size * 20 + 2, 0)
+    mask.moveTo(net.size * 15, 0)
+    mask.lineTo(0 , net.size * 15)
+    mask.lineTo(0 , (net.size + 1) * 15 + 2)
+    mask.lineTo(net.size * 35 - (net.size + 1) * 15, (net.size + 1) * 15 + 2)
+    mask.lineTo(net.size * 35 + 2, 0)
     net.addChild(mask)
 
     const mesh = new PIXI.Graphics()
@@ -72,23 +72,23 @@ function colorNet(color) {
 
     outline.clear()
     outline.lineStyle(2, color);
-    outline.moveTo(120, 0)
-    outline.lineTo(120, 5)
-    outline.lineTo(100 - net.size * 15, 25 + net.size * 15)
-    outline.lineTo(100 - net.size * 15, 25 + (net.size + 1) * 15)
-    outline.lineTo(85 + net.size * 5, 25 + (net.size + 1) * 15)
-    outline.lineTo(120 + net.size * 20, 5)
-    outline.lineTo(120 + net.size * 20, 0)
+    outline.moveTo(20 + net.size * 15, 0)
+    outline.lineTo(20 + net.size * 15, 5)
+    outline.lineTo(0, 25 + net.size * 15)
+    outline.lineTo(0, 25 + (net.size + 1) * 15)
+    outline.lineTo(-15 + net.size * 20, 25 + (net.size + 1) * 15)
+    outline.lineTo(20 + net.size * 35, 5)
+    outline.lineTo(20 + net.size * 35, 0)
 
     mesh.clear()
     mesh.lineStyle(1, color);
     for (let y = 25; y <= 25 + net.size * 15; y += 15) {
-        mesh.moveTo(100 - net.size * 15, y)
-        mesh.lineTo(120 + net.size * 20, y)
+        mesh.moveTo(0, y)
+        mesh.lineTo(20 + net.size * 35, y)
     }
     for (let x = 0; x < net.size * 20; x += 20) {
-        mesh.moveTo(x + 120, 25)
-        mesh.lineTo(x + 120 - (net.size + 1) * 15, 25 + (net.size + 1) * 15)
+        mesh.moveTo(20 + x + net.size * 15, 25)
+        mesh.lineTo(x + 5, 25 + (net.size + 1) * 15)
     }
 }
 
@@ -113,10 +113,10 @@ function drawline(length) {
 
     line.clear()
     line.lineStyle(2, 0x135c77);
-    line.moveTo(120, 0);
-    line.lineTo(120, -length + boat.y);
-    line.moveTo(120 + net.size * 20, 0);
-    line.lineTo(120 + net.size * 20, -length + boat.y);
+    line.moveTo(20 + net.size * 15, 0);
+    line.lineTo(20 + net.size * 15, -length + boat.y);
+    line.moveTo(20 + net.size * 35, 0);
+    line.lineTo(20 + net.size * 35, -length + boat.y);
 }
 
 export { createBoat, updateNet, colorNet, resetNet }
