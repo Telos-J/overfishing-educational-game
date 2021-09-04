@@ -3,7 +3,7 @@ import '../image.png'
 import '../css/style.scss'
 import * as PIXI from 'pixi.js'
 import { resize } from './helper'
-import { world, gameLoop, createBoundary, addControls, setupChart } from './game'
+import { world, gameLoop, createBoundary, addControls, setupChart, reset} from './game'
 import { loader } from './assets'
 import { spawnFishes } from './fish'
 import { createSea, createSky } from './objects'
@@ -31,6 +31,7 @@ function onAssetsLoaded(loader, resources) {
     spawnFishes()
     addControls();
     resize()
+    reset()
 
     setTimeout(() => {
         setupChart()

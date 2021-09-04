@@ -26,7 +26,7 @@ function createBody() {
 function createNet() {
     const boat = world.getChildByName('boat')
     const net = new PIXI.Container()
-    net.size = 8
+    net.size = 6
     net.name = 'net'
     net.speed = 15
     net.position.set(boat.x + 30 - net.size * 15, boat.y)

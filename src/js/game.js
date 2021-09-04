@@ -38,7 +38,7 @@ const status = {
     coins: 0,
     maxTime: levels[level - 1][1],
     objective: levels[level - 1][0],
-    maxCoins: 100,
+    maxCoins: 200,
 }
 
 
@@ -149,7 +149,7 @@ function updateCaughtFish(caughtFish) {
 function updateCoins(coins) {
     status.coins = coins
     const coinMeter = document.querySelector('#coin-meter').contentDocument
-    coinMeter.querySelector('#coin').innerHTML = status.coins
+    coinMeter.querySelector('#coin').innerHTML = `${status.coins}/${status.maxCoins}`
     gsap.to(coinMeter.querySelector('#gauge'), {
         attr: { width: 220 * status.coins / status.maxCoins }
     })
@@ -302,4 +302,4 @@ nextLevelButton.addEventListener('click', () => {
     })
 })
 
-export { world, horizon, gameLoop, createBoundary, addControls, status, updateCaughtFish, updateCoins, setupChart, updateChart }
+export { world, horizon, gameLoop, createBoundary, addControls, status, updateCaughtFish, updateCoins, setupChart, updateChart, reset}
