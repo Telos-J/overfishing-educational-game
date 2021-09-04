@@ -42,8 +42,8 @@ function createNet() {
     mask.y = 24
     mask.beginFill(0xfff, 0.5)
     mask.moveTo(net.size * 15, 0)
-    mask.lineTo(0 , net.size * 15)
-    mask.lineTo(0 , (net.size + 1) * 15 + 2)
+    mask.lineTo(0, net.size * 15)
+    mask.lineTo(0, (net.size + 1) * 15 + 2)
     mask.lineTo(net.size * 35 - (net.size + 1) * 15, (net.size + 1) * 15 + 2)
     mask.lineTo(net.size * 35 + 2, 0)
     net.addChild(mask)

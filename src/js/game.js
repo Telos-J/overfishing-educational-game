@@ -302,4 +302,4 @@ nextLevelButton.addEventListener('click', () => {
     })
 })
 
-export { world, horizon, gameLoop, createBoundary, addControls, status, updateCaughtFish, updateCoins, setupChart, updateChart, reset}
+export { world, horizon, gameLoop, createBoundary, addControls, status, updateCaughtFish, updateCoins, setupChart, updateChart, reset }
