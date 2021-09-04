@@ -26,7 +26,7 @@ function createBody() {
 function createNet() {
     const boat = world.getChildByName('boat')
     const net = new PIXI.Container()
-    net.size = 12
+    net.size = 6
     net.name = 'net'
     net.speed = 15
     net.position.set(boat.x - 70, boat.y)
@@ -57,7 +57,8 @@ function createNet() {
     line.name = 'line'
     net.addChild(line)
     net.fishes = []
-    net.capacity = 20
+    net.capacity = Math.round(20 * (net.size / 6) ** 2)
+    console.log(net.capacity)
     drawline(10)
     colorNet(0x135c77)
 
