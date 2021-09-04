@@ -18,6 +18,7 @@ const world = new PIXI.Container(),
     resumeButton = document.querySelector('#resume-button'),
     resetButton = document.querySelector('#reset-button'),
     nextLevelButton = document.querySelector('#next-level-button'),
+    shopButton = document.querySelector('#shop-button'),
     message = document.querySelector('#message')
 
 world.sortableChildren = true
@@ -182,6 +183,7 @@ function showObjective(objective, time) {
     const seconds = Math.round(time - 60 * minutes)
 
     nextLevelButton.style.display = 'block'
+    shopButton.style.display = 'block'
     message.style.display = 'block'
     message.querySelector('#phrase').innerHTML = 'Good Job!'
     message.querySelector('#content').innerHTML = `Catch ${objective} fish in ${minutes} minutes`

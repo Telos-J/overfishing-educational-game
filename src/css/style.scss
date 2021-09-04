@@ -86,6 +86,10 @@ header {
             display: none;
         }
 
+        &#shop-button {
+            display: none;
+        }
+
         span.running {
             animation: pulse-fade 0.125s linear alternate infinite;
             font-style: italic;
@@ -109,6 +113,46 @@ header {
 
     #graph {
         width: 100%;
+    }
+}
+
+#shop {
+    display: flex;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 10;
+    width: 80vw;
+    aspect-ratio: 2;
+    justify-content: space-evenly;
+    align-items: center;
+    transform: translate(-50%, -50%);
+    background: rgba(256, 256, 256, 0.95);
+
+    .item {
+        width: 40%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        color: white;
+        font-family: 'Josefin Sans', sans-serif;
+
+        .item-name {
+            width: 60%;
+            height: 3rem;
+            line-height: 3rem;
+            text-align: center;
+            background: #49536A;
+            margin: 2rem 0 1rem 0;
+        }
+
+        .upgrade-button {
+            width: 50%;
+            height: 3rem;
+            line-height: 3rem;
+            text-align: center;
+            background: #F8BD33;
+        }
     }
 }
 
