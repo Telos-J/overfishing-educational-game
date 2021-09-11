@@ -2,7 +2,7 @@ import * as PIXI from 'pixi.js'
 import { gsap } from 'gsap'
 import { MotionPathPlugin } from 'gsap/MotionPathPlugin'
 import { resetFishes, controlFishes, addFishes, fishes } from './fish'
-import { updateNet } from './boat'
+import { updateNet, resizeNet} from './boat'
 import { app } from './app'
 
 gsap.registerPlugin(MotionPathPlugin);
@@ -318,7 +318,9 @@ closeButton.addEventListener('click', () => {
 })
 
 upgradeSizeButton.addEventListener('click', () => {
-    
+    const net = world.getChildByName('net')
+    net.size += 1
+    resizeNet()
 })
 
 upgradeSpeedButton.addEventListener('click', () => {

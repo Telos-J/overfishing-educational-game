@@ -41,7 +41,6 @@ function createNet() {
     mask.name = 'mask'
     mask.y = 24
     net.addChild(mask)
-    updateNet()
     
     const mesh = new PIXI.Graphics()
     mesh.name = 'mesh'
@@ -52,15 +51,11 @@ function createNet() {
     line.name = 'line'
     net.addChild(line)
     net.fishes = []
-    net.capacity = Math.round(20 * (net.size / 6) ** 2)
-    console.log(net.capacity)
-    drawline(10)
-    colorNet(0x135c77)
-
+    resizeNet()
     boat.net = net
 }
 
-function updateNet() {
+function resizeNet() {
     const net = world.getChildByName('net')
     const mask = net.getChildByName('mask')
     mask.clear()
@@ -70,6 +65,8 @@ function updateNet() {
     mask.lineTo(0, (net.size + 1) * 15 + 2)
     mask.lineTo(net.size * 35 - (net.size + 1) * 15, (net.size + 1) * 15 + 2)
     mask.lineTo(net.size * 35 + 2, 0)
+    net.capacity = Math.round(20 * (net.size / 6) ** 2)
+    colorNet(0x135c77)
 }
 
 function colorNet(color) {
@@ -126,4 +123,4 @@ function drawline(length) {
     line.lineTo(20 + net.size * 35, -length + boat.y);
 }
 
-export { createBoat, updateNet, colorNet, resetNet }
+export { createBoat, updateNet, colorNet, resetNet, resizeNet }
