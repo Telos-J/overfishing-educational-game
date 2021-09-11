@@ -273,6 +273,16 @@ function updateChart() {
     chartTimeline.progress(fishes.children.length / 100)
 }
 
+function upgradeNet(){
+    const net = world.getChildByName('net')
+        net.size += 1
+        resizeNet()
+}
+
+function upgradeSpeed(){
+
+}
+
 menu.addEventListener('click', () => {
     if (gsap.isTweening(drawer)) return
 
@@ -311,6 +321,7 @@ nextLevelButton.addEventListener('click', () => {
 shopButton.addEventListener('click', () => {
     handleClickAnimation(shopButton, () => {
         shop.style.display = 'flex'
+        closeDrawer()
     })
 })
 closeButton.addEventListener('click', () => {
@@ -319,14 +330,13 @@ closeButton.addEventListener('click', () => {
 
 upgradeSizeButton.addEventListener('click', () => {
     handleClickAnimation(upgradeSizeButton, () => {
-        const net = world.getChildByName('net')
-        net.size += 1
-        resizeNet()
+        upgradeNet()
     })
 })
 
 upgradeSpeedButton.addEventListener('click', () => {
     handleClickAnimation(upgradeSpeedButton, () => {
+        upgradeSpeed()
     })
 })
 
