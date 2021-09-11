@@ -117,9 +117,9 @@ header {
 }
 
 #shop {
-    display: none;
+    display: flex;
     position: absolute;
-    top: 50%;
+    top: 0%;
     left: 50%;
     z-index: 10;
     width: 80vw;
@@ -127,8 +127,14 @@ header {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -100%);
     background: rgba(256, 256, 256, 0.95);
+    transition: top 0.2s, transform 0.2s;
+
+    &.opened {
+        top: 50%;
+        transform: translate(-50%, -50%);
+    }
 
     #shop-header {
         display: flex;

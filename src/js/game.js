@@ -273,13 +273,13 @@ function updateChart() {
     chartTimeline.progress(fishes.children.length / 100)
 }
 
-function upgradeNet(){
+function upgradeNet() {
     const net = world.getChildByName('net')
-        net.size += 1
-        resizeNet()
+    net.size += 1
+    resizeNet()
 }
 
-function upgradeSpeed(){
+function upgradeSpeed() {
 
 }
 
@@ -320,12 +320,15 @@ nextLevelButton.addEventListener('click', () => {
 
 shopButton.addEventListener('click', () => {
     handleClickAnimation(shopButton, () => {
-        shop.style.display = 'flex'
+        shop.classList.add('opened')
+        //gsap.to(shop, 0.2, { top: '50%', transform: 'translate(-50%, -50%)', display: 'flex' })
         closeDrawer()
     })
 })
+
 closeButton.addEventListener('click', () => {
-    shop.style.display = 'none'
+    shop.classList.remove('opened')
+    //gsap.to(shop, 0.2, { top: '0%', transform: 'translate(-50%, -100%)', display: 'none' })
 })
 
 upgradeSizeButton.addEventListener('click', () => {
