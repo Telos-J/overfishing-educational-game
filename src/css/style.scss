@@ -174,15 +174,32 @@ header {
         }
 
         .upgrade-button {
-            width: 50%;
-            height: 3rem;
+            width: 60%;
+            border: 2px solid #F8BD33;
+            box-shadow: 5px 5px 0 0 #F8BD33;
+            height: 4rem;
             display: flex;
+            cursor: pointer;
             flex-direction: column;
             justify-content: center;
+            align-items: center;
             line-height: 1rem;
             text-align: center;
-            background: #F8BD33;
-            cursor: pointer;
+            background: white;
+            transition: transform 0.05s, box-shadow 0.05s;
+            color: #F8BD33;
+            font-family: inherit;
+            text-transform: uppercase;
+
+            &:active {
+                box-shadow: 1px 1px 0 0 #F8BD33;
+                transform: translate(4px, 4px);
+            }
+
+            span.running {
+                animation: pulse-fade 0.125s linear alternate infinite;
+                font-style: italic;
+            }
         }
     }
 }
