@@ -19,7 +19,8 @@ const world = new PIXI.Container(),
     resetButton = document.querySelector('#reset-button'),
     nextLevelButton = document.querySelector('#next-level-button'),
     shopButton = document.querySelector('#shop-button'),
-    message = document.querySelector('#message')
+    message = document.querySelector('#message'),
+    shop = document.querySelector('#shop')
 
 world.sortableChildren = true
 
@@ -303,5 +304,12 @@ nextLevelButton.addEventListener('click', () => {
         closeDrawer()
     })
 })
+
+shopButton.addEventListener('click', () => {
+    handleClickAnimation(shopButton, () => {
+        shop.style.display = 'flex'
+    })
+})
+
 
 export { world, horizon, gameLoop, createBoundary, addControls, status, updateCaughtFish, updateCoins, setupChart, updateChart, reset }
