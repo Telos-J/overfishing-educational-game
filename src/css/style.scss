@@ -124,13 +124,36 @@ header {
     z-index: 10;
     width: 80vw;
     aspect-ratio: 2;
-    justify-content: space-evenly;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
     transform: translate(-50%, -50%);
     background: rgba(256, 256, 256, 0.95);
 
+    #shop-header {
+        display: flex;
+        justify-content: flex-end;
+        width: 100%;
+        height: 4rem;
+
+        #close-button {
+            padding: 1rem;
+            width: 4rem;
+            height: 4rem;
+            cursor: pointer;
+        }
+    }
+
+    #shop-main {
+        width: 100%;
+        height: calc(100% - 4rem);
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+    }
+
     .item {
-        width: 40%;
+        width: 80%;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -159,6 +182,7 @@ header {
             line-height: 1rem;
             text-align: center;
             background: #F8BD33;
+            cursor: pointer;
         }
     }
 }
