@@ -137,6 +137,10 @@ header {
         color: white;
         font-family: 'Josefin Sans', sans-serif;
 
+        .item-img {
+            height: 10rem;
+        }
+
         .item-name {
             width: 60%;
             height: 3rem;
@@ -149,7 +153,10 @@ header {
         .upgrade-button {
             width: 50%;
             height: 3rem;
-            line-height: 3rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            line-height: 1rem;
             text-align: center;
             background: #F8BD33;
         }
