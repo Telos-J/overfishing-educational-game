@@ -20,6 +20,8 @@ const world = new PIXI.Container(),
     nextLevelButton = document.querySelector('#next-level-button'),
     shopButton = document.querySelector('#shop-button'),
     closeButton = document.querySelector('#close-button'),
+    upgradeSizeButton = document.querySelector('#upgrade-size-button'),
+    upgradeSpeedButton = document.querySelector('#upgrade-speed-button'),
     message = document.querySelector('#message'),
     shop = document.querySelector('#shop')
 
@@ -313,6 +315,14 @@ shopButton.addEventListener('click', () => {
 })
 closeButton.addEventListener('click', () => {
     shop.style.display = 'none'
+})
+
+upgradeSizeButton.addEventListener('click', () => {
+    
+})
+
+upgradeSpeedButton.addEventListener('click', () => {
+    
 })
 
 export { world, horizon, gameLoop, createBoundary, addControls, status, updateCaughtFish, updateCoins, setupChart, updateChart, reset }
