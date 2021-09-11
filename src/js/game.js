@@ -19,6 +19,7 @@ const world = new PIXI.Container(),
     resetButton = document.querySelector('#reset-button'),
     nextLevelButton = document.querySelector('#next-level-button'),
     shopButton = document.querySelector('#shop-button'),
+    closeButton = document.querySelector('#close-button'),
     message = document.querySelector('#message'),
     shop = document.querySelector('#shop')
 
@@ -310,6 +311,8 @@ shopButton.addEventListener('click', () => {
         shop.style.display = 'flex'
     })
 })
-
+closeButton.addEventListener('click', () => {
+    shop.style.display = 'none'
+})
 
 export { world, horizon, gameLoop, createBoundary, addControls, status, updateCaughtFish, updateCoins, setupChart, updateChart, reset }
