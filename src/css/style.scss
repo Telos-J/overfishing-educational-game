@@ -202,9 +202,36 @@ header {
                 transform: translate(4px, 4px);
             }
 
+            &.error {
+                border: 2px solid #F83333;
+                box-shadow: 5px 5px 0 0 #F83333;
+                color: #F83333;
+
+                &:active {
+                    box-shadow: 1px 1px 0 0 #F83333;
+                    transform: translate(4px, 4px);
+                }
+            }
+
+
             span.running {
                 animation: pulse-fade 0.125s linear alternate infinite;
                 font-style: italic;
+            }
+
+            #cost {
+                display: flex;
+                position: absolute;
+                align-self: flex-end;
+
+                img {
+                    height: 1rem;
+                }
+
+                #value {
+                    display: inline-block;
+                    margin: 0.07rem 0.2rem 0;
+                }
             }
         }
     }
