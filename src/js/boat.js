@@ -31,6 +31,7 @@ function createNet() {
     net.speed = 15
     net.position.set(boat.x + 30 - net.size * 15, boat.y)
     net.zIndex = 10
+    net.cost = 100
     world.addChild(net)
 
     const outline = new PIXI.Graphics()

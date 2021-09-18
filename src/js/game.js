@@ -35,7 +35,6 @@ const levels = [
     [100, 80]
 ]
 
-
 const status = {
     time: levels[level - 1][1],
     caughtFish: 0,
@@ -332,9 +331,19 @@ closeButton.addEventListener('click', () => {
 })
 
 upgradeSizeButton.addEventListener('click', () => {
-    handleClickAnimation(upgradeSizeButton, () => {
-        upgradeNet()
-    })
+    const net = world.getChildByName('net')
+    if (status.coins >= net.cost * 2**(net.size - 6)){
+        handleClickAnimation(upgradeSizeButton, () => {
+            upgradeNet()
+            upgradeSizeButton.querySelector('#capacity').innerHTML = net.capacity
+            upgradeSizeButton.querySelector('#cost #value').innerHTML = net.cost * 2**(net.size - 6)
+            status.coins -= net.cost * 2**(net.size - 7)
+            updateCoins(status.coins)
+        }) 
+    }
+    else {
+        
+    }
 })
 
 upgradeSpeedButton.addEventListener('click', () => {
