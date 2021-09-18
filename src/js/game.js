@@ -151,6 +151,7 @@ function updateCaughtFish(caughtFish) {
 }
 
 function updateCoins(coins) {
+    if (coins > status.maxCoins) return
     status.coins = coins
     const coinMeter = document.querySelector('#coin-meter').contentDocument
     coinMeter.querySelector('#coin').innerHTML = `${status.coins}/${status.maxCoins}`
@@ -308,7 +309,8 @@ function upgradeNet() {
 }
 
 function upgradeSpeed() {
-
+    const net = world.getChildByName('net')
+    net.speed += 5
 }
 
 menu.addEventListener('click', () => {
@@ -376,9 +378,20 @@ upgradeSizeButton.addEventListener('click', () => {
 })
 
 upgradeSpeedButton.addEventListener('click', () => {
-    handleClickAnimation(upgradeSpeedButton, () => {
-        upgradeSpeed()
-    })
+    const net = world.getChildByName('net')
+    if (status.coins >= net.cost * 2**((net.speed - 15)/5)){
+        handleClickAnimation(upgradeSpeedButton, () => {
+            upgradeSpeed()
+            upgradeSpeedButton.querySelector('#speed').innerHTML = net.speed
+            upgradeSpeedButton.querySelector('#cost #value').innerHTML = net.cost * 2**((net.speed - 20)/5)
+            status.coins -= net.cost * 2**((net.speed - 20)/5)
+            updateCoins(status.coins)
+        }) 
+    }
+    else {
+        handleErrorAnimation(upgradeSpeedButton, () => {
+        })
+    }
 })
 
 export { world, horizon, gameLoop, createBoundary, addControls, status, updateCaughtFish, updateCoins, setupChart, updateChart, reset }
