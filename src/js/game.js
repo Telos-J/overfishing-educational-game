@@ -1,7 +1,7 @@
 import * as PIXI from 'pixi.js'
 import { gsap } from 'gsap'
 import { MotionPathPlugin } from 'gsap/MotionPathPlugin'
-import { resetFishes, controlFishes, addFishes, fishes } from './fish'
+import { resetFishes, controlFishes, fishes } from './fish'
 import { updateNet, resizeNet } from './boat'
 import { app } from './app'
 
@@ -43,6 +43,9 @@ const status = {
     maxTime: levels[level - 1][1],
     objective: levels[level - 1][0],
     maxCoins: 200,
+    prevCoins: 0,
+    netSize: 6,
+    netSpeed: 15,
 }
 
 
@@ -63,18 +66,26 @@ function gameLoop(deltaTime) {
 
 function reset() {
     const boat = world.getChildByName('boat')
+    const net = world.getChildByName('net')
 
     world.y = 0
-    boat.net.y = boat.y
+    net.y = boat.y
+    net.size = status.netSize
+    net.speed = status.netSpeed
+    resetFishes()
+    updateTime(status.maxTime)
+    updateCaughtFish(0)
+    updateCoins(status.prevCoins)
+    resizeNet()
+
     message.style.display = 'none'
     resumeButton.style.display = 'block'
     resetButton.style.display = 'block'
     nextLevelButton.style.display = 'none'
-
-    resetFishes()
-    updateTime(status.maxTime)
-    updateCaughtFish(0)
-    updateCoins(0)
+    upgradeSizeButton.querySelector('#capacity').innerHTML = net.capacity
+    upgradeSizeButton.querySelector('#cost #value').innerHTML = net.cost * 2 ** (net.size - 6)
+    upgradeSpeedButton.querySelector('#speed').innerHTML = net.speed
+    upgradeSpeedButton.querySelector('#cost #value').innerHTML = net.cost * 2 ** ((net.speed - 20) / 5)
 }
 
 function addControls() {
@@ -246,21 +257,27 @@ function animateError(span, button) {
 
 function goToNextLevel() {
     const boat = world.getChildByName('boat')
+    const net = world.getChildByName('net')
+
     status.time = levels[level][1]
     status.caughtFish = 0
     status.maxTime = levels[level][1]
     status.objective = levels[level][0]
-    status.maxCoins = 100
+    status.prevCoins = status.coins
+    status.netSize = net.size
+    status.netSpeed = net.speed
+
     world.y = 0
-    boat.net.y = boat.y
-    message.style.display = 'none'
-    resumeButton.style.display = 'block'
-    resetButton.style.display = 'block'
-    nextLevelButton.style.display = 'none'
+    net.y = boat.y
     resetFishes()
     updateTime(status.maxTime)
     updateCaughtFish(0)
     if (level < levels.length) level++
+
+    message.style.display = 'none'
+    resumeButton.style.display = 'block'
+    resetButton.style.display = 'block'
+    nextLevelButton.style.display = 'none'
 }
 
 const chartTimeline = gsap.timeline({ paused: true })
@@ -330,7 +347,7 @@ chartIcon.addEventListener('click', () => {
 })
 
 resumeButton.addEventListener('click', () => {
-    handleClickAnimation(resumeButton, closeDrawer)
+    closeDrawer()
 })
 
 resetButton.addEventListener('click', () => {
@@ -362,14 +379,14 @@ closeButton.addEventListener('click', () => {
 
 upgradeSizeButton.addEventListener('click', () => {
     const net = world.getChildByName('net')
-    if (status.coins >= net.cost * 2**(net.size - 6)){
+    if (status.coins >= net.cost * 2 ** (net.size - 6)) {
+        status.coins -= net.cost * 2 ** (net.size - 7)
         handleClickAnimation(upgradeSizeButton, () => {
             upgradeNet()
             upgradeSizeButton.querySelector('#capacity').innerHTML = net.capacity
-            upgradeSizeButton.querySelector('#cost #value').innerHTML = net.cost * 2**(net.size - 6)
-            status.coins -= net.cost * 2**(net.size - 7)
+            upgradeSizeButton.querySelector('#cost #value').innerHTML = net.cost * 2 ** (net.size - 6)
             updateCoins(status.coins)
-        }) 
+        })
     }
     else {
         handleErrorAnimation(upgradeSizeButton, () => {
@@ -379,14 +396,14 @@ upgradeSizeButton.addEventListener('click', () => {
 
 upgradeSpeedButton.addEventListener('click', () => {
     const net = world.getChildByName('net')
-    if (status.coins >= net.cost * 2**((net.speed - 15)/5)){
+    if (status.coins >= net.cost * 2 ** ((net.speed - 15) / 5)) {
+        status.coins -= net.cost * 2 ** ((net.speed - 20) / 5)
         handleClickAnimation(upgradeSpeedButton, () => {
             upgradeSpeed()
             upgradeSpeedButton.querySelector('#speed').innerHTML = net.speed
-            upgradeSpeedButton.querySelector('#cost #value').innerHTML = net.cost * 2**((net.speed - 20)/5)
-            status.coins -= net.cost * 2**((net.speed - 20)/5)
+            upgradeSpeedButton.querySelector('#cost #value').innerHTML = net.cost * 2 ** ((net.speed - 20) / 5)
             updateCoins(status.coins)
-        }) 
+        })
     }
     else {
         handleErrorAnimation(upgradeSpeedButton, () => {

@@ -257,7 +257,4 @@ function addFishes() {
     }
 }
 
-setInterval(addFishes, 1000)
-
-
 export { fishes, spawnFishes, resetFishes, controlFishes, addFishes }

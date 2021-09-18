@@ -3,9 +3,9 @@ import '../image.png'
 import '../css/style.scss'
 import * as PIXI from 'pixi.js'
 import { resize } from './helper'
-import { world, gameLoop, createBoundary, addControls, setupChart, reset} from './game'
+import { world, gameLoop, createBoundary, addControls, setupChart, reset } from './game'
 import { loader } from './assets'
-import { spawnFishes } from './fish'
+import { spawnFishes, addFishes } from './fish'
 import { createSea, createSky } from './objects'
 import { createBoat } from './boat'
 
@@ -36,6 +36,7 @@ function onAssetsLoaded(loader, resources) {
     setTimeout(() => {
         setupChart()
         app.ticker.add(gameLoop);
+        setInterval(addFishes, 1000)
     }, 100)
 }
 
