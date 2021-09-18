@@ -216,6 +216,18 @@ function handleClickAnimation(button, callback) {
     }, 1000)
 }
 
+function handleErrorAnimation(button, callback) {
+    const span = button.querySelector('span')
+    if (span.classList.contains('running')) return
+
+    animateError(span, button)
+    window.setTimeout(() => {
+        animateError(span, button)
+        callback()
+    }, 1000)
+}
+
+
 function animateButton(span) {
     const text = span.dataset.text
     span.dataset.text = span.innerHTML
@@ -223,13 +235,30 @@ function animateButton(span) {
     span.classList.contains('running') ? span.classList.remove('running') : span.classList.add('running')
 }
 
+function animateError(span, button) {
+    const text = span.dataset.error
+    span.dataset.error = span.innerHTML
+    span.innerHTML = text
+    span.classList.contains('running') ? span.classList.remove('running') : span.classList.add('running')
+    button.classList.contains('error') ? button.classList.remove('error') : button.classList.add('error')
+}
+
 function goToNextLevel() {
+    const boat = world.getChildByName('boat')
     status.time = levels[level][1]
     status.caughtFish = 0
-    status.coins = 0
     status.maxTime = levels[level][1]
     status.objective = levels[level][0]
     status.maxCoins = 100
+    world.y = 0
+    boat.net.y = boat.y
+    message.style.display = 'none'
+    resumeButton.style.display = 'block'
+    resetButton.style.display = 'block'
+    nextLevelButton.style.display = 'none'
+    resetFishes()
+    updateTime(status.maxTime)
+    updateCaughtFish(0)
     if (level < levels.length) level++
 }
 
@@ -312,7 +341,6 @@ resetButton.addEventListener('click', () => {
 nextLevelButton.addEventListener('click', () => {
     handleClickAnimation(nextLevelButton, () => {
         goToNextLevel()
-        reset()
         closeDrawer()
     })
 })
@@ -342,7 +370,8 @@ upgradeSizeButton.addEventListener('click', () => {
         }) 
     }
     else {
-        
+        handleErrorAnimation(upgradeSizeButton, () => {
+        })
     }
 })
 
