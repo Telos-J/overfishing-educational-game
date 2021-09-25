@@ -369,12 +369,14 @@ shopButton.addEventListener('click', () => {
         shop.classList.add('opened')
         //gsap.to(shop, 0.2, { top: '50%', transform: 'translate(-50%, -50%)', display: 'flex' })
         closeDrawer()
+        app.ticker.stop()
     })
 })
 
 closeButton.addEventListener('click', () => {
     shop.classList.remove('opened')
     //gsap.to(shop, 0.2, { top: '0%', transform: 'translate(-50%, -100%)', display: 'none' })
+    app.ticker.start()
 })
 
 upgradeSizeButton.addEventListener('click', () => {
