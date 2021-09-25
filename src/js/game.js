@@ -4,6 +4,7 @@ import { MotionPathPlugin } from 'gsap/MotionPathPlugin'
 import { resetFishes, controlFishes, fishes } from './fish'
 import { updateNet, resizeNet } from './boat'
 import { app } from './app'
+import { controlJellyfishes } from './jellyfish'
 
 gsap.registerPlugin(MotionPathPlugin);
 
@@ -60,6 +61,7 @@ function gameLoop(deltaTime) {
     updateTime()
     control()
     controlFishes(deltaTime)
+    controlJellyfishes(deltaTime)
     updateNet()
     updateChart()
 }
