@@ -5,7 +5,7 @@ import { colorNet, resetNet } from './boat'
 import { world, horizon, status} from './game'
 import { add, sub, dot, magnitude, scale, normalize } from './vector'
 
-let numJellyfish = 0
+let numJellyfish = 10
 const rJellyfish = 0.02,
     kJellyfish = 100,
     jellyfishes = new PIXI.Container()
@@ -18,13 +18,14 @@ class Jellyfish extends PIXI.Sprite {
         const boundary = world.getChildByName('boundary')
         super()
         this.texture = loader.resources.jellyfish.texture
-        this.anchor.set(0.5)
+        this.anchor.set(0.3)
+        this.scale.set(Math.random()<0.5? -0.7 : 0.7, 0.7)
         this.bounds = [horizon + 100, horizon + 1000]
         this.position.set(Math.random() * boundary.width, this.bounds[0] + Math.random() * (this.bounds[1] - this.bounds[0]))
         this.caught = false
         this.collected = false
-        this.speed = 1.5
-        this.velocity = new PIXI.Point(-this.speed, 0)
+        this.speed = 0.8
+        this.velocity = new PIXI.Point(this.scale.x > 0? -this.speed : this.speed, 0)
     }
 
     move(deltaTime) {
@@ -37,7 +38,19 @@ class Jellyfish extends PIXI.Sprite {
     }
 
     swim() {
-        normalize(this.velocity, this.speed)
+        //this.velocity = normalize(this.velocity, this.speed)
+        if (this.caught) {
+            this.velocity = normalize(this.velocity, 0)
+            console.log(this.caught)
+        } else {
+            this.velocity.y += 0.02
+            if (this.velocity.y > 0.4) {
+                this.velocity.y = 0.4
+            }
+            if (Math.random() < 0.03 && this.position.y > this.bounds[0] + 200 && this.position.y < this.bounds[1] - 100) {
+                this.velocity.y = -1 
+            }
+        }
     }
 
     applyGravity() {
