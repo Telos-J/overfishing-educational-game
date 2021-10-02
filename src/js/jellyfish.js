@@ -44,10 +44,8 @@ class Jellyfish extends PIXI.Sprite {
             console.log(this.caught)
         } else {
             this.velocity.y += 0.02
-            if (this.velocity.y > 0.4) {
-                this.velocity.y = 0.4
-            }
-            if (Math.random() < 0.03 && this.position.y > this.bounds[0] + 200 && this.position.y < this.bounds[1] - 100) {
+            if (this.velocity.y > 0.4) this.velocity.y = 0.4
+            if (Math.random() < this.position.y * 0.00001) {
                 this.velocity.y = -1 
             }
         }
