@@ -1,7 +1,7 @@
 import * as PIXI from 'pixi.js'
 import { gsap } from 'gsap'
 import { loader } from './assets'
-import { world, horizon } from './game'
+import { status, world, horizon } from './game'
 
 function createBoat() {
     const boundary = world.getChildByName('boundary')
@@ -26,9 +26,9 @@ function createBody() {
 function createNet() {
     const boat = world.getChildByName('boat')
     const net = new PIXI.Container()
-    net.size = 6
+    net.size = status.netSize
     net.name = 'net'
-    net.speed = 15
+    net.speed = status.netSpeed
     net.position.set(boat.x + 30 - net.size * 15, boat.y)
     net.zIndex = 10
     net.cost = 100
@@ -107,8 +107,12 @@ function updateNet() {
 
 function resetNet() {
     const net = world.getChildByName('net')
+    net.y = boat.y
+    net.size = status.netSize
+    net.speed = status.netSpeed
     net.fishes = []
     colorNet(0x135c77)
+    resizeNet()
 }
 
 function drawline(length) {

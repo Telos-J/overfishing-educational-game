@@ -3,11 +3,11 @@ import '../image.png'
 import '../css/style.scss'
 import * as PIXI from 'pixi.js'
 import { resize } from './helper'
-import { world, gameLoop, createBoundary, addControls, setupChart, reset } from './game'
+import { world, gameLoop, createBoundary, addControls, setupChart, updateCaughtFish, updateCoins } from './game'
 import { loader } from './assets'
 import { spawnFishes, addFishes } from './fish'
 import { createSea, createSky } from './objects'
-import { createBoat } from './boat'
+import { createBoat, resizeNet } from './boat'
 import { spawnJellyfishes } from './jellyfish'
 
 const canvas = document.querySelector('#sim'),
@@ -33,7 +33,8 @@ function onAssetsLoaded(loader, resources) {
     spawnJellyfishes()
     addControls();
     resize()
-    reset()
+    updateCaughtFish()
+    updateCoins()
 
     setTimeout(() => {
         setupChart()

@@ -49,7 +49,6 @@ const status = {
     netSpeed: 15,
 }
 
-
 function createBoundary() {
     const boundary = new PIXI.Graphics()
     boundary.drawRect(0, 0, _width, _height);
@@ -71,14 +70,9 @@ function reset() {
     const net = world.getChildByName('net')
 
     world.y = 0
-    net.y = boat.y
-    net.size = status.netSize
-    net.speed = status.netSpeed
+    resetNet()
     resetFishes()
-    updateTime(status.maxTime)
-    updateCaughtFish(0)
-    updateCoins(status.prevCoins)
-    resizeNet()
+    resetStatus()
 
     message.style.display = 'none'
     resumeButton.style.display = 'block'
@@ -153,7 +147,7 @@ function updateTime(time) {
 }
 
 function updateCaughtFish(caughtFish) {
-    status.caughtFish = caughtFish
+    if (caughtFish) status.caughtFish = caughtFish
     const fishMeter = document.querySelector('#fish-meter').contentDocument
     fishMeter.querySelector('#caught').innerHTML = `${status.caughtFish}/${status.objective}`
     gsap.to(fishMeter.querySelector('#gauge'), {
@@ -165,12 +159,18 @@ function updateCaughtFish(caughtFish) {
 
 function updateCoins(coins) {
     if (coins > status.maxCoins) return
-    status.coins = coins
+    if (coins) status.coins = coins
     const coinMeter = document.querySelector('#coin-meter').contentDocument
     coinMeter.querySelector('#coin').innerHTML = `${status.coins}/${status.maxCoins}`
     gsap.to(coinMeter.querySelector('#gauge'), {
         attr: { width: 220 * status.coins / status.maxCoins }
     })
+}
+
+function resetStatus() {
+    updateTime(status.maxTime)
+    updateCaughtFish(0)
+    updateCoins(status.prevCoins)
 }
 
 function openDrawer() {
@@ -415,4 +415,4 @@ upgradeSpeedButton.addEventListener('click', () => {
     }
 })
 
-export { world, horizon, gameLoop, createBoundary, addControls, status, updateCaughtFish, updateCoins, setupChart, updateChart, reset }
+export { world, horizon, gameLoop, createBoundary, addControls, status, updateCaughtFish, updateCoins, setupChart, updateChart, reset, resetStatus }

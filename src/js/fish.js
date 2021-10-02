@@ -199,7 +199,6 @@ function spawnFishes() {
 }
 
 function resetFishes() {
-    resetNet()
     fishes.removeChildren()
     numFish = kFish
     for (let i = 0; i < numFish; i++) {
