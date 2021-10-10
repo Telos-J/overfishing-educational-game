@@ -90,7 +90,7 @@ class Jellyfish extends PIXI.Sprite {
             this.caught = true
             this.speed = 0
             net.fishes.push(this)
-            if (net.fishes.length === net.capacity) colorNet(0xdd636e)
+            if (!getNetSpace()) colorNet(0xdd636e)
         }
     }
 }

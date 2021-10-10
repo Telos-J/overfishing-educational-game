@@ -130,8 +130,12 @@ function drawline(length) {
 
 function getNetSpace() {
     const net = world.getChildByName('net')
+    let netSpace = net.capacity 
+    for (const fish of net.fishes){
+        netSpace -= fish.space
+    }
 
-    return 2
+    return netSpace
 }
 
 export { createBoat, updateNet, colorNet, resetNet, resizeNet, getNetSpace }

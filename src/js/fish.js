@@ -182,7 +182,7 @@ class Fish extends PIXI.Sprite {
             this.seperationConstant = 0.05
             this.speed = 0.8
             net.fishes.push(this)
-            if (net.fishes.length === net.capacity) colorNet(0xdd636e)
+            if (!getNetSpace()) colorNet(0xdd636e)
         }
     }
 }
