@@ -6,6 +6,7 @@ import { schoolingfishes } from './schoolingfish'
 import { jellyfishes } from './jellyfish'
 import { updateNet, resizeNet } from './boat'
 import { app } from './app'
+import { turtles } from './turtle'
 
 gsap.registerPlugin(MotionPathPlugin);
 
@@ -61,6 +62,7 @@ function gameLoop(deltaTime) {
     control()
     controlFishes(schoolingfishes, deltaTime)
     controlFishes(jellyfishes, deltaTime)
+    controlFishes(turtles, deltaTime)
     updateNet()
     updateChart()
 }

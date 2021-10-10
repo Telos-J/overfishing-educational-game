@@ -10,6 +10,7 @@ import { schoolingfishes, spawnSchoolingfishes } from './schoolingfish'
 import { jellyfishes, spawnJellyfishes } from './jellyfish'
 import { createSea, createSky } from './objects'
 import { createBoat } from './boat'
+import { spawnTurtles } from './turtle'
 
 const canvas = document.querySelector('#sim'),
     app = new PIXI.Application({
@@ -32,6 +33,7 @@ function onAssetsLoaded(loader, resources) {
     createBoat()
     spawnSchoolingfishes()
     spawnJellyfishes()
+    spawnTurtles()
     addControls();
     resize()
     updateCaughtFish()

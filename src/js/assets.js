@@ -4,6 +4,7 @@ const loader = PIXI.Loader.shared
 
 loader.add('fish', 'img/fish.png')
     .add('jellyfish', 'img/jellyfish.png')
+    .add('turtle', 'img/turtle.png')
     .add('sea', 'img/sea.png')
     .add('bigCloud1', 'img/big-cloud1.png')
     .add('bigCloud2', 'img/big-cloud2.png')
