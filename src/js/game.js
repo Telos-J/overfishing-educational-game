@@ -1,10 +1,11 @@
 import * as PIXI from 'pixi.js'
 import { gsap } from 'gsap'
 import { MotionPathPlugin } from 'gsap/MotionPathPlugin'
-import { resetFishes, controlFishes, fishes } from './fish'
+import { resetFishes, controlFishes } from './fish'
+import { schoolingfishes } from './schoolingfish'
+import { jellyfishes } from './jellyfish'
 import { updateNet, resizeNet } from './boat'
 import { app } from './app'
-import { controlJellyfishes } from './jellyfish'
 
 gsap.registerPlugin(MotionPathPlugin);
 
@@ -39,7 +40,6 @@ const levels = [
 const status = {
     time: levels[level - 1][1],
     caughtFish: 0,
-    addedFish: 0,
     coins: 0,
     maxTime: levels[level - 1][1],
     objective: levels[level - 1][0],
@@ -59,8 +59,8 @@ function createBoundary() {
 function gameLoop(deltaTime) {
     updateTime()
     control()
-    controlFishes(deltaTime)
-    controlJellyfishes(deltaTime)
+    controlFishes(schoolingfishes, deltaTime)
+    controlFishes(jellyfishes, deltaTime)
     updateNet()
     updateChart()
 }
@@ -71,7 +71,8 @@ function reset() {
 
     world.y = 0
     resetNet()
-    resetFishes()
+    resetFishes(schoolingfishes)
+    resetFishes(jellyfishes)
     resetStatus()
 
     message.style.display = 'none'
@@ -271,7 +272,8 @@ function goToNextLevel() {
 
     world.y = 0
     net.y = boat.y
-    resetFishes()
+    resetFishes(schoolingfishes)
+    resetFishes(jellyfishes)
     updateTime(status.maxTime)
     updateCaughtFish(0)
     if (level < levels.length) level++
@@ -317,8 +319,8 @@ function updateChart() {
     if (y < -180) y = -180
     gsap.set(harvest, { y: y })
 
-    numFish.innerHTML = fishes.children.length
-    chartTimeline.progress(fishes.children.length / 100)
+    numFish.innerHTML = schoolingfishes.children.length
+    chartTimeline.progress(schoolingfishes.children.length / 100)
 }
 
 function upgradeNet() {

@@ -6,9 +6,10 @@ import { resize } from './helper'
 import { world, gameLoop, createBoundary, addControls, setupChart, updateCaughtFish, updateCoins } from './game'
 import { loader } from './assets'
 import { spawnFishes, addFishes } from './fish'
+import { schoolingfishes, spawnSchoolingfishes } from './schoolingfish'
+import { jellyfishes, spawnJellyfishes } from './jellyfish'
 import { createSea, createSky } from './objects'
-import { createBoat, resizeNet } from './boat'
-import { spawnJellyfishes } from './jellyfish'
+import { createBoat } from './boat'
 
 const canvas = document.querySelector('#sim'),
     app = new PIXI.Application({
@@ -29,7 +30,7 @@ function onAssetsLoaded(loader, resources) {
     createSea()
     createSky()
     createBoat()
-    spawnFishes()
+    spawnSchoolingfishes()
     spawnJellyfishes()
     addControls();
     resize()
@@ -39,7 +40,9 @@ function onAssetsLoaded(loader, resources) {
     setTimeout(() => {
         setupChart()
         app.ticker.add(gameLoop);
-        setInterval(addFishes, 1000)
+        setInterval(() => {
+            //addFishes(schoolingfishes)
+        }, 1000)
     }, 100)
 }
 

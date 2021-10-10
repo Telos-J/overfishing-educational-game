@@ -5,25 +5,14 @@ import { colorNet, getNetSpace } from './boat'
 import { world, horizon, status, updateCaughtFish, updateCoins } from './game'
 import { add, sub, dot, magnitude, scale, normalize } from './vector'
 
-let numFish = 100
-const rFish = 0.02,
-    kFish = 100,
-    fishes = new PIXI.Container()
-// fishes = new PIXI.ParticleContainer(numFish, { vertices: true, rotation: true })
-
-fishes.name = 'fishes'
-
 class Fish extends PIXI.Sprite {
-    constructor() {
+    constructor({ bounds, speed }) {
         const boundary = world.getChildByName('boundary')
         super()
-        this.texture = loader.resources.fish.texture
-        this.anchor.set(0.5)
-        this.scale.set(0.8)
-        this.bounds = [horizon, horizon + 1000]
+        this.bounds = bounds
         this.position.set(Math.random() * boundary.width, this.bounds[0] + Math.random() * (this.bounds[1] - this.bounds[0]))
         this.rotation = Math.random() * Math.PI * 2
-        this.speed = 1.5
+        this.speed = speed
         this.velocity = new PIXI.Point(this.speed * Math.cos(this.rotation), this.speed * Math.sin(this.rotation))
         this.seperationSurface = new PIXI.Point()
         this.seperationNet = new PIXI.Point()
@@ -35,7 +24,6 @@ class Fish extends PIXI.Sprite {
         this.seperationConstant = 0.03
         this.alignmentConstant = 0.04
         this.cohesionConstant = 0.02
-        this.makeNeighborhood()
         this.caught = false
         this.collected = false
         this.space = 1
@@ -59,18 +47,14 @@ class Fish extends PIXI.Sprite {
         else this.swim()
 
         this.position = add(this.position, scale(this.velocity, deltaTime))
-        for (const fish of fishes.children) {
-            this.collide(fish)
-        }
 
-        if (this.rotation > Math.PI / 2 || this.rotation < -Math.PI / 2) this.scale.y = -0.8
-        else this.scale.y = 0.8
+        if (this.rotation > Math.PI / 2 || this.rotation < -Math.PI / 2) this.scale.y = -Math.abs(this.scale.x)
+        else this.scale.y = Math.abs(this.scale.y)
 
         this.bound()
     }
 
     swim() {
-        const boat = world.getChildByName('boat')
         const net = world.getChildByName('net')
         this.seperation.set(0, 0)
         this.alignment.set(0, 0)
@@ -187,28 +171,16 @@ class Fish extends PIXI.Sprite {
     }
 }
 
-function spawnFishes() {
-    const boundary = world.getChildByName('boundary')
-
-    for (let i = 0; i < numFish; i++) {
-        const fish = new Fish()
-        fishes.addChild(fish)
-    }
-
-    fishes.mask = boundary
-    world.addChild(fishes)
-}
-
-function resetFishes() {
+function resetFishes(fishes) {
     fishes.removeChildren()
-    numFish = kFish
-    for (let i = 0; i < numFish; i++) {
+    fishes.num = fishes.k
+    for (let i = 0; i < fishes.num; i++) {
         const fish = new Fish()
         fishes.addChild(fish)
     }
 }
 
-function controlFishes(deltaTime) {
+function controlFishes(fishes, deltaTime) {
     for (const fish of fishes.children) {
         fish.collideNet()
         fish.move(deltaTime)
@@ -234,10 +206,10 @@ function collectFish(fish) {
             gsap.to(fish, {
                 y: '-=100',
                 onComplete: () => {
-                    fishes.removeChild(fish)
+                    fish.parent.num--
+                    fish.parent.removeChild(fish)
                     updateCaughtFish(status.caughtFish + 1)
                     updateCoins(status.coins + 2)
-                    numFish--
                 }
 
             })
@@ -245,16 +217,15 @@ function collectFish(fish) {
     })
 }
 
-function addFishes() {
+function addFishes(fishes) {
     const boundary = world.getChildByName('boundary')
 
-    numFish += rFish * numFish * (1 - numFish / kFish);
-    for (let i = 0; i < Math.floor(numFish - fishes.children.length); i++) {
+    fishes.num += fishes.r * fishes.num * (1 - fishes.num / fishes.k);
+    for (let i = 0; i < Math.floor(fishes.num - fishes.children.length); i++) {
         const fish = new Fish(boundary.width)
         fish.x = boundary.width + fish.width / 2
         fishes.addChild(fish)
-        status.addedFish++
     }
 }
 
-export { fishes, spawnFishes, resetFishes, controlFishes, addFishes }
+export { Fish, resetFishes, controlFishes, addFishes }
