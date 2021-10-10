@@ -1,7 +1,7 @@
 import * as PIXI from 'pixi.js'
 import { gsap } from 'gsap'
 import { loader } from './assets'
-import { colorNet, resetNet } from './boat'
+import { colorNet, getNetSpace } from './boat'
 import { world, horizon, status, updateCaughtFish, updateCoins } from './game'
 import { add, sub, dot, magnitude, scale, normalize } from './vector'
 
@@ -38,6 +38,7 @@ class Fish extends PIXI.Sprite {
         this.makeNeighborhood()
         this.caught = false
         this.collected = false
+        this.space = 1
     }
 
     makeNeighborhood() {
@@ -175,7 +176,7 @@ class Fish extends PIXI.Sprite {
         const net = world.getChildByName('net')
         const mask = net.getChildByName('mask')
 
-        if (net.fishes.length < net.capacity && !this.caught && mask.containsPoint(this.getGlobalPosition())) {
+        if (getNetSpace() >= this.space && !this.caught && mask.containsPoint(this.getGlobalPosition())) {
             this.caught = true
             this.seperateSurfaceConstant = 0.05
             this.seperationConstant = 0.05

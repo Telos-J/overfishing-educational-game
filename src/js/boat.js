@@ -128,4 +128,10 @@ function drawline(length) {
     line.lineTo(20 + net.size * 35, -length + boat.y);
 }
 
-export { createBoat, updateNet, colorNet, resetNet, resizeNet }
+function getNetSpace() {
+    const net = world.getChildByName('net')
+
+    return 2
+}
+
+export { createBoat, updateNet, colorNet, resetNet, resizeNet, getNetSpace }

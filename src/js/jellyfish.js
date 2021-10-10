@@ -1,7 +1,7 @@
 import * as PIXI from 'pixi.js'
 import { gsap } from 'gsap'
 import { loader } from './assets'
-import { colorNet, resetNet } from './boat'
+import { colorNet, getNetSpace } from './boat'
 import { world, horizon, status } from './game'
 import { add, sub, dot, magnitude, scale, normalize } from './vector'
 
@@ -26,6 +26,7 @@ class Jellyfish extends PIXI.Sprite {
         this.collected = false
         this.speed = 0.8
         this.velocity = new PIXI.Point(this.scale.x > 0 ? -this.speed : this.speed, 0)
+        this.space = 2
     }
 
     move(deltaTime) {
@@ -85,7 +86,7 @@ class Jellyfish extends PIXI.Sprite {
         const net = world.getChildByName('net')
         const mask = net.getChildByName('mask')
 
-        if (net.fishes.length < net.capacity && !this.caught && mask.containsPoint(this.getGlobalPosition())) {
+        if (getNetSpace() >= this.space && !this.caught && mask.containsPoint(this.getGlobalPosition())) {
             this.caught = true
             this.speed = 0
             net.fishes.push(this)
