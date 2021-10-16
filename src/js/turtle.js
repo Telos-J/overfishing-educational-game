@@ -21,6 +21,16 @@ class Turtle extends Fish {
         this.anchor.set(0.5)
         this.scale.set(0.65)
         this.makeNeighborhood()
+        this.makeHead()
+    }
+
+    makeHead() {
+        const head = new PIXI.Graphics()
+        head.beginFill(0xffffff, 0.5)
+        head.moveTo(55, 35)
+        head.arc(55, 35, 15, 0, 2 * Math.PI)
+        this.addChild(head)
+        this.head = head
     }
 
     move(deltaTime) {
@@ -48,6 +58,7 @@ class Turtle extends Fish {
         for (let jellyfish of jellyfishes.children) {
             if (this.inNeighborhood(jellyfish)) {
                 this.chase(jellyfish)
+                this.eat(jellyfish)
             }
         }
 

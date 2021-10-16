@@ -44,6 +44,10 @@ class Fish extends PIXI.Sprite {
         return this.neighborhood.containsPoint(fish.getGlobalPosition())
     }
 
+    onHead(fish) {
+        return this.head.containsPoint(fish.getGlobalPosition())
+    }
+
     move(deltaTime) {
         if (this.position.y < horizon) this.applyGravity()
         else this.swim()
@@ -125,6 +129,13 @@ class Fish extends PIXI.Sprite {
 
     chase(fish) {
         this.chasing = sub(fish.position, this.position)
+    }
+
+    eat(fish) {
+        if (this.onHead(fish)) {
+            fish.parent.num--
+            fish.parent.removeChild(fish)
+        }
     }
 
     bound() {
