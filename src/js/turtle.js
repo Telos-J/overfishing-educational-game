@@ -22,6 +22,7 @@ class Turtle extends Fish {
         this.scale.set(0.65)
         this.makeNeighborhood()
         this.makeHead()
+        this.space = 4
     }
 
     makeHead() {

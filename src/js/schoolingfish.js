@@ -20,6 +20,7 @@ class Schoolingfish extends Fish {
         this.anchor.set(0.5)
         this.scale.set(0.8)
         this.makeNeighborhood()
+        this.desired = true
     }
 
     move(deltaTime) {

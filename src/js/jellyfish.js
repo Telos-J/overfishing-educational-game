@@ -46,25 +46,6 @@ class Jellyfish extends Fish {
     }
 }
 
-function collectJellyfish(jellyfish) {
-    if (jellyfish.collected) return
-
-    const boat = world.getChildByName('boat')
-    const net = world.getChildByName('net')
-    colorNet(0x135c77)
-    jellyfish.collected = true
-    net.fishes = net.fishes.filter(somejellyfish => somejellyfish !== jellyfish)
-    gsap.to(jellyfish, {
-        x: boat.position.x + boat.width / 3,
-        y: boat.position.y + boat.height / 2,
-        rotation: 0,
-        onComplete: () => {
-            numJellyfish--
-            jellyfishes.removeChild(jellyfish)
-        }
-    })
-}
-
 function spawnJellyfishes() {
     const boundary = world.getChildByName('boundary')
 
@@ -78,4 +59,4 @@ function spawnJellyfishes() {
 }
 
 
-export { jellyfishes, collectJellyfish, spawnJellyfishes }
+export { jellyfishes, spawnJellyfishes }

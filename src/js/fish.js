@@ -29,6 +29,7 @@ class Fish extends PIXI.Sprite {
         this.caught = false
         this.collected = false
         this.space = 1
+        this.desired = false
     }
 
     makeNeighborhood() {
@@ -201,11 +202,32 @@ function controlFishes(fishes, deltaTime) {
     for (const fish of fishes.children) {
         fish.collideNet()
         fish.move(deltaTime)
-        if (fish.caught && fish.position.y < horizon - 35) collectFish(fish)
+        if (fish.caught && fish.position.y < horizon - 35) fish.desired ? collectFish() : collectOtherFish()
     }
 }
 
+function collectOtherFish(fish) {
+    console.log(fish)
+    if (fish.collected) return
+
+    const boat = world.getChildByName('boat')
+    const net = world.getChildByName('net')
+    colorNet(0x135c77)
+    fish.collected = true
+    net.fishes = net.fishes.filter(somefish => somefish !== fish)
+    gsap.to(fish, {
+        x: boat.position.x + boat.width / 3,
+        y: boat.position.y + boat.height / 2,
+        rotation: 0,
+        onComplete: () => {
+            fish.parent.num--
+            fish.parent.removeChild(fish)
+        }
+    })
+}
+
 function collectFish(fish) {
+    console.log(fish)
     if (fish.collected) return
 
     const boat = world.getChildByName('boat')
@@ -245,4 +267,4 @@ function addFishes(fishes) {
     }
 }
 
-export { Fish, resetFishes, controlFishes, addFishes }
+export { Fish, resetFishes, controlFishes, addFishes}
