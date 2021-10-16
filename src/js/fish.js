@@ -19,11 +19,13 @@ class Fish extends PIXI.Sprite {
         this.seperation = new PIXI.Point()
         this.alignment = new PIXI.Point()
         this.cohesion = new PIXI.Point()
+        this.chasing = new PIXI.Point()
         this.seperateSurfaceConstant = 0.15
         this.seperationNetConstant = 0.05
         this.seperationConstant = 0.03
         this.alignmentConstant = 0.04
         this.cohesionConstant = 0.02
+        this.chasingConstant = 0.06
         this.caught = false
         this.collected = false
         this.space = 1
@@ -119,6 +121,10 @@ class Fish extends PIXI.Sprite {
 
     coherce(fish) {
         this.cohesion = add(this.cohesion, sub(fish.position, this.position))
+    }
+
+    chase(fish) {
+        this.chasing = sub(fish.position, this.position)
     }
 
     bound() {

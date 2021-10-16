@@ -5,6 +5,7 @@ import { Fish } from './fish'
 import { colorNet, getNetSpace } from './boat'
 import { world, horizon, status, updateCaughtFish, updateCoins } from './game'
 import { add, sub, dot, magnitude, scale, normalize } from './vector'
+import { jellyfishes } from './jellyfish'
 
 const turtles = new PIXI.Container()
 // const turtles = new PIXI.ParticleContainer(numFish, { vertices: true, rotation: true })
@@ -35,6 +36,7 @@ class Turtle extends Fish {
         this.seperation.set(0, 0)
         this.alignment.set(0, 0)
         this.cohesion.set(0, 0)
+        this.chasing.set(0, 0)
         for (let fish of this.caught ? net.fishes : turtles.children) {
             if (this.inNeighborhood(fish)) {
                 this.seperate(fish)
@@ -42,6 +44,13 @@ class Turtle extends Fish {
                 this.coherce(fish)
             }
         }
+
+        for (let jellyfish of jellyfishes.children) {
+            if (this.inNeighborhood(jellyfish)) {
+                this.chase(jellyfish)
+            }
+        }
+
         this.seperateSurface()
         this.seperateNet()
         this.velocity = add(
@@ -50,7 +59,8 @@ class Turtle extends Fish {
             normalize(this.seperationNet, this.seperationNetConstant),
             normalize(this.seperation, this.seperationConstant),
             normalize(this.alignment, this.alignmentConstant),
-            normalize(this.cohesion, this.cohesionConstant)
+            normalize(this.cohesion, this.cohesionConstant),
+            normalize(this.chasing, this.chasingConstant)
         )
         this.rotation = Math.atan2(this.velocity.y, this.velocity.x)
         this.velocity.set(this.speed * Math.cos(this.rotation), this.speed * Math.sin(this.rotation))
