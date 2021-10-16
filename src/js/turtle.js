@@ -9,7 +9,7 @@ import { jellyfishes } from './jellyfish'
 
 const turtles = new PIXI.Container()
 // const turtles = new PIXI.ParticleContainer(numFish, { vertices: true, rotation: true })
-turtles.num = 20
+turtles.num = 5
 turtles.r = 0.02
 turtles.k = 100
 turtles.name = 'turtles'
@@ -26,7 +26,7 @@ class Turtle extends Fish {
 
     makeHead() {
         const head = new PIXI.Graphics()
-        head.beginFill(0xffffff, 0.5)
+        head.beginFill(0xffffff, 0.000001)
         head.moveTo(55, 35)
         head.arc(55, 35, 15, 0, 2 * Math.PI)
         this.addChild(head)

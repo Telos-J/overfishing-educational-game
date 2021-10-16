@@ -128,7 +128,7 @@ class Fish extends PIXI.Sprite {
     }
 
     chase(fish) {
-        this.chasing = sub(fish.position, this.position)
+        this.chasing = sub(fish.position, add(this.position, this.head.position))
     }
 
     eat(fish) {
