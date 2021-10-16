@@ -16,9 +16,9 @@ turtles.name = 'turtles'
 
 class Turtle extends Fish {
     constructor() {
-        super({bounds:[horizon, horizon + 1000], speed: 1.5})
+        super({bounds:[horizon, horizon + 1000], speed: 1.2})
         this.texture = loader.resources.turtle.texture
-        this.anchor.set(0.5)
+        this.anchor.set(0.92, 0.76)
         this.scale.set(0.65)
         this.makeNeighborhood()
         this.makeHead()
@@ -27,9 +27,9 @@ class Turtle extends Fish {
 
     makeHead() {
         const head = new PIXI.Graphics()
-        head.beginFill(0xffffff, 0.000001)
-        head.moveTo(55, 35)
-        head.arc(55, 35, 15, 0, 2 * Math.PI)
+        head.beginFill(0xffffff, 0.00001)
+        head.moveTo(0, 0)
+        head.arc(0, 0, 20, 0, 2 * Math.PI)
         this.addChild(head)
         this.head = head
     }

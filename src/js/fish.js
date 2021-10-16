@@ -25,11 +25,12 @@ class Fish extends PIXI.Sprite {
         this.seperationConstant = 0.03
         this.alignmentConstant = 0.04
         this.cohesionConstant = 0.02
-        this.chasingConstant = 0.06
+        this.chasingConstant = 0.08
         this.caught = false
         this.collected = false
         this.space = 1
         this.desired = false
+        this.hunger = 0
     }
 
     makeNeighborhood() {
@@ -129,7 +130,7 @@ class Fish extends PIXI.Sprite {
     }
 
     chase(fish) {
-        this.chasing = sub(fish.position, add(this.position, this.head.position))
+        this.chasing = sub(fish.position, this.position)
     }
 
     eat(fish) {
