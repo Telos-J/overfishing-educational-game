@@ -202,7 +202,7 @@ function controlFishes(fishes, deltaTime) {
     for (const fish of fishes.children) {
         fish.collideNet()
         fish.move(deltaTime)
-        if (fish.caught && fish.position.y < horizon - 35) fish.desired ? collectFish() : collectOtherFish()
+        if (fish.caught && fish.position.y < horizon - 35) fish.desired ? collectFish(fish) : collectOtherFish(fish)
     }
 }
 
