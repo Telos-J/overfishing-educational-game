@@ -1,0 +1,221 @@
+@import url(~sanitize.css);
+html {
+  background: #49536a;
+}
+
+#sim {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+}
+#sim.inactive {
+  filter: brightness(0.8);
+}
+
+header {
+  display: flex;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 100%;
+  justify-content: space-between;
+  z-index: 10;
+}
+header .icon {
+  margin: 1rem 0rem 1rem 1rem;
+  cursor: pointer;
+  z-index: -10;
+  transition: transform 0.05s;
+}
+header .icon:active {
+  transform: scale(0.9);
+}
+header #stats {
+  display: flex;
+  width: 50%;
+  padding: 1rem;
+  justify-content: space-between;
+}
+header #stats > * {
+  width: 30%;
+}
+
+#drawer {
+  display: none;
+  position: absolute;
+  width: 25rem;
+  height: 100vh;
+  border: 4px solid white;
+  flex-direction: column;
+  padding: 4rem 2rem 2rem 2rem;
+  background: #49536A;
+  transform: translateX(-20rem);
+  align-items: center;
+  color: white;
+  font-family: "Josefin Sans", sans-serif;
+}
+#drawer #message {
+  display: none;
+  text-align: center;
+  margin: 1rem 0;
+}
+#drawer button {
+  cursor: pointer;
+  border: 2px solid white;
+  box-shadow: 5px 5px 0 0 white;
+  width: 20rem;
+  height: 4rem;
+  background: #49536A;
+  transition: transform 0.05s, box-shadow 0.05s;
+  margin: 1rem 0;
+  color: inherit;
+  font-family: inherit;
+  text-transform: uppercase;
+}
+#drawer button:active {
+  box-shadow: 1px 1px 0 0 white;
+  transform: translate(4px, 4px);
+}
+#drawer button#next-level-button {
+  display: none;
+}
+#drawer button span.running {
+  animation: pulse-fade 0.125s linear alternate infinite;
+  font-style: italic;
+}
+
+#curtain {
+  position: absolute;
+  display: none;
+  width: 25rem;
+  height: 20rem;
+  border: 4px solid white;
+  flex-direction: column;
+  padding: 4rem 2rem 0rem 2rem;
+  background: #49536A;
+  align-items: center;
+  color: white;
+  font-family: "Josefin Sans", sans-serif;
+  transform: translateY(-20rem);
+}
+#curtain #graph {
+  width: 100%;
+}
+
+#shop {
+  display: flex;
+  position: absolute;
+  top: 0%;
+  left: 50%;
+  z-index: 10;
+  width: 60rem;
+  height: 30rem;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transform: translate(-50%, -100%);
+  background: rgba(255, 255, 255, 0.95);
+  transition: top 0.2s, transform 0.2s;
+}
+#shop.opened {
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+#shop #shop-header {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  height: 4rem;
+}
+#shop #shop-header #close-button {
+  padding: 1rem;
+  width: 4rem;
+  height: 4rem;
+  cursor: pointer;
+}
+#shop #shop-main {
+  width: 100%;
+  height: calc(100% - 4rem);
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+#shop .item {
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: white;
+  font-family: "Josefin Sans", sans-serif;
+}
+#shop .item .item-img {
+  height: 10rem;
+}
+#shop .item .item-name {
+  width: 60%;
+  height: 3rem;
+  line-height: 3rem;
+  text-align: center;
+  background: #49536A;
+  margin: 2rem 0 1rem 0;
+}
+#shop .item .upgrade-button {
+  width: 60%;
+  border: 2px solid #F8BD33;
+  box-shadow: 5px 5px 0 0 #F8BD33;
+  height: 4rem;
+  display: flex;
+  cursor: pointer;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  line-height: 1rem;
+  text-align: center;
+  background: white;
+  transition: transform 0.05s, box-shadow 0.05s;
+  color: #F8BD33;
+  font-family: inherit;
+  text-transform: uppercase;
+}
+#shop .item .upgrade-button:active {
+  box-shadow: 1px 1px 0 0 #F8BD33;
+  transform: translate(4px, 4px);
+}
+#shop .item .upgrade-button.error {
+  border: 2px solid #F83333;
+  box-shadow: 5px 5px 0 0 #F83333;
+  color: #F83333;
+}
+#shop .item .upgrade-button.error:active {
+  box-shadow: 1px 1px 0 0 #F83333;
+  transform: translate(4px, 4px);
+}
+#shop .item .upgrade-button span.running {
+  animation: pulse-fade 0.125s linear alternate infinite;
+  font-style: italic;
+}
+#shop .item .upgrade-button #cost {
+  display: flex;
+  position: absolute;
+  align-self: flex-end;
+}
+#shop .item .upgrade-button #cost img {
+  height: 1rem;
+}
+#shop .item .upgrade-button #cost #value {
+  display: inline-block;
+  margin: 0.07rem 0.2rem 0;
+}
+
+@keyframes pulse-fade {
+  to {
+    opacity: 0;
+  }
+}
+@media (max-width: 767px) {
+  header #stats {
+    width: 80%;
+  }
+}

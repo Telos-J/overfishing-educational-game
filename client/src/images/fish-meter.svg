@@ -15,6 +15,6 @@
 <pattern id="pattern" patternContentUnits="objectBoundingBox" width="1" height="1">
 <use xlink:href="#image" transform="translate(-0.00571429) scale(0.0171429 0.0285714)"/>
 </pattern>
-<image id="image" width="59" height="35" href="img/fish.png"/>
+<image id="image" width="59" height="35" href="./fish.png"/>
 </defs>
 </svg>

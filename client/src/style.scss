@@ -1,5 +1,9 @@
 @import url(~sanitize.css);
 
+html {
+    background: #49536a;
+}
+
 #sim {
     position: absolute;
     top: 0;
@@ -38,7 +42,7 @@ header {
         padding: 1rem;
         justify-content: space-between;
 
-        * {
+        > * {
             width: 30%;
         }
     }
