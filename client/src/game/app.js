@@ -1,9 +1,6 @@
-import '../favicon.ico'
-import '../image.png'
-import '../css/style.scss'
 import * as PIXI from 'pixi.js'
 import { resize } from './helper'
-import { world, gameLoop, createBoundary, addControls, setupChart, updateCaughtFish, updateCoins } from './game'
+import { world, gameLoop, createBoundary, addControls, setupChart, updateCaughtFish, updateCoins, init } from './game'
 import { loader } from './assets'
 import { spawnFishes, addFishes } from './fish'
 import { schoolingfishes, spawnSchoolingfishes } from './schoolingfish'
@@ -12,21 +9,24 @@ import { createSea, createSky } from './objects'
 import { createBoat } from './boat'
 import { spawnTurtles } from './turtle'
 
-const canvas = document.querySelector('#sim'),
+let app;
+
+function startGame(canvas) {
     app = new PIXI.Application({
-        width: innerWidth,
-        height: innerHeight,
-        backgroundColor: 0x49536a,
         view: canvas,
+        width: window.innerWidth,
+        height: window.innerHeight,
+        backgroundColor: 0x49536a,
         antialias: true,
         resolution: devicePixelRatio || 1
     });
 
-app.stage.addChild(world)
-
-loader.load(onAssetsLoaded)
+    app.stage.addChild(world)
+    loader.load(onAssetsLoaded)
+}
 
 function onAssetsLoaded(loader, resources) {
+    init()
     createBoundary()
     createSea()
     createSky()
@@ -48,4 +48,4 @@ function onAssetsLoaded(loader, resources) {
     }, 100)
 }
 
-export { app }
+export { app, startGame }

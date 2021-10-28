@@ -7,7 +7,7 @@
     "start": "node index.js",
     "dev": "concurrently \"npm run client\" \"npm run sass\"",
     "client": "npm start --prefix client",
-    "sass" : "sass client/src --watch --no-source-map"
+    "sass": "sass client/src --watch --no-source-map"
   },
   "repository": {
     "type": "git",

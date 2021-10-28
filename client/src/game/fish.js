@@ -67,7 +67,7 @@ class Fish extends PIXI.Sprite {
         this.seperation.set(0, 0)
         this.alignment.set(0, 0)
         this.cohesion.set(0, 0)
-        for (let fish of this.caught ? net.fishes : fishes.children) {
+        for (let fish of this.caught ? net.fishes : net.fishes.children) {
             if (this.inNeighborhood(fish)) {
                 this.seperate(fish)
                 this.align(fish)
@@ -194,7 +194,7 @@ function resetFishes(fishes) {
     fishes.removeChildren()
     fishes.num = fishes.k
     for (let i = 0; i < fishes.num; i++) {
-        const fish = new Fish()
+        const fish = new fishes.instance()
         fishes.addChild(fish)
     }
 }
@@ -268,4 +268,4 @@ function addFishes(fishes) {
     }
 }
 
-export { Fish, resetFishes, controlFishes, addFishes}
+export { Fish, resetFishes, controlFishes, addFishes }

@@ -107,6 +107,7 @@ function updateNet() {
 
 function resetNet() {
     const net = world.getChildByName('net')
+    const boat = world.getChildByName('boat')
     net.y = boat.y
     net.size = status.netSize
     net.speed = status.netSpeed
@@ -130,8 +131,8 @@ function drawline(length) {
 
 function getNetSpace() {
     const net = world.getChildByName('net')
-    let netSpace = net.capacity 
-    for (const fish of net.fishes){
+    let netSpace = net.capacity
+    for (const fish of net.fishes) {
         netSpace -= fish.space
     }
 

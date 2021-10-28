@@ -1,6 +1,8 @@
-export default function Drawer() {
+import { Wrapper } from './Drawer.styles'
+
+export default function Drawer({ open }) {
     return (
-        <div id="drawer">
+        <Wrapper id="drawer" open={open}>
             <div id="message">
                 <div id="phrase"></div>
                 <div id="objective">
@@ -9,17 +11,17 @@ export default function Drawer() {
                 </div>
             </div>
             <button id="resume-button">
-                <span dataText="loading">resume level</span>
+                <span data-text="loading">resume level</span>
             </button>
             <button id="reset-button">
-                <span dataText="loading">reset level</span>
+                <span data-text="loading">reset level</span>
             </button>
             <button id="next-level-button">
-                <span dataText="loading">next level</span>
+                <span data-text="loading">next level</span>
             </button>
             <button id="shop-button">
-                <span dataText="loading">shop</span>
+                <span data-text="loading">shop</span>
             </button>
-        </div>
+        </Wrapper>
     )
 }

@@ -9,7 +9,7 @@ const jellyfishes = new PIXI.Container()
 // fishes = new PIXI.ParticleContainer(numFish, { vertices: true, rotation: true })
 jellyfishes.num = 20
 jellyfishes.r = 0.02
-jellyfishes.k = 100
+jellyfishes.k = 20
 jellyfishes.name = 'jellyfishes'
 
 class Jellyfish extends Fish {
@@ -45,6 +45,8 @@ class Jellyfish extends Fish {
         }
     }
 }
+
+jellyfishes.instance = Jellyfish
 
 function spawnJellyfishes() {
     const boundary = world.getChildByName('boundary')

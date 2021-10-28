@@ -4,7 +4,7 @@ import { MotionPathPlugin } from 'gsap/MotionPathPlugin'
 import { resetFishes, controlFishes } from './fish'
 import { schoolingfishes } from './schoolingfish'
 import { jellyfishes } from './jellyfish'
-import { updateNet, resizeNet } from './boat'
+import { updateNet, resizeNet, resetNet } from './boat'
 import { app } from './app'
 import { turtles } from './turtle'
 
@@ -13,20 +13,21 @@ gsap.registerPlugin(MotionPathPlugin);
 const world = new PIXI.Container(),
     _width = 1920,
     _height = 5760,
-    horizon = 400,
-    menu = document.querySelector('#hamburger-menu'),
-    chartIcon = document.querySelector('#chart-icon'),
-    drawer = document.querySelector('#drawer'),
-    curtain = document.querySelector('#curtain'),
-    resumeButton = document.querySelector('#resume-button'),
-    resetButton = document.querySelector('#reset-button'),
-    nextLevelButton = document.querySelector('#next-level-button'),
-    shopButton = document.querySelector('#shop-button'),
-    closeButton = document.querySelector('#close-button'),
-    upgradeSizeButton = document.querySelector('#upgrade-size-button'),
-    upgradeSpeedButton = document.querySelector('#upgrade-speed-button'),
-    message = document.querySelector('#message'),
-    shop = document.querySelector('#shop')
+    horizon = 400
+
+let menu,
+    chartIcon,
+    drawer,
+    curtain,
+    resumeButton,
+    resetButton, 
+    nextLevelButton, 
+    shopButton, 
+    closeButton,
+    upgradeSizeButton, 
+    upgradeSpeedButton, 
+    message, 
+    shop 
 
 world.sortableChildren = true
 
@@ -93,7 +94,7 @@ function addControls() {
     boat.netDown = false
     boat.netUp = false
 
-    addEventListener('keydown', (e) => {
+    window.addEventListener('keydown', (e) => {
         if (keyCodes.includes(e.code)) e.preventDefault()
 
         if (e.code === 'ArrowDown') {
@@ -105,7 +106,7 @@ function addControls() {
         }
     })
 
-    addEventListener('keyup', (e) => {
+    window.addEventListener('keyup', (e) => {
         if (keyCodes.includes(e.code)) e.preventDefault()
 
         if (e.code === 'ArrowDown') boat.netDown = false
@@ -124,7 +125,7 @@ function control() {
 
     gsap.to(net, { y: `+= ${net.vy}` })
     if ((boat.netUp && net.getGlobalPosition().y < world.boundary) ||
-        (boat.netDown && net.getGlobalPosition().y > innerHeight - mask.height - world.boundary)) {
+        (boat.netDown && net.getGlobalPosition().y > window.innerHeight - mask.height - world.boundary)) {
         gsap.to(world, { y: `-= ${net.vy}` })
     }
 }
@@ -151,7 +152,7 @@ function updateTime(time) {
 
 function updateCaughtFish(caughtFish) {
     if (caughtFish) status.caughtFish = caughtFish
-    const fishMeter = document.querySelector('#fish-meter').contentDocument
+    const fishMeter = document.querySelector('#fish-meter')
     fishMeter.querySelector('#caught').innerHTML = `${status.caughtFish}/${status.objective}`
     gsap.to(fishMeter.querySelector('#gauge'), {
         attr: { width: 220 * status.caughtFish / status.objective }
@@ -336,87 +337,103 @@ function upgradeSpeed() {
     net.speed += 5
 }
 
-menu.addEventListener('click', () => {
-    if (gsap.isTweening(drawer)) return
+function init() {
+    menu = document.querySelector('#hamburger-menu')
+    chartIcon = document.querySelector('#chart-icon')
+    drawer = document.querySelector('#drawer')
+    curtain = document.querySelector('#curtain')
+    resumeButton = document.querySelector('#resume-button')
+    resetButton = document.querySelector('#reset-button')
+    nextLevelButton = document.querySelector('#next-level-button')
+    shopButton = document.querySelector('#shop-button')
+    closeButton = document.querySelector('#close-button')
+    upgradeSizeButton = document.querySelector('#upgrade-size-button')
+    upgradeSpeedButton = document.querySelector('#upgrade-speed-button')
+    message = document.querySelector('#message')
+    shop = document.querySelector('#shop')
 
-    const style = getComputedStyle(drawer)
-    if (style.getPropertyValue('display') === 'none') openDrawer()
-})
+    menu.addEventListener('click', () => {
+        if (gsap.isTweening(drawer)) return
 
-chartIcon.addEventListener('click', () => {
-    console.log('chart')
-    if (gsap.isTweening(curtain)) return
+        const style = getComputedStyle(drawer)
+        if (style.getPropertyValue('display') === 'none') openDrawer()
+    })
 
-    const style = getComputedStyle(curtain)
-    if (style.getPropertyValue('display') === 'none') openCurtain()
-    else closeCurtain()
-})
+    chartIcon.addEventListener('click', () => {
+        console.log('chart')
+        if (gsap.isTweening(curtain)) return
 
-resumeButton.addEventListener('click', () => {
-    closeDrawer()
-})
+        const style = getComputedStyle(curtain)
+        if (style.getPropertyValue('display') === 'none') openCurtain()
+        else closeCurtain()
+    })
 
-resetButton.addEventListener('click', () => {
-    handleClickAnimation(resetButton, () => {
-        reset()
+    resumeButton.addEventListener('click', () => {
         closeDrawer()
     })
-})
 
-nextLevelButton.addEventListener('click', () => {
-    handleClickAnimation(nextLevelButton, () => {
-        goToNextLevel()
-        closeDrawer()
+    resetButton.addEventListener('click', () => {
+        handleClickAnimation(resetButton, () => {
+            reset()
+            closeDrawer()
+        })
     })
-})
 
-shopButton.addEventListener('click', () => {
-    handleClickAnimation(shopButton, () => {
-        shop.classList.add('opened')
-        //gsap.to(shop, 0.2, { top: '50%', transform: 'translate(-50%, -50%)', display: 'flex' })
-        closeDrawer()
-        app.ticker.stop()
+    nextLevelButton.addEventListener('click', () => {
+        handleClickAnimation(nextLevelButton, () => {
+            goToNextLevel()
+            closeDrawer()
+        })
     })
-})
 
-closeButton.addEventListener('click', () => {
-    shop.classList.remove('opened')
-    //gsap.to(shop, 0.2, { top: '0%', transform: 'translate(-50%, -100%)', display: 'none' })
-    app.ticker.start()
-})
+    shopButton.addEventListener('click', () => {
+        handleClickAnimation(shopButton, () => {
+            shop.classList.add('opened')
+            //gsap.to(shop, 0.2, { top: '50%', transform: 'translate(-50%, -50%)', display: 'flex' })
+            closeDrawer()
+            app.ticker.stop()
+        })
+    })
 
-upgradeSizeButton.addEventListener('click', () => {
-    const net = world.getChildByName('net')
-    if (status.coins >= net.cost * 2 ** (net.size - 6)) {
-        status.coins -= net.cost * 2 ** (net.size - 7)
-        handleClickAnimation(upgradeSizeButton, () => {
-            upgradeNet()
-            upgradeSizeButton.querySelector('#capacity').innerHTML = net.capacity
-            upgradeSizeButton.querySelector('#cost #value').innerHTML = net.cost * 2 ** (net.size - 6)
-            updateCoins(status.coins)
-        })
-    }
-    else {
-        handleErrorAnimation(upgradeSizeButton, () => {
-        })
-    }
-})
+    closeButton.addEventListener('click', () => {
+        shop.classList.remove('opened')
+        //gsap.to(shop, 0.2, { top: '0%', transform: 'translate(-50%, -100%)', display: 'none' })
+        app.ticker.start()
+    })
 
-upgradeSpeedButton.addEventListener('click', () => {
-    const net = world.getChildByName('net')
-    if (status.coins >= net.cost * 2 ** ((net.speed - 15) / 5)) {
-        status.coins -= net.cost * 2 ** ((net.speed - 20) / 5)
-        handleClickAnimation(upgradeSpeedButton, () => {
-            upgradeSpeed()
-            upgradeSpeedButton.querySelector('#speed').innerHTML = net.speed
-            upgradeSpeedButton.querySelector('#cost #value').innerHTML = net.cost * 2 ** ((net.speed - 20) / 5)
-            updateCoins(status.coins)
-        })
-    }
-    else {
-        handleErrorAnimation(upgradeSpeedButton, () => {
-        })
-    }
-})
+    upgradeSizeButton.addEventListener('click', () => {
+        const net = world.getChildByName('net')
+        if (status.coins >= net.cost * 2 ** (net.size - 6)) {
+            status.coins -= net.cost * 2 ** (net.size - 7)
+            handleClickAnimation(upgradeSizeButton, () => {
+                upgradeNet()
+                upgradeSizeButton.querySelector('#capacity').innerHTML = net.capacity
+                upgradeSizeButton.querySelector('#cost #value').innerHTML = net.cost * 2 ** (net.size - 6)
+                updateCoins(status.coins)
+            })
+        }
+        else {
+            handleErrorAnimation(upgradeSizeButton, () => {
+            })
+        }
+    })
 
-export { world, horizon, gameLoop, createBoundary, addControls, status, updateCaughtFish, updateCoins, setupChart, updateChart, reset, resetStatus }
+    upgradeSpeedButton.addEventListener('click', () => {
+        const net = world.getChildByName('net')
+        if (status.coins >= net.cost * 2 ** ((net.speed - 15) / 5)) {
+            status.coins -= net.cost * 2 ** ((net.speed - 20) / 5)
+            handleClickAnimation(upgradeSpeedButton, () => {
+                upgradeSpeed()
+                upgradeSpeedButton.querySelector('#speed').innerHTML = net.speed
+                upgradeSpeedButton.querySelector('#cost #value').innerHTML = net.cost * 2 ** ((net.speed - 20) / 5)
+                updateCoins(status.coins)
+            })
+        }
+        else {
+            handleErrorAnimation(upgradeSpeedButton, () => {
+            })
+        }
+    })
+}
+
+export { world, horizon, gameLoop, createBoundary, addControls, status, updateCaughtFish, updateCoins, setupChart, updateChart, reset, resetStatus, init }
