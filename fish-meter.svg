@@ -6,15 +6,10 @@
 <rect id="gauge" clip-path="url(#mask)" x="10" y="12" width="0" height="20" rx="10" fill="#0D3C4F"/>
 <circle cx="22" cy="22" r="21.5" fill="#96CAD3" stroke="white"/>
 <circle cx="22" cy="22" r="21.5" fill="#96CAD3" stroke="white"/>
-<rect x="7" y="13" width="30" height="18" fill="url(#pattern)"/>
 <text id="caught" x="55%" y="50%" fill="white" font-family="Josefin Sans" font-size="12" dominant-baseline="middle" text-anchor="middle">0/40</text>
 <defs>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans');
 </style>
-<pattern id="pattern" patternContentUnits="objectBoundingBox" width="1" height="1">
-<use xlink:href="#image" transform="translate(-0.00571429) scale(0.0171429 0.0285714)"/>
-</pattern>
-<image id="image" width="59" height="35" href="img/fish.png"/>
 </defs>
 </svg>
