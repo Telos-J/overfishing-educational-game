@@ -2,11 +2,7 @@ const express = require('express')
 const path = require('path')
 const app = express()
 
-if (process.env.NODE_ENV === "production") {
-    app.use(express.static(path.join(__dirname, "dist")));
-} else {
-    require("dotenv").config();
-}
+app.use(express.static(path.join(__dirname, "dist")));
 
 const PORT = process.env.PORT || 5000
 
