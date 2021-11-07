@@ -7,7 +7,8 @@ class Schoolingfish extends Fish {
         super({ bounds: [400, 1400], speed: 1.5, canRotate: true })
         this.texture = loader.resources.fish.texture
         this.anchor.set(0.5)
-        this.scale.set(0.8)
+        this.age = (Math.random() * 10)
+        this.scale.set(1.2 * (1 - Math.exp(-0.3 * this.age - 0.6)))
         this.makeNeighborhood(this.width * 3)
         this.desired = true
     }
