@@ -263,7 +263,7 @@ class Fish extends PIXI.Sprite {
 
     collideForce(fish) {
         const vec = sub(this.position, fish.position)
-        if (fish !== this && magnitude(vec) < this.height / 2) {
+        if (fish !== this && magnitude(vec) < this.height) {
             this.position = add(this.position, vec)
         }
     }
