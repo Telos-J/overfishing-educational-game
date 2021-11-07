@@ -2,15 +2,15 @@ import '../favicon.ico'
 import '../image.png'
 import '../css/style.scss'
 import * as PIXI from 'pixi.js'
-import { resize } from './helper'
-import { world, gameLoop, createBoundary, addControls, setupChart, updateCaughtFish, updateCoins } from './game'
+import { gameLoop, addControls, setupChart, updateCaughtFish, updateCoins } from './game'
 import { loader } from './assets'
-import { spawnFishes, addFishes } from './fish'
+import { addFishes } from './fish'
 import { schoolingfishes, spawnSchoolingfishes } from './schoolingfish'
 import { jellyfishes, spawnJellyfishes } from './jellyfish'
-import { createSea, createSky } from './objects'
-import { createBoat } from './boat'
-import { spawnTurtles } from './turtle'
+import { turtles, spawnTurtles } from './turtle'
+import World from './world'
+import Boat from './boat'
+import Net from './net'
 
 const canvas = document.querySelector('#sim'),
     app = new PIXI.Application({
@@ -22,30 +22,43 @@ const canvas = document.querySelector('#sim'),
         resolution: devicePixelRatio || 1
     });
 
-app.stage.addChild(world)
-
 loader.load(onAssetsLoaded)
 
 function onAssetsLoaded(loader, resources) {
-    createBoundary()
-    createSea()
-    createSky()
-    createBoat()
-    spawnSchoolingfishes()
-    spawnJellyfishes()
-    spawnTurtles()
-    addControls();
+    const world = new World()
+    app.stage.addChild(world)
+
+    const boat = new Boat()
+    boat.name = 'boat'
+    boat.dispatch(world)
+
+    const net = new Net()
+    boat.addNet(net)
+
+    spawnSchoolingfishes(world)
+    spawnJellyfishes(world)
+    spawnTurtles(world)
+
     resize()
+    addControls();
     updateCaughtFish()
     updateCoins()
-
-    setTimeout(() => {
-        setupChart()
-        app.ticker.add(gameLoop);
-        setInterval(() => {
-            //addFishes(schoolingfishes)
-        }, 1000)
-    }, 100)
+    setupChart()
+    app.ticker.add(gameLoop);
+    setInterval(() => {
+        addFishes(schoolingfishes)
+        addFishes(jellyfishes)
+        addFishes(turtles)
+    }, 1000)
 }
+
+function resize() {
+    const ratio = app.stage.height / app.stage.width
+    app.renderer.resize(innerWidth, innerHeight);
+    app.stage.width = innerWidth
+    app.stage.height = app.stage.width * ratio
+}
+
+addEventListener('resize', resize)
 
 export { app }

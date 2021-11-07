@@ -1,20 +1,14 @@
-import * as PIXI from 'pixi.js'
 import { gsap } from 'gsap'
 import { MotionPathPlugin } from 'gsap/MotionPathPlugin'
 import { resetFishes, controlFishes } from './fish'
 import { schoolingfishes } from './schoolingfish'
 import { jellyfishes } from './jellyfish'
-import { updateNet, resizeNet } from './boat'
-import { app } from './app'
 import { turtles } from './turtle'
+import { app } from './app'
 
 gsap.registerPlugin(MotionPathPlugin);
 
-const world = new PIXI.Container(),
-    _width = 1920,
-    _height = 5760,
-    horizon = 400,
-    menu = document.querySelector('#hamburger-menu'),
+const menu = document.querySelector('#hamburger-menu'),
     chartIcon = document.querySelector('#chart-icon'),
     drawer = document.querySelector('#drawer'),
     curtain = document.querySelector('#curtain'),
@@ -27,8 +21,6 @@ const world = new PIXI.Container(),
     upgradeSpeedButton = document.querySelector('#upgrade-speed-button'),
     message = document.querySelector('#message'),
     shop = document.querySelector('#shop')
-
-world.sortableChildren = true
 
 let level = 1
 const levels = [
@@ -47,32 +39,29 @@ const status = {
     maxCoins: 200,
     prevCoins: 0,
     netSize: 6,
-    netSpeed: 15,
-}
-
-function createBoundary() {
-    const boundary = new PIXI.Graphics()
-    boundary.drawRect(0, 0, _width, _height);
-    boundary.name = 'boundary'
-    world.addChild(boundary)
+    netSpeed: 2,
 }
 
 function gameLoop(deltaTime) {
+    const world = app.stage.getChildByName('world')
+    const boat = world.getChildByName('boat', true)
+    const net = boat.net
     updateTime()
-    control()
+    boat.control()
     controlFishes(schoolingfishes, deltaTime)
     controlFishes(jellyfishes, deltaTime)
     controlFishes(turtles, deltaTime)
-    updateNet()
+    net.update()
     updateChart()
+    world.moveCamera()
 }
 
 function reset() {
-    const boat = world.getChildByName('boat')
-    const net = world.getChildByName('net')
+    const world = app.stage.getChildByName('world')
+    const net = world.getChildByName('net', true)
 
     world.y = 0
-    resetNet()
+    net.reset()
     resetFishes(schoolingfishes)
     resetFishes(jellyfishes)
     resetStatus()
@@ -89,7 +78,8 @@ function reset() {
 
 function addControls() {
     const keyCodes = ['ArrowDown', 'ArrowUp']
-    const boat = world.getChildByName('boat')
+    const world = app.stage.getChildByName('world')
+    const boat = world.getChildByName('boat', true)
     boat.netDown = false
     boat.netUp = false
 
@@ -111,22 +101,6 @@ function addControls() {
         if (e.code === 'ArrowDown') boat.netDown = false
         else if (e.code === 'ArrowUp') boat.netUp = false
     })
-}
-
-function control() {
-    const boat = world.getChildByName('boat')
-    const net = world.getChildByName('net')
-    const mask = net.getChildByName('mask')
-
-    if (boat.netDown) net.vy = net.speed
-    else if (boat.netUp && net.y > boat.y - (net.size - 6) * 15) net.vy = -net.speed
-    else net.vy = 0
-
-    gsap.to(net, { y: `+= ${net.vy}` })
-    if ((boat.netUp && net.getGlobalPosition().y < world.boundary) ||
-        (boat.netDown && net.getGlobalPosition().y > innerHeight - mask.height - world.boundary)) {
-        gsap.to(world, { y: `-= ${net.vy}` })
-    }
 }
 
 function updateTime(time) {
@@ -190,12 +164,12 @@ function closeDrawer() {
 }
 
 function openCurtain() {
-    gsap.to(curtain, 0.2, { y: 0, display: 'flex' })
+    gsap.to(curtain, 0.2, { y: 0 })
 }
 
 function closeCurtain() {
     const style = getComputedStyle(curtain)
-    gsap.to(curtain, 0.2, { y: `-${style.getPropertyValue('height')}`, display: 'none' })
+    gsap.to(curtain, 0.2, { y: `-${style.getPropertyValue('height')}` })
 }
 
 function showObjective(objective, time) {
@@ -261,8 +235,9 @@ function animateError(span, button) {
 }
 
 function goToNextLevel() {
-    const boat = world.getChildByName('boat')
-    const net = world.getChildByName('net')
+    const world = app.stage.getChildByName('world')
+    const boat = world.getChildByName('boat', true)
+    const net = boat.getChildByName('net')
 
     status.time = levels[level][1]
     status.caughtFish = 0
@@ -286,7 +261,7 @@ function goToNextLevel() {
     nextLevelButton.style.display = 'none'
 }
 
-const chartTimeline = gsap.timeline({ paused: true })
+const chartTimeline = gsap.timeline()
 
 function setupChart() {
     const graph = document.querySelector('#graph')
@@ -300,7 +275,7 @@ function setupChart() {
             {
                 path: curve,
                 align: curve,
-                alignOrigin: [0.08, 0.5],
+                alignOrigin: [0.08, 0.6],
                 start: 1,
                 end: 0,
             }
@@ -319,20 +294,22 @@ function updateChart() {
     harvestRate.innerHTML = caughtPerSec
     let y = -244 * caughtPerSec + 3
     if (y < -180) y = -180
-    gsap.set(harvest, { y: y })
+    gsap.set(harvest, { y })
 
     numFish.innerHTML = schoolingfishes.children.length
-    chartTimeline.progress(schoolingfishes.children.length / 100)
+    chartTimeline.progress(schoolingfishes.children.length / schoolingfishes.k)
 }
 
 function upgradeNet() {
-    const net = world.getChildByName('net')
+    const world = app.stage.getChildByName('world')
+    const net = world.getChildByName('net', true)
     net.size += 1
-    resizeNet()
+    net.resize()
 }
 
 function upgradeSpeed() {
-    const net = world.getChildByName('net')
+    const world = app.stage.getChildByName('world')
+    const net = world.getChildByName('net', true)
     net.speed += 5
 }
 
@@ -344,11 +321,8 @@ menu.addEventListener('click', () => {
 })
 
 chartIcon.addEventListener('click', () => {
-    console.log('chart')
     if (gsap.isTweening(curtain)) return
-
-    const style = getComputedStyle(curtain)
-    if (style.getPropertyValue('display') === 'none') openCurtain()
+    if (curtain.getBoundingClientRect().top < 0) openCurtain()
     else closeCurtain()
 })
 
@@ -373,7 +347,6 @@ nextLevelButton.addEventListener('click', () => {
 shopButton.addEventListener('click', () => {
     handleClickAnimation(shopButton, () => {
         shop.classList.add('opened')
-        //gsap.to(shop, 0.2, { top: '50%', transform: 'translate(-50%, -50%)', display: 'flex' })
         closeDrawer()
         app.ticker.stop()
     })
@@ -381,12 +354,12 @@ shopButton.addEventListener('click', () => {
 
 closeButton.addEventListener('click', () => {
     shop.classList.remove('opened')
-    //gsap.to(shop, 0.2, { top: '0%', transform: 'translate(-50%, -100%)', display: 'none' })
     app.ticker.start()
 })
 
 upgradeSizeButton.addEventListener('click', () => {
-    const net = world.getChildByName('net')
+    const world = app.stage.getChildByName('world')
+    const net = world.getChildByName('net', true)
     if (status.coins >= net.cost * 2 ** (net.size - 6)) {
         status.coins -= net.cost * 2 ** (net.size - 7)
         handleClickAnimation(upgradeSizeButton, () => {
@@ -403,7 +376,8 @@ upgradeSizeButton.addEventListener('click', () => {
 })
 
 upgradeSpeedButton.addEventListener('click', () => {
-    const net = world.getChildByName('net')
+    const world = app.stage.getChildByName('world')
+    const net = world.getChildByName('net', true)
     if (status.coins >= net.cost * 2 ** ((net.speed - 15) / 5)) {
         status.coins -= net.cost * 2 ** ((net.speed - 20) / 5)
         handleClickAnimation(upgradeSpeedButton, () => {
@@ -419,4 +393,4 @@ upgradeSpeedButton.addEventListener('click', () => {
     }
 })
 
-export { world, horizon, gameLoop, createBoundary, addControls, status, updateCaughtFish, updateCoins, setupChart, updateChart, reset, resetStatus }
+export { gameLoop, addControls, status, updateCaughtFish, updateCoins, setupChart, updateChart, reset, resetStatus }

@@ -2,55 +2,62 @@ import * as PIXI from 'pixi.js'
 import { gsap } from 'gsap'
 import { loader } from './assets'
 import { Fish } from './fish'
-import { colorNet, getNetSpace } from './boat'
-import { world, horizon, status } from './game'
-
-const jellyfishes = new PIXI.Container()
-// fishes = new PIXI.ParticleContainer(numFish, { vertices: true, rotation: true })
-jellyfishes.num = 20
-jellyfishes.r = 0.02
-jellyfishes.k = 100
-jellyfishes.name = 'jellyfishes'
+import { Species } from './species'
+import { add, normalize } from './vector'
 
 class Jellyfish extends Fish {
     constructor() {
-        super({ bounds: [horizon + 200, horizon + 1000], speed: 0.8 })
+        super({ bounds: [600, 2500], speed: 0.7, canRotate: false })
         this.texture = loader.resources.jellyfish.texture
-        this.anchor.set(0.3)
-        this.scale.set(Math.random() < 0.5 ? -0.7 : 0.7, 0.7)
-        this.rotation = 0
-        this.velocity = new PIXI.Point(this.scale.x > 0 ? -this.speed : this.speed, 0)
+        this.anchor.set(0.9, 0.15)
+        this.scale.set(0.7)
+        this.seperateBoundConstant = 0.015
+        this.seperationNetConstant = 0.005
         this.space = 2
+        this.ghost = true
     }
 
     swim() {
-        if (this.caught) this.velocity.x = 0
+        const world = this.world
+
+        if (this.caught) {
+            this.seperateNet()
+            this.velocity = add(
+                this.velocity,
+                normalize(this.seperationNet, this.seperationNetConstant)
+            )
+            this.velocity = normalize(this.velocity, 0.2)
+
+            return
+        }
 
         this.velocity.y += 0.02
-        if (this.velocity.y > 0.4) this.velocity.y = 0.4
-        if (Math.random() < (this.position.y) * 0.00001) {
-            this.velocity.y = -1
-        }
-    }
+        if (this.velocity.y > 0.3) this.velocity.y = 0.3
 
-    collideNet() {
-        const net = world.getChildByName('net')
-        const mask = net.getChildByName('mask')
+        const m = 0.1 ** 6
+        const n = 0.1 ** 1.95
+        const p = (this.position.y - world.horizon) * m + n
 
-        if (getNetSpace() >= this.space && !this.caught && mask.containsPoint(this.getGlobalPosition())) {
-            this.caught = true
-            this.speed = 0
-            net.fishes.push(this)
-            if (!getNetSpace()) colorNet(0xdd636e)
+        if (Math.random() < p) {
+            gsap.to(this, { y: '-=20' })
         }
     }
 }
 
-function spawnJellyfishes() {
-    const boundary = world.getChildByName('boundary')
+const jellyfishes = new Species({
+    num: 10,
+    r: 0.02,
+    k: 10,
+    name: 'jellyfishes',
+    className: Jellyfish
+})
+
+function spawnJellyfishes(world) {
+    const boundary = world.boundary
 
     for (let i = 0; i < jellyfishes.num; i++) {
         const fish = new Jellyfish()
+        fish.dispatch(world)
         jellyfishes.addChild(fish)
     }
 
