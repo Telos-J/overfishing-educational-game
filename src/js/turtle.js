@@ -1,7 +1,7 @@
 import * as PIXI from 'pixi.js'
 import { loader } from './assets'
 import { Fish } from './fish'
-import { add, scale, normalize } from './vector'
+import { add, normalize } from './vector'
 import { Species } from './species'
 import { jellyfishes } from './jellyfish'
 
@@ -58,9 +58,9 @@ class Turtle extends Fish {
             normalize(this.alignment, this.alignmentConstant),
             normalize(this.cohesion, this.cohesionConstant),
             normalize(this.leveling, this.levelingConstant),
-            this.prey ?
-                normalize(this.chasing, this.chasingConstant) :
-                normalize(this.exploration, this.explorationContant)
+            this.prey
+                ? normalize(this.chasing, this.chasingConstant)
+                : normalize(this.exploration, this.explorationContant)
         )
 
         if (this.canRotate) this.rotation = Math.atan2(this.velocity.y, this.velocity.x)
@@ -71,8 +71,7 @@ class Turtle extends Fish {
         if (!this.prey) {
             const self = this
             this.prey = fishes.find(fish => self.inNeighborhood(fish))
-        }
-        else if (!this.inNeighborhood(this.prey)) this.prey = null
+        } else if (!this.inNeighborhood(this.prey)) this.prey = null
     }
 }
 
@@ -81,7 +80,7 @@ const turtles = new Species({
     r: 0.02,
     k: 0,
     name: 'turtles',
-    className: Turtle
+    className: Turtle,
 })
 
 function spawnTurtles(world) {

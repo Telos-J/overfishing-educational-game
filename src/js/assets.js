@@ -17,7 +17,8 @@ import coin from '../img/coin.png'
 
 const loader = PIXI.Loader.shared
 
-loader.add('fish', fish)
+loader
+    .add('fish', fish)
     .add('jellyfish', jellyfish)
     .add('turtle', turtle)
     .add('sea', sea)
@@ -38,7 +39,7 @@ loader.onProgress.add(handleProgress)
 function handleProgress(loader, resource) {
     // const loadingBar = document.querySelector('#loading-bar-inner')
     // loadingBar.style.width = loader.progress + '%'
-    console.log("progress: " + loader.progress + "%");
+    console.log('progress: ' + loader.progress + '%')
 }
 
 export { loader }

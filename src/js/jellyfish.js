@@ -1,4 +1,3 @@
-import * as PIXI from 'pixi.js'
 import { gsap } from 'gsap'
 import { loader } from './assets'
 import { Fish } from './fish'
@@ -49,7 +48,7 @@ const jellyfishes = new Species({
     r: 0.02,
     k: 10,
     name: 'jellyfishes',
-    className: Jellyfish
+    className: Jellyfish,
 })
 
 function spawnJellyfishes(world) {
@@ -64,6 +63,5 @@ function spawnJellyfishes(world) {
     jellyfishes.mask = boundary
     world.addChild(jellyfishes)
 }
-
 
 export { jellyfishes, spawnJellyfishes }

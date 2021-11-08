@@ -1,7 +1,8 @@
 @import url(~sanitize.css);
 
-html, body {
-    overflow: hidden
+html,
+body {
+    overflow: hidden;
 }
 
 #sim {
@@ -56,7 +57,7 @@ header {
     border: 4px solid white;
     flex-direction: column;
     padding: 4rem 2rem 2rem 2rem;
-    background: #49536A;
+    background: #49536a;
     transform: translateX(-20rem);
     align-items: center;
     color: white;
@@ -74,7 +75,7 @@ header {
         box-shadow: 5px 5px 0 0 white;
         width: 20rem;
         height: 4rem;
-        background: #49536A;
+        background: #49536a;
         transition: transform 0.05s, box-shadow 0.05s;
         margin: 1rem 0;
         color: inherit;
@@ -109,10 +110,10 @@ header {
     border: 4px solid white;
     flex-direction: column;
     padding: 4rem 2rem 0rem 2rem;
-    background: #49536A;
+    background: #49536a;
     align-items: center;
     color: white;
-    font-family: "Josefin Sans", sans-serif;
+    font-family: 'Josefin Sans', sans-serif;
     transform: translateY(-20rem);
 
     #graph {
@@ -180,14 +181,14 @@ header {
             height: 3rem;
             line-height: 3rem;
             text-align: center;
-            background: #49536A;
+            background: #49536a;
             margin: 2rem 0 1rem 0;
         }
 
         .upgrade-button {
             width: 60%;
-            border: 2px solid #F8BD33;
-            box-shadow: 5px 5px 0 0 #F8BD33;
+            border: 2px solid #f8bd33;
+            box-shadow: 5px 5px 0 0 #f8bd33;
             height: 4rem;
             display: flex;
             cursor: pointer;
@@ -198,26 +199,25 @@ header {
             text-align: center;
             background: white;
             transition: transform 0.05s, box-shadow 0.05s;
-            color: #F8BD33;
+            color: #f8bd33;
             font-family: inherit;
             text-transform: uppercase;
 
             &:active {
-                box-shadow: 1px 1px 0 0 #F8BD33;
+                box-shadow: 1px 1px 0 0 #f8bd33;
                 transform: translate(4px, 4px);
             }
 
             &.error {
-                border: 2px solid #F83333;
-                box-shadow: 5px 5px 0 0 #F83333;
-                color: #F83333;
+                border: 2px solid #f83333;
+                box-shadow: 5px 5px 0 0 #f83333;
+                color: #f83333;
 
                 &:active {
-                    box-shadow: 1px 1px 0 0 #F83333;
+                    box-shadow: 1px 1px 0 0 #f83333;
                     transform: translate(4px, 4px);
                 }
             }
-
 
             span.running {
                 animation: pulse-fade 0.125s linear alternate infinite;
@@ -242,13 +242,11 @@ header {
     }
 }
 
-
 @keyframes pulse-fade {
     to {
         opacity: 0;
     }
 }
-
 
 @media (max-width: 767px) {
     header {

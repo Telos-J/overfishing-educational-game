@@ -54,7 +54,7 @@ export default class Net extends PIXI.Container {
     resize() {
         const outline = this.getChildByName('outline')
         outline.clear()
-        outline.lineStyle(2, 0xffffff);
+        outline.lineStyle(2, 0xffffff)
         outline.moveTo(this.size * this.meshSize, -5)
         outline.lineTo(this.size * this.meshSize, 0)
         outline.lineTo(0, this.size * this.meshSize)
@@ -65,7 +65,7 @@ export default class Net extends PIXI.Container {
 
         const mesh = this.getChildByName('mesh')
         mesh.clear()
-        mesh.lineStyle(1, 0xffffff);
+        mesh.lineStyle(1, 0xffffff)
         for (let i = 0; i < this.size; i++) {
             const j = (this.size - i - 1) * this.meshSize
             // horizontal
@@ -81,7 +81,7 @@ export default class Net extends PIXI.Container {
         mask.clear()
         mask.beginFill(0xfff, 0.5)
         mask.moveTo((this.size - 1) * this.meshSize, this.meshSize)
-        mask.lineTo(0, (this.size) * this.meshSize)
+        mask.lineTo(0, this.size * this.meshSize)
         mask.lineTo(0, (this.size + 1) * this.meshSize)
         mask.lineTo((this.size - 1) * this.meshSize, (this.size + 1) * this.meshSize)
         mask.lineTo(this.size * this.meshSize * 2 - this.meshSize, this.meshSize)
@@ -111,7 +111,7 @@ export default class Net extends PIXI.Container {
     move() {
         if (this.force) this.vy += this.force
         else if (this.reachedMax) {
-            this.vy -= this.speed / 15 * Math.sign(this.vy)
+            this.vy -= (this.speed / 15) * Math.sign(this.vy)
             if (Math.abs(this.vy) < this.speed / 15) {
                 this.vy = 0
                 this.reachedMax = false
@@ -155,7 +155,6 @@ export default class Net extends PIXI.Container {
                 }
             }
         }
-
     }
 
     updateShadow() {
@@ -175,10 +174,7 @@ export default class Net extends PIXI.Container {
             this.offset.x + this.size * this.meshSize,
             this.size < 9 ? -boat.lineHook1 : -boat.lineHook2
         )
-        line.lineTo(
-            this.offset.x + this.size * this.meshSize,
-            this.y - this.height + 5
-        )
+        line.lineTo(this.offset.x + this.size * this.meshSize, this.y - this.height + 5)
     }
 
     reset() {
@@ -201,7 +197,7 @@ export default class Net extends PIXI.Container {
     getCenter() {
         const boat = this.parent
         const centerX = boat.x + this.x + this.size * this.meshSize - this.meshSize
-        const centerY = boat.y + this.y - this.size * this.meshSize / 2
+        const centerY = boat.y + this.y - (this.size * this.meshSize) / 2
         return new PIXI.Point(centerX, centerY)
     }
 }

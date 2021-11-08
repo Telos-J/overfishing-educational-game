@@ -19,8 +19,8 @@ const canvas = document.querySelector('#sim'),
         backgroundColor: 0x49536a,
         view: canvas,
         antialias: true,
-        resolution: devicePixelRatio || 1
-    });
+        resolution: devicePixelRatio || 1,
+    })
 
 loader.load(onAssetsLoaded)
 
@@ -40,11 +40,11 @@ function onAssetsLoaded(loader, resources) {
     spawnTurtles(world)
 
     resize()
-    addControls();
+    addControls()
     updateCaughtFish()
     updateCoins()
     setupChart()
-    app.ticker.add(gameLoop);
+    app.ticker.add(gameLoop)
     setInterval(() => {
         addFishes(schoolingfishes)
         addFishes(jellyfishes)
@@ -54,7 +54,7 @@ function onAssetsLoaded(loader, resources) {
 
 function resize() {
     const ratio = app.stage.height / app.stage.width
-    app.renderer.resize(innerWidth, innerHeight);
+    app.renderer.resize(innerWidth, innerHeight)
     app.stage.width = innerWidth
     app.stage.height = app.stage.width * ratio
 }

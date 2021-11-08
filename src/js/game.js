@@ -6,7 +6,7 @@ import { jellyfishes } from './jellyfish'
 import { turtles } from './turtle'
 import { app } from './app'
 
-gsap.registerPlugin(MotionPathPlugin);
+gsap.registerPlugin(MotionPathPlugin)
 
 const menu = document.querySelector('#hamburger-menu'),
     chartIcon = document.querySelector('#chart-icon'),
@@ -24,10 +24,10 @@ const menu = document.querySelector('#hamburger-menu'),
 
 let level = 1
 const levels = [
-    [40, 1000],//50],
+    [40, 1000], //50],
     [60, 60],
     [80, 70],
-    [100, 80]
+    [100, 80],
 ]
 
 const status = {
@@ -73,7 +73,8 @@ function reset() {
     upgradeSizeButton.querySelector('#capacity').innerHTML = net.capacity
     upgradeSizeButton.querySelector('#cost #value').innerHTML = net.cost * 2 ** (net.size - 6)
     upgradeSpeedButton.querySelector('#speed').innerHTML = net.speed
-    upgradeSpeedButton.querySelector('#cost #value').innerHTML = net.cost * 2 ** ((net.speed - 20) / 5)
+    upgradeSpeedButton.querySelector('#cost #value').innerHTML =
+        net.cost * 2 ** ((net.speed - 20) / 5)
 }
 
 function addControls() {
@@ -83,7 +84,7 @@ function addControls() {
     boat.netDown = false
     boat.netUp = false
 
-    addEventListener('keydown', (e) => {
+    addEventListener('keydown', e => {
         if (keyCodes.includes(e.code)) e.preventDefault()
 
         if (e.code === 'ArrowDown') {
@@ -95,7 +96,7 @@ function addControls() {
         }
     })
 
-    addEventListener('keyup', (e) => {
+    addEventListener('keyup', e => {
         if (keyCodes.includes(e.code)) e.preventDefault()
 
         if (e.code === 'ArrowDown') boat.netDown = false
@@ -117,7 +118,7 @@ function updateTime(time) {
     const timeMeter = document.querySelector('#time-meter').contentDocument
     timeMeter.querySelector('#time').innerHTML = `${minutes}: ${seconds}`
     gsap.to(timeMeter.querySelector('#gauge'), {
-        attr: { width: 220 * status.time / status.maxTime }
+        attr: { width: (220 * status.time) / status.maxTime },
     })
 
     if (status.time === 0 && status.caughtFish < status.objective) gameOver()
@@ -128,7 +129,7 @@ function updateCaughtFish(caughtFish) {
     const fishMeter = document.querySelector('#fish-meter').contentDocument
     fishMeter.querySelector('#caught').innerHTML = `${status.caughtFish}/${status.objective}`
     gsap.to(fishMeter.querySelector('#gauge'), {
-        attr: { width: 220 * status.caughtFish / status.objective }
+        attr: { width: (220 * status.caughtFish) / status.objective },
     })
 
     if (status.caughtFish === status.objective) showObjective(levels[level][0], levels[level][1])
@@ -140,7 +141,7 @@ function updateCoins(coins) {
     const coinMeter = document.querySelector('#coin-meter').contentDocument
     coinMeter.querySelector('#coin').innerHTML = `${status.coins}/${status.maxCoins}`
     gsap.to(coinMeter.querySelector('#gauge'), {
-        attr: { width: 220 * status.coins / status.maxCoins }
+        attr: { width: (220 * status.coins) / status.maxCoins },
     })
 }
 
@@ -151,25 +152,25 @@ function resetStatus() {
 }
 
 function openDrawer() {
-    gsap.to(drawer, 0.2, { x: 0, display: 'flex' })
+    gsap.to(drawer, { x: 0, display: 'flex', duration: 0.2 })
     app.ticker.stop()
     app.view.classList.add('inactive')
 }
 
 function closeDrawer() {
     const style = getComputedStyle(drawer)
-    gsap.to(drawer, 0.2, { x: `-${style.getPropertyValue('width')}`, display: 'none' })
+    gsap.to(drawer, { x: `-${style.getPropertyValue('width')}`, display: 'none', duration: 0.2 })
     app.ticker.start()
     app.view.classList.remove('inactive')
 }
 
 function openCurtain() {
-    gsap.to(curtain, 0.2, { y: 0 })
+    gsap.to(curtain, { y: 0, duration: 0.2 })
 }
 
 function closeCurtain() {
     const style = getComputedStyle(curtain)
-    gsap.to(curtain, 0.2, { y: `-${style.getPropertyValue('height')}` })
+    gsap.to(curtain, { y: `-${style.getPropertyValue('height')}`, duration: 0.2 })
 }
 
 function showObjective(objective, time) {
@@ -218,20 +219,25 @@ function handleErrorAnimation(button, callback) {
     }, 1000)
 }
 
-
 function animateButton(span) {
     const text = span.dataset.text
     span.dataset.text = span.innerHTML
     span.innerHTML = text
-    span.classList.contains('running') ? span.classList.remove('running') : span.classList.add('running')
+    span.classList.contains('running')
+        ? span.classList.remove('running')
+        : span.classList.add('running')
 }
 
 function animateError(span, button) {
     const text = span.dataset.error
     span.dataset.error = span.innerHTML
     span.innerHTML = text
-    span.classList.contains('running') ? span.classList.remove('running') : span.classList.add('running')
-    button.classList.contains('error') ? button.classList.remove('error') : button.classList.add('error')
+    span.classList.contains('running')
+        ? span.classList.remove('running')
+        : span.classList.add('running')
+    button.classList.contains('error')
+        ? button.classList.remove('error')
+        : button.classList.add('error')
 }
 
 function goToNextLevel() {
@@ -267,19 +273,17 @@ function setupChart() {
     const graph = document.querySelector('#graph')
     const curve = graph.querySelector('#population-curve')
     const pointer = graph.querySelector('#pointer')
-    chartTimeline
-        .to(pointer, {
-            duration: 2,
-            ease: 'none',
-            motionPath:
-            {
-                path: curve,
-                align: curve,
-                alignOrigin: [0.08, 0.6],
-                start: 1,
-                end: 0,
-            }
-        })
+    chartTimeline.to(pointer, {
+        duration: 2,
+        ease: 'none',
+        motionPath: {
+            path: curve,
+            align: curve,
+            alignOrigin: [0.08, 0.6],
+            start: 1,
+            end: 0,
+        },
+    })
 }
 
 function updateChart() {
@@ -365,13 +369,12 @@ upgradeSizeButton.addEventListener('click', () => {
         handleClickAnimation(upgradeSizeButton, () => {
             upgradeNet()
             upgradeSizeButton.querySelector('#capacity').innerHTML = net.capacity
-            upgradeSizeButton.querySelector('#cost #value').innerHTML = net.cost * 2 ** (net.size - 6)
+            upgradeSizeButton.querySelector('#cost #value').innerHTML =
+                net.cost * 2 ** (net.size - 6)
             updateCoins(status.coins)
         })
-    }
-    else {
-        handleErrorAnimation(upgradeSizeButton, () => {
-        })
+    } else {
+        handleErrorAnimation(upgradeSizeButton, () => {})
     }
 })
 
@@ -383,14 +386,23 @@ upgradeSpeedButton.addEventListener('click', () => {
         handleClickAnimation(upgradeSpeedButton, () => {
             upgradeSpeed()
             upgradeSpeedButton.querySelector('#speed').innerHTML = net.speed
-            upgradeSpeedButton.querySelector('#cost #value').innerHTML = net.cost * 2 ** ((net.speed - 20) / 5)
+            upgradeSpeedButton.querySelector('#cost #value').innerHTML =
+                net.cost * 2 ** ((net.speed - 20) / 5)
             updateCoins(status.coins)
         })
-    }
-    else {
-        handleErrorAnimation(upgradeSpeedButton, () => {
-        })
+    } else {
+        handleErrorAnimation(upgradeSpeedButton, () => {})
     }
 })
 
-export { gameLoop, addControls, status, updateCaughtFish, updateCoins, setupChart, updateChart, reset, resetStatus }
+export {
+    gameLoop,
+    addControls,
+    status,
+    updateCaughtFish,
+    updateCoins,
+    setupChart,
+    updateChart,
+    reset,
+    resetStatus,
+}

@@ -11,11 +11,14 @@ class Fish extends PIXI.Sprite {
         // Boundaries and velocity
         this.bounds = bounds
         this.canRotate = canRotate
-        this.rotation = Math.random() * Math.PI / 3 - Math.PI / 6
+        this.rotation = (Math.random() * Math.PI) / 3 - Math.PI / 6
         if (!canRotate) this.rotation = 0
         else if (Math.random() < 0.5) this.rotation += Math.PI
         this.speed = speed
-        this.velocity = new PIXI.Point(this.speed * Math.cos(this.rotation), this.speed * Math.sin(this.rotation))
+        this.velocity = new PIXI.Point(
+            this.speed * Math.cos(this.rotation),
+            this.speed * Math.sin(this.rotation)
+        )
         if (!canRotate) this.velocity.set(Math.random() < 0.5 ? this.speed : -this.speed, 0)
         this.flip()
 
@@ -50,7 +53,10 @@ class Fish extends PIXI.Sprite {
 
     dispatch(world) {
         this.world = world
-        this.position.set(Math.random() * world.boundary.width, this.bounds[0] + Math.random() * (this.bounds[1] - this.bounds[0]) + this.height)
+        this.position.set(
+            Math.random() * world.boundary.width,
+            this.bounds[0] + Math.random() * (this.bounds[1] - this.bounds[0]) + this.height
+        )
         this.on('pointerover', () => {
             console.log('fish')
         })
@@ -61,9 +67,9 @@ class Fish extends PIXI.Sprite {
         neighborhood.beginFill(0xffffff, 1)
         neighborhood.alpha = 0.00001
         neighborhood.moveTo(0, 0)
-        neighborhood.arc(0, 0, this.height * 2, Math.PI * 2 / 3, Math.PI * 4 / 3)
+        neighborhood.arc(0, 0, this.height * 2, (Math.PI * 2) / 3, (Math.PI * 4) / 3)
         neighborhood.moveTo(0, 0)
-        neighborhood.arc(0, 0, range, -Math.PI * 2 / 3, Math.PI * 2 / 3)
+        neighborhood.arc(0, 0, range, (-Math.PI * 2) / 3, (Math.PI * 2) / 3)
         this.addChild(neighborhood)
         this.neighborhood = neighborhood
     }
@@ -94,7 +100,8 @@ class Fish extends PIXI.Sprite {
     flip() {
         if (this.prey) return
         if (this.canRotate) {
-            if (this.rotation > Math.PI / 2 || this.rotation < -Math.PI / 2) this.scale.y = -Math.abs(this.scale.y)
+            if (this.rotation > Math.PI / 2 || this.rotation < -Math.PI / 2)
+                this.scale.y = -Math.abs(this.scale.y)
             else this.scale.y = Math.abs(this.scale.y)
         } else {
             this.scale.x = Math.sign(this.velocity.x) * Math.abs(this.scale.x)
@@ -219,8 +226,10 @@ class Fish extends PIXI.Sprite {
         const mask = net.getChildByName('mask')
 
         if (!mask.containsPoint(this.getGlobalPosition())) {
-            if ((net.vy > 0 && -(this.x - net.getCenter().x) > (this.y - net.getCenter().y)) ||
-                (net.vy < 0 && net.getCenter().y < this.y))
+            if (
+                (net.vy > 0 && -(this.x - net.getCenter().x) > this.y - net.getCenter().y) ||
+                (net.vy < 0 && net.getCenter().y < this.y)
+            )
                 this.y += net.vy
         }
     }
@@ -228,10 +237,8 @@ class Fish extends PIXI.Sprite {
     boundX() {
         const boundary = this.world.boundary
 
-        if (this.x < - this.width / 2)
-            this.x = boundary.width + this.width / 2
-        else if (this.x > boundary.width + this.width / 2)
-            this.x = -this.width / 2
+        if (this.x < -this.width / 2) this.x = boundary.width + this.width / 2
+        else if (this.x > boundary.width + this.width / 2) this.x = -this.width / 2
     }
 
     boundY() {
@@ -246,7 +253,7 @@ class Fish extends PIXI.Sprite {
     }
 
     isColliding(fishes) {
-        return fishes.some((fish) => {
+        return fishes.some(fish => {
             const vec = sub(this.position, fish.position)
             return fish !== this && magnitude(vec) < this.height
         })
@@ -273,7 +280,11 @@ class Fish extends PIXI.Sprite {
         const net = boat.net
         const mask = net.getChildByName('mask')
 
-        if (net.getNetSpace() >= this.space && !this.caught && mask.containsPoint(this.getGlobalPosition())) {
+        if (
+            net.getNetSpace() >= this.space &&
+            !this.caught &&
+            mask.containsPoint(this.getGlobalPosition())
+        ) {
             this.caught = true
             this.seperateBoundConstant = 0.05
             this.seperationConstant = 0.05
@@ -301,7 +312,8 @@ function controlFishes(fishes, deltaTime) {
     for (const fish of fishes.children) {
         fish.move(deltaTime)
         fish.collideNet()
-        if (fish.caught && fish.position.y < world.horizon - 35) fish.desired ? collectFish(fish) : collectOtherFish(fish)
+        if (fish.caught && fish.position.y < world.horizon - 35)
+            fish.desired ? collectFish(fish) : collectOtherFish(fish)
     }
 }
 
@@ -323,7 +335,7 @@ function collectOtherFish(fish) {
         onComplete: () => {
             fish.parent.num--
             fish.parent.removeChild(fish)
-        }
+        },
     })
 }
 
@@ -350,10 +362,9 @@ function collectFish(fish) {
                     fish.parent.removeChild(fish)
                     updateCaughtFish(status.caughtFish + 1)
                     updateCoins(status.coins + 2)
-                }
-
+                },
             })
-        }
+        },
     })
 }
 
@@ -361,7 +372,7 @@ function addFishes(fishes) {
     const world = fishes.parent
     const boundary = world.boundary
 
-    fishes.num += fishes.r * fishes.num * (1 - fishes.num / fishes.k);
+    fishes.num += fishes.r * fishes.num * (1 - fishes.num / fishes.k)
     for (let i = 0; i < Math.floor(fishes.num - fishes.children.length); i++) {
         const fish = new fishes.className()
         fish.dispatch(world)

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <link href="https://fonts.googleapis.com/css2?family=Krona+One&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Ribeye+Marrow&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans&display=swap" rel="stylesheet">
@@ -20,13 +21,14 @@
 
     <meta property="og:url" content="https://telos-j.github.io/fishing-game">
     <link rel="canonical" href="https://telos-j.github.io/fishing-game">
-  
+
     <link rel="icon" href="favicon.svg">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <link rel="manifest" href="site.webmanifest">
     <meta name="theme-color" content="#000">
-  </head>
-  <body>
+</head>
+
+<body>
     <canvas id="sim"></canvas>
     <header>
         <div id="icons">
@@ -67,46 +69,73 @@
                     @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans');
                 </style>
             </defs>
-        <path id="population-curve" d="M398.999 155.891C325.564 -9.71104 171.9 -9.71103 91.6727 155.891" stroke="white" stroke-width="4" stroke-linecap="round"/>
-        <text id="x-label" fill="white" xml:space="preserve" style="white-space: pre" font-family="Josefin Sans" font-size="15" font-style="italic" letter-spacing="0em"><tspan x="193.101" y="206.25">Population Size</tspan></text>
-        <g id="harvest">
-        <line x1="38" y1="155.5" x2="475" y2="155.5" stroke="white" stroke-width="2"/>
-        <text fill="white" xml:space="preserve" style="white-space: pre" font-family="Josefin Sans" font-size="15" font-style="italic" letter-spacing="0em"><tspan x="38.0001" y="148.898">H = <tspan id="harvest-rate">0</tspan></tspan></text>
-        </g>
-        <g id="pointer">
-        <text fill="white" xml:space="preserve" style="white-space: pre" font-family="Josefin Sans" font-size="15" font-style="italic" letter-spacing="0em"><tspan x="418.208" y="149.25">N = <tspan id="numFish">100</tspan>&#10;</tspan><tspan x="475" y="164.25">&#10;</tspan></text>
-        <line x1="475" y1="155.5" x2="398" y2="155.5" stroke="white" stroke-width="2"/>
-        <ellipse id="dot" cx="398.337" cy="155.58" rx="7.68317" ry="6.5802" fill="white"/>
-        </g>
-        <text id="carrying-capacity" fill="white" xml:space="preserve" style="white-space: pre" font-family="Josefin Sans" font-size="15" font-style="italic" letter-spacing="0em"><tspan x="392.313" y="187.624">K = 100</tspan></text>
-        <text id="origin" fill="white" xml:space="preserve" style="white-space: pre" font-family="Josefin Sans" font-size="15" font-style="italic" letter-spacing="0em"><tspan x="86.0001" y="187.33">0</tspan></text>
-        <text id="y-label" transform="translate(0 172) rotate(-90)" fill="white" xml:space="preserve" style="white-space: pre" font-family="Josefin Sans" font-size="15" font-style="italic" letter-spacing="0em"><tspan x="5.11133" y="14.75">Population Growth Rate</tspan></text>
+            <path id="population-curve" d="M398.999 155.891C325.564 -9.71104 171.9 -9.71103 91.6727 155.891"
+                stroke="white" stroke-width="4" stroke-linecap="round" />
+            <text id="x-label" fill="white" xml:space="preserve" style="white-space: pre" font-family="Josefin Sans"
+                font-size="15" font-style="italic" letter-spacing="0em">
+                <tspan x="193.101" y="206.25">Population Size</tspan>
+            </text>
+            <g id="harvest">
+                <line x1="38" y1="155.5" x2="475" y2="155.5" stroke="white" stroke-width="2" />
+                <text fill="white" xml:space="preserve" style="white-space: pre" font-family="Josefin Sans"
+                    font-size="15" font-style="italic" letter-spacing="0em">
+                    <tspan x="38.0001" y="148.898">H = <tspan id="harvest-rate">0</tspan>
+                    </tspan>
+                </text>
+            </g>
+            <g id="pointer">
+                <text fill="white" xml:space="preserve" style="white-space: pre" font-family="Josefin Sans"
+                    font-size="15" font-style="italic" letter-spacing="0em">
+                    <tspan x="418.208" y="149.25">N = <tspan id="numFish">100</tspan>&#10;</tspan>
+                    <tspan x="475" y="164.25">&#10;</tspan>
+                </text>
+                <line x1="475" y1="155.5" x2="398" y2="155.5" stroke="white" stroke-width="2" />
+                <ellipse id="dot" cx="398.337" cy="155.58" rx="7.68317" ry="6.5802" fill="white" />
+            </g>
+            <text id="carrying-capacity" fill="white" xml:space="preserve" style="white-space: pre"
+                font-family="Josefin Sans" font-size="15" font-style="italic" letter-spacing="0em">
+                <tspan x="392.313" y="187.624">K = 100</tspan>
+            </text>
+            <text id="origin" fill="white" xml:space="preserve" style="white-space: pre" font-family="Josefin Sans"
+                font-size="15" font-style="italic" letter-spacing="0em">
+                <tspan x="86.0001" y="187.33">0</tspan>
+            </text>
+            <text id="y-label" transform="translate(0 172) rotate(-90)" fill="white" xml:space="preserve"
+                style="white-space: pre" font-family="Josefin Sans" font-size="15" font-style="italic"
+                letter-spacing="0em">
+                <tspan x="5.11133" y="14.75">Population Growth Rate</tspan>
+            </text>
         </svg>
     </div>
     <div id="shop">
         <div id="shop-header">
-            <svg id="close-button" width="46" height="47" viewBox="0 0 46 47" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M23 23.5L4 43M23 23.5L42 4M23 23.5L4 4M23 23.5L42 43" stroke="#49536A" stroke-width="8" stroke-linecap="round"/>
+            <svg id="close-button" width="46" height="47" viewBox="0 0 46 47" fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <path d="M23 23.5L4 43M23 23.5L42 4M23 23.5L4 4M23 23.5L42 43" stroke="#49536A" stroke-width="8"
+                    stroke-linecap="round" />
             </svg>
         </div>
         <div id="shop-main">
-        <div class="item">
-            <img class="item-img" src="img/net.png" alt="net">
-            <div class="item-name">Basic Net</div>
-            <button id="upgrade-size-button" class="upgrade-button">
-                <span data-text="loading" data-error="not enough coins">Upgrade Size<br/>Capacity: <span id="capacity">20</span></span>
-                <span id="cost"><img src="img/coin.png" alt="coin"><span id="value">100</span></span>
-            </button>
-        </div>
-        <div class="item">
-            <img class="item-img" src="img/boat.png" alt="boat">
-            <div class="item-name">Basic Boat</div>
-            <button id="upgrade-speed-button" class="upgrade-button">
-                <span data-text="loading" data-error="not enough coins">Upgrade Reel Speed<br/>Speed: <span id="speed">15</span></span>
-                <span id="cost"><img src="img/coin.png" alt="coin"><span id="value">100</span></span>
-            </button>
-        </div>
+            <div class="item">
+                <img class="item-img" src="img/net.png" alt="net">
+                <div class="item-name">Basic Net</div>
+                <button id="upgrade-size-button" class="upgrade-button">
+                    <span data-text="loading" data-error="not enough coins">Upgrade Size<br />Capacity: <span
+                            id="capacity">20</span></span>
+                    <span id="cost"><img src="img/coin.png" alt="coin"><span id="value">100</span></span>
+                </button>
+            </div>
+            <div class="item">
+                <img class="item-img" src="img/boat.png" alt="boat">
+                <div class="item-name">Basic Boat</div>
+                <button id="upgrade-speed-button" class="upgrade-button">
+                    <span data-text="loading" data-error="not enough coins">Upgrade Reel Speed<br />Speed: <span
+                            id="speed">15</span></span>
+                    <span id="cost"><img src="img/coin.png" alt="coin"><span id="value">100</span></span>
+                </button>
+            </div>
         </div>
     </div>
-  </body>
+</body>
+
 </html>
