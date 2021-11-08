@@ -24,10 +24,10 @@ const schoolingfishes = new Species({
 
 
 function spawnSchoolingfishes(world) {
-    for (let t = 0; t <= 10; t++) {
-        const N = 30 * 10 ** (-0.15 * t)
+    for (let age = 0; age <= 10; age++) {
+        const N = 30 * 10 ** (-0.15 * age)
         for (let i = 0; i < N; i++) {
-            const fish = new Schoolingfish(t)
+            const fish = new Schoolingfish(age)
             fish.dispatch(world)
             schoolingfishes.addChild(fish)
             schoolingfishes.num++

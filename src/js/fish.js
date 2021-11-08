@@ -255,7 +255,7 @@ class Fish extends PIXI.Sprite {
     collide(fishes) {
         for (const fish of fishes) {
             const vec = sub(this.position, fish.position)
-            if (fish !== this && !fish.ghost && magnitude(vec) < this.height / 1.5) {
+            if (fish !== this && !fish.ghost && magnitude(vec) < (this.height + fish.height) / 2) {
                 this.position = add(this.position, normalize(vec, this.speed))
             }
         }
@@ -263,7 +263,7 @@ class Fish extends PIXI.Sprite {
 
     collideForce(fish) {
         const vec = sub(this.position, fish.position)
-        if (fish !== this && magnitude(vec) < this.height) {
+        if (fish !== this && magnitude(vec) < (this.height + fish.height) / 2) {
             this.position = add(this.position, vec)
         }
     }
@@ -334,7 +334,7 @@ function collectFish(fish) {
     const net = boat.net
 
     net.colorNet(0x135c77)
-    fish.scale.y = 0.8
+    fish.scale.set(0.8)
     fish.collected = true
     net.fishes = net.fishes.filter(somefish => somefish !== fish)
     gsap.to(fish, {
