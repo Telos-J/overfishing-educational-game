@@ -24,22 +24,23 @@ const menu = document.querySelector('#hamburger-menu'),
 
 let level = 1
 const levels = [
-    [40, 1000], //50],
-    [60, 60],
-    [80, 70],
-    [100, 80],
+    {catchGoal: 40}, 
+    {catchGoal: 60},
+    {catchGoal: 80},
+    {catchGoal: 100},
 ]
 
 const status = {
-    time: levels[level - 1][1],
+    time: 10,
     caughtFish: 0,
     coins: 0,
-    maxTime: levels[level - 1][1],
-    objective: levels[level - 1][0],
+    maxTime: 60,
+    objective: levels[level - 1].catchGoal,
     maxCoins: 200,
     prevCoins: 0,
     netSize: 6,
     netSpeed: 2,
+    fishing:true
 }
 
 function gameLoop(deltaTime) {
@@ -58,7 +59,9 @@ function gameLoop(deltaTime) {
 
 function reset() {
     const world = app.stage.getChildByName('world')
-    const net = world.getChildByName('net', true)
+    const boat = world.getChildByName('boat')
+    const net = boat.net
+
 
     world.y = 0
     net.reset()
@@ -121,7 +124,7 @@ function updateTime(time) {
         attr: { width: (220 * status.time) / status.maxTime },
     })
 
-    if (status.time === 0 && status.caughtFish < status.objective) gameOver()
+    if (status.time === 0) endYear()
 }
 
 function updateCaughtFish(caughtFish) {
@@ -132,7 +135,7 @@ function updateCaughtFish(caughtFish) {
         attr: { width: (220 * status.caughtFish) / status.objective },
     })
 
-    if (status.caughtFish === status.objective) showObjective(levels[level][0], levels[level][1])
+    //if (status.caughtFish === status.objective) showObjective(levels[level][0], levels[level][1])
 }
 
 function updateCoins(coins) {
@@ -142,6 +145,33 @@ function updateCoins(coins) {
     coinMeter.querySelector('#coin').innerHTML = `${status.coins}/${status.maxCoins}`
     gsap.to(coinMeter.querySelector('#gauge'), {
         attr: { width: (220 * status.coins) / status.maxCoins },
+    })
+}
+
+function endYear() {
+    const world = app.stage.getChildByName('world')
+    const boat = world.getChildByName('boat')
+    const net = boat.net
+
+    status.fishing = false
+
+    gsap.to(world, { y: 0, duration: 1})
+    gsap.to(net, {
+        y: net.offset.y,
+        duration: 1,
+        onComplete: () => {
+            status.fishing = true
+            status.time = status.maxTime
+            status.caughtFish = 0
+            status.objective = levels[level].catchGoal
+            status.prevCoins = status.coins
+            status.netSize = net.size
+            status.netSpeed = net.speed
+            net.reset()
+            updateTime(status.maxTime)
+            updateCaughtFish(0)
+            if (level < levels.length) level++
+        },
     })
 }
 
@@ -245,10 +275,9 @@ function goToNextLevel() {
     const boat = world.getChildByName('boat', true)
     const net = boat.getChildByName('net')
 
-    status.time = levels[level][1]
+    status.time = status.maxTime
     status.caughtFish = 0
-    status.maxTime = levels[level][1]
-    status.objective = levels[level][0]
+    status.objective = levels[level].catchGoal
     status.prevCoins = status.coins
     status.netSize = net.size
     status.netSpeed = net.speed
