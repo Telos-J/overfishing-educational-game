@@ -162,6 +162,7 @@ function endYear() {
         duration: 1,
         onComplete: () => {
             openCurtain()
+            gsap.to(boat, { x: world.width + boat.width, duration: 3 })
         },
     })
 }

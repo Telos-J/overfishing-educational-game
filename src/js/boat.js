@@ -14,10 +14,10 @@ export default class Boat extends PIXI.Sprite {
     }
 
     dispatch(world) {
-        this.position.set(world.width / 2, world.horizon)
-        //this.position.set(-this.width, world.horizon)
+        //this.position.set(world.width / 2, world.horizon)
+        this.position.set(-this.width, world.horizon)
         this.mask = world.boundary
-        //gsap.to(this, { x: world.width / 2, duration: 3 })
+        gsap.to(this, { x: world.width / 2, duration: 3 })
         world.addChild(this)
     }
 
