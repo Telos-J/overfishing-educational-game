@@ -105,8 +105,8 @@ header {
 #curtain {
     position: absolute;
     display: flex;
-    width: 25rem;
-    height: 20rem;
+    width: 40rem;
+    height: 40rem;
     border: 4px solid white;
     flex-direction: column;
     padding: 4rem 2rem 0rem 2rem;
@@ -114,10 +114,42 @@ header {
     align-items: center;
     color: white;
     font-family: 'Josefin Sans', sans-serif;
-    transform: translateY(-20rem);
+    transform: translateY(-40rem);
 
     #graph {
-        width: 100%;
+        width: 20rem;
+    }
+}
+
+button {
+    cursor: pointer;
+    border: 2px solid white;
+    box-shadow: 5px 5px 0 0 white;
+    width: 20rem;
+    height: 4rem;
+    background: #49536a;
+    transition: transform 0.05s, box-shadow 0.05s;
+    margin: 1rem 0;
+    color: inherit;
+    font-family: inherit;
+    text-transform: uppercase;
+
+    &:active {
+        box-shadow: 1px 1px 0 0 white;
+        transform: translate(4px, 4px);
+    }
+
+    &#next-level-button {
+        display: none;
+    }
+
+    &#shop-button {
+        //display: none;
+    }
+
+    span.running {
+        animation: pulse-fade 0.125s linear alternate infinite;
+        font-style: italic;
     }
 }
 

@@ -8,6 +8,7 @@ import { addFishes } from './fish'
 import { schoolingfishes, spawnSchoolingfishes } from './schoolingfish'
 import { jellyfishes, spawnJellyfishes } from './jellyfish'
 import { turtles, spawnTurtles } from './turtle'
+import { status } from './game'
 import World from './world'
 import Boat from './boat'
 import Net from './net'
@@ -46,9 +47,11 @@ function onAssetsLoaded(loader, resources) {
     setupChart()
     app.ticker.add(gameLoop)
     setInterval(() => {
-        addFishes(schoolingfishes)
-        addFishes(jellyfishes)
-        addFishes(turtles)
+        if (status.fishing) {
+            addFishes(schoolingfishes)
+            addFishes(jellyfishes)
+            addFishes(turtles)
+        }
     }, 1000)
 }
 

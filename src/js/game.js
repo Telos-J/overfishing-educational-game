@@ -17,6 +17,7 @@ const menu = document.querySelector('#hamburger-menu'),
     nextLevelButton = document.querySelector('#next-level-button'),
     shopButton = document.querySelector('#shop-button'),
     closeButton = document.querySelector('#close-button'),
+    nextYearButton = document.querySelector('#next-year-button'),
     upgradeSizeButton = document.querySelector('#upgrade-size-button'),
     upgradeSpeedButton = document.querySelector('#upgrade-speed-button'),
     message = document.querySelector('#message'),
@@ -31,7 +32,7 @@ const levels = [
 ]
 
 const status = {
-    time: 10,
+    time: 20,
     caughtFish: 0,
     coins: 0,
     maxTime: 60,
@@ -160,17 +161,7 @@ function endYear() {
         y: net.offset.y,
         duration: 1,
         onComplete: () => {
-            status.fishing = true
-            status.time = status.maxTime
-            status.caughtFish = 0
-            status.objective = levels[level].catchGoal
-            status.prevCoins = status.coins
-            status.netSize = net.size
-            status.netSpeed = net.speed
-            net.reset()
-            updateTime(status.maxTime)
-            updateCaughtFish(0)
-            if (level < levels.length) level++
+            openCurtain()
         },
     })
 }
@@ -330,6 +321,7 @@ function updateChart() {
     gsap.set(harvest, { y })
 
     numFish.innerHTML = schoolingfishes.children.length
+    console.log(numFish.innerHTML)
     chartTimeline.progress(schoolingfishes.children.length / schoolingfishes.k)
 }
 
@@ -422,6 +414,26 @@ upgradeSpeedButton.addEventListener('click', () => {
     } else {
         handleErrorAnimation(upgradeSpeedButton, () => {})
     }
+})
+
+nextYearButton.addEventListener('click', () => {
+    handleClickAnimation(nextYearButton, () => {
+        closeCurtain()
+        const world = app.stage.getChildByName('world')
+        const boat = world.getChildByName('boat', true)
+        const net = boat.net
+        status.fishing = true
+        status.time = status.maxTime
+        status.caughtFish = 0
+        status.objective = levels[level].catchGoal
+        status.prevCoins = status.coins
+        status.netSize = net.size
+        status.netSpeed = net.speed
+        net.reset()
+        updateTime(status.maxTime)
+        updateCaughtFish(0)
+        if (level < levels.length) level++
+    })
 })
 
 export {
