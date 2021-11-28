@@ -160,6 +160,7 @@ function updateCoins(coins) {
 
 function updateLF(length) {
     gameStatus.LF[Math.floor((length - 0.6) * 20)]++
+    console.log(gameStatus.LF)
 }
 
 function endYear() {
@@ -210,6 +211,7 @@ export {
     gameStatus,
     updateCaughtFish,
     updateCoins,
+    updateLF,
     reset,
     resetStatus,
     nextYear,

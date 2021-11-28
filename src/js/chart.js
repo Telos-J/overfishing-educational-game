@@ -53,10 +53,10 @@ function updateChart() {
 
 function updateLF() {
     const LF = document.querySelector('#length-frequency-distribution')
-    for (let i = 1; i <= 13; i++) {
+    for (let i = 1; i <= 12; i++) {
         const number = LF.querySelector(`#number${i}`)
         const rect = LF.querySelector(`#rectangle${i}`)
-        gsap.to(rect, { scaleY: Math.random(), transformOrigin: 'bottom' })
+        gsap.to(rect, { scaleY: gameStatus.LF[i - 1] / 30, transformOrigin: 'bottom' })
     }
 }
 

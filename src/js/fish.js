@@ -1,7 +1,7 @@
 import * as PIXI from 'pixi.js'
 import { gsap } from 'gsap'
 import { loader } from './assets'
-import { gameStatus, updateCaughtFish, updateCoins } from './game'
+import { gameStatus, updateCaughtFish, updateCoins, updateLF } from './game'
 import { add, sub, magnitude, scale, normalize } from './vector'
 import { app } from './app'
 
@@ -364,6 +364,7 @@ function collectFish(fish) {
                     fish.parent.removeChild(fish)
                     updateCaughtFish(gameStatus.biomass + fish.biomass)
                     updateCoins(gameStatus.coins + 2)
+                    updateLF(fish.length)
                 },
             })
         },
@@ -390,8 +391,6 @@ function addFishes(fishes) {
             fishes.addChild(fish)
         }
     }
-
-    console.log(fishes.num, fishes.children.length)
 }
 
 export { Fish, resetFishes, controlFishes, addFishes }

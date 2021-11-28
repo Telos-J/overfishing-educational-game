@@ -10,6 +10,7 @@ class Schoolingfish extends Fish {
         this.age = age
         this.scale.set(1.2 * (1 - Math.exp(-0.316 * age - 0.707)))
         this.biomass = this.scale.x
+        this.length = this.scale.x
         this.makeNeighborhood(this.width * 3)
         this.desired = true
     }
