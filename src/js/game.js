@@ -40,8 +40,8 @@ function startGame() {
     boat.addNet(net)
 
     spawnSchoolingfishes(world)
-    spawnJellyfishes(world)
-    spawnTurtles(world)
+    //spawnJellyfishes(world)
+    //spawnTurtles(world)
 
     addControls()
     updateCaughtFish()
@@ -51,8 +51,8 @@ function startGame() {
     setInterval(() => {
         if (gameStatus.fishing) {
             addFishes(schoolingfishes)
-            addFishes(jellyfishes)
-            addFishes(turtles)
+            //addFishes(jellyfishes)
+            //addFishes(turtles)
         }
     }, 1000)
 }

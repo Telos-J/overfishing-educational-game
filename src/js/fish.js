@@ -375,12 +375,23 @@ function addFishes(fishes) {
     const boundary = world.boundary
 
     fishes.num += fishes.r * fishes.num * (1 - fishes.num / fishes.k)
-    for (let i = 0; i < Math.floor(fishes.num - fishes.children.length); i++) {
-        const fish = new fishes.className()
-        fish.dispatch(world)
-        fish.x = boundary.width + fish.width / 2
-        fishes.addChild(fish)
+
+    fishes.children = fishes.children.sort((fish1, fish2) => fish1.age > fish2.age)
+    if (fishes.num < fishes.children.length) {
+        for (let i = 0; i < Math.floor(fishes.children.length - fishes.num); i++) {
+            const fish = fishes.children.pop()
+            fishes.removeChild(fish)
+        }
+    } else {
+        for (let i = 0; i < Math.floor(fishes.num - fishes.children.length); i++) {
+            const fish = new fishes.className()
+            fish.dispatch(world)
+            fish.x = boundary.width + fish.width / 2
+            fishes.addChild(fish)
+        }
     }
+
+    console.log(fishes.num, fishes.children.length)
 }
 
 export { Fish, resetFishes, controlFishes, addFishes }

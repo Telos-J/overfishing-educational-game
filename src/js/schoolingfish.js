@@ -15,7 +15,7 @@ class Schoolingfish extends Fish {
 }
 
 const schoolingfishes = new Species({
-    num: 100,
+    num: 0,
     r: 0.02,
     k: 100,
     name: 'schoolingfishes',
