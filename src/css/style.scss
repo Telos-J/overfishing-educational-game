@@ -115,7 +115,11 @@ header {
     font-family: 'Josefin Sans', sans-serif;
     transform: translateY(-40rem);
 
-    #graph {
+    #population-graph {
+        width: 20rem;
+    }
+
+    #length-frequency-distribution {
         width: 20rem;
     }
 }

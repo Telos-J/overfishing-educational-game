@@ -63,7 +63,8 @@
         </button>
     </div>
     <div id="curtain">
-        <svg id="graph" width="477" height="215" viewBox="0 0 477 215" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg id="population-graph" width="477" height="215" viewBox="0 0 477 215" fill="none"
+            xmlns="http://www.w3.org/2000/svg">
             <defs>
                 <style>
                     @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans');
@@ -105,42 +106,89 @@
                 <tspan x="5.11133" y="14.75">Population Growth Rate</tspan>
             </text>
         </svg>
-        <svg id="length-frequency-distribution" width="408" height="217" viewBox="0 0 408 217" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg id="length-frequency-distribution" width="408" height="217" viewBox="0 0 408 217" fill="none"
+            xmlns="http://www.w3.org/2000/svg">
             <g id="numbers">
-            <text id="number13" fill="white" xml:space="preserve" style="white-space: pre" font-family="Josefin Sans" font-size="13" font-style="italic" letter-spacing="0em"><tspan x="73.186" y="181.75">60</tspan></text>
-            <text id="number12" fill="white" xml:space="preserve" style="white-space: pre" font-family="Josefin Sans" font-size="13" font-style="italic" letter-spacing="0em"><tspan x="97.9604" y="181.75">65</tspan></text>
-            <text id="number11" fill="white" xml:space="preserve" style="white-space: pre" font-family="Josefin Sans" font-size="13" font-style="italic" letter-spacing="0em"><tspan x="146.424" y="181.75">75</tspan></text>
-            <text id="number10" fill="white" xml:space="preserve" style="white-space: pre" font-family="Josefin Sans" font-size="13" font-style="italic" letter-spacing="0em"><tspan x="194.037" y="181.75">85</tspan></text>
-            <text id="number09" fill="white" xml:space="preserve" style="white-space: pre" font-family="Josefin Sans" font-size="13" font-style="italic" letter-spacing="0em"><tspan x="242.005" y="181.75">95</tspan></text>
-            <text id="number08" fill="white" xml:space="preserve" style="white-space: pre" font-family="Josefin Sans" font-size="13" font-style="italic" letter-spacing="0em"><tspan x="287.167" y="181.75">105</tspan></text>
-            <text id="number07" fill="white" xml:space="preserve" style="white-space: pre" font-family="Josefin Sans" font-size="13" font-style="italic" letter-spacing="0em"><tspan x="337.072" y="181.75">115</tspan></text>
-            <text id="number06" fill="white" xml:space="preserve" style="white-space: pre" font-family="Josefin Sans" font-size="13" font-style="italic" letter-spacing="0em"><tspan x="262.393" y="181.75">100</tspan></text>
-            <text id="number05" fill="white" xml:space="preserve" style="white-space: pre" font-family="Josefin Sans" font-size="13" font-style="italic" letter-spacing="0em"><tspan x="312.297" y="181.75">110</tspan></text>
-            <text id="number04" fill="white" xml:space="preserve" style="white-space: pre" font-family="Josefin Sans" font-size="13" font-style="italic" letter-spacing="0em"><tspan x="358.875" y="181.75">120</tspan></text>
-            <text id="number03" fill="white" xml:space="preserve" style="white-space: pre" font-family="Josefin Sans" font-size="13" font-style="italic" letter-spacing="0em"><tspan x="121.649" y="181.75">70</tspan></text>
-            <text id="number02" fill="white" xml:space="preserve" style="white-space: pre" font-family="Josefin Sans" font-size="13" font-style="italic" letter-spacing="0em"><tspan x="169.262" y="181.75">80</tspan></text>
-            <text id="number01" fill="white" xml:space="preserve" style="white-space: pre" font-family="Josefin Sans" font-size="13" font-style="italic" letter-spacing="0em"><tspan x="217.23" y="181.75">90</tspan></text>
+                <text id="number1" fill="white" xml:space="preserve" style="white-space: pre" font-family="Josefin Sans"
+                    font-size="13" font-style="italic" letter-spacing="0em">
+                    <tspan x="73.186" y="181.75">60</tspan>
+                </text>
+                <text id="number2" fill="white" xml:space="preserve" style="white-space: pre" font-family="Josefin Sans"
+                    font-size="13" font-style="italic" letter-spacing="0em">
+                    <tspan x="97.9604" y="181.75">65</tspan>
+                </text>
+                <text id="number3" fill="white" xml:space="preserve" style="white-space: pre" font-family="Josefin Sans"
+                    font-size="13" font-style="italic" letter-spacing="0em">
+                    <tspan x="146.424" y="181.75">75</tspan>
+                </text>
+                <text id="number4" fill="white" xml:space="preserve" style="white-space: pre" font-family="Josefin Sans"
+                    font-size="13" font-style="italic" letter-spacing="0em">
+                    <tspan x="194.037" y="181.75">85</tspan>
+                </text>
+                <text id="number5" fill="white" xml:space="preserve" style="white-space: pre" font-family="Josefin Sans"
+                    font-size="13" font-style="italic" letter-spacing="0em">
+                    <tspan x="242.005" y="181.75">95</tspan>
+                </text>
+                <text id="number6" fill="white" xml:space="preserve" style="white-space: pre" font-family="Josefin Sans"
+                    font-size="13" font-style="italic" letter-spacing="0em">
+                    <tspan x="287.167" y="181.75">105</tspan>
+                </text>
+                <text id="number7" fill="white" xml:space="preserve" style="white-space: pre" font-family="Josefin Sans"
+                    font-size="13" font-style="italic" letter-spacing="0em">
+                    <tspan x="337.072" y="181.75">115</tspan>
+                </text>
+                <text id="number8" fill="white" xml:space="preserve" style="white-space: pre" font-family="Josefin Sans"
+                    font-size="13" font-style="italic" letter-spacing="0em">
+                    <tspan x="262.393" y="181.75">100</tspan>
+                </text>
+                <text id="number9" fill="white" xml:space="preserve" style="white-space: pre" font-family="Josefin Sans"
+                    font-size="13" font-style="italic" letter-spacing="0em">
+                    <tspan x="312.297" y="181.75">110</tspan>
+                </text>
+                <text id="number10" fill="white" xml:space="preserve" style="white-space: pre"
+                    font-family="Josefin Sans" font-size="13" font-style="italic" letter-spacing="0em">
+                    <tspan x="358.875" y="181.75">120</tspan>
+                </text>
+                <text id="number11" fill="white" xml:space="preserve" style="white-space: pre"
+                    font-family="Josefin Sans" font-size="13" font-style="italic" letter-spacing="0em">
+                    <tspan x="121.649" y="181.75">70</tspan>
+                </text>
+                <text id="number12" fill="white" xml:space="preserve" style="white-space: pre"
+                    font-family="Josefin Sans" font-size="13" font-style="italic" letter-spacing="0em">
+                    <tspan x="169.262" y="181.75">80</tspan>
+                </text>
+                <text id="number14" fill="white" xml:space="preserve" style="white-space: pre"
+                    font-family="Josefin Sans" font-size="13" font-style="italic" letter-spacing="0em">
+                    <tspan x="217.23" y="181.75">90</tspan>
+                </text>
             </g>
             <g id="rectangles">
-            <rect id="rectangle13" x="70" y="21" width="21" height="132" fill="white"/>
-            <rect id="rectangle12" x="94" y="21" width="21" height="132" fill="white"/>
-            <rect id="rectangle11" x="118" y="21" width="21" height="132" fill="white"/>
-            <rect id="rectangle10" x="142" y="21" width="21" height="132" fill="white"/>
-            <rect id="rectangle09" x="166" y="21" width="21" height="132" fill="white"/>
-            <rect id="rectangle08" x="190" y="21" width="21" height="132" fill="white"/>
-            <rect id="rectangle07" x="214" y="21" width="21" height="132" fill="white"/>
-            <rect id="rectangle06" x="238" y="21" width="21" height="132" fill="white"/>
-            <rect id="rectangle05" x="262" y="21" width="21" height="132" fill="white"/>
-            <rect id="rectangle04" x="286" y="21" width="21" height="132" fill="white"/>
-            <rect id="rectangle03" x="310" y="21" width="21" height="132" fill="white"/>
-            <rect id="rectangle02" x="334" y="21" width="21" height="132" fill="white"/>
-            <rect id="rectangle01" x="358" y="21" width="21" height="132" fill="white"/>
+                <rect id="rectangle1" x="70" y="21" width="21" height="132" fill="white" />
+                <rect id="rectangle2" x="94" y="21" width="21" height="132" fill="white" />
+                <rect id="rectangle3" x="118" y="21" width="21" height="132" fill="white" />
+                <rect id="rectangle4" x="142" y="21" width="21" height="132" fill="white" />
+                <rect id="rectangle5" x="166" y="21" width="21" height="132" fill="white" />
+                <rect id="rectangle6" x="190" y="21" width="21" height="132" fill="white" />
+                <rect id="rectangle7" x="214" y="21" width="21" height="132" fill="white" />
+                <rect id="rectangle8" x="238" y="21" width="21" height="132" fill="white" />
+                <rect id="rectangle9" x="262" y="21" width="21" height="132" fill="white" />
+                <rect id="rectangle10" x="286" y="21" width="21" height="132" fill="white" />
+                <rect id="rectangle11" x="310" y="21" width="21" height="132" fill="white" />
+                <rect id="rectangle12" x="334" y="21" width="21" height="132" fill="white" />
+                <rect id="rectangle13" x="358" y="21" width="21" height="132" fill="white" />
             </g>
-            <text id="y-label" transform="translate(7.62939e-06 172) rotate(-90)" fill="white" xml:space="preserve" style="white-space: pre" font-family="Josefin Sans" font-size="15" font-style="italic" letter-spacing="0em"><tspan x="33.3828" y="14.75">Number of Fish</tspan></text>
-            <text id="x-label" fill="white" xml:space="preserve" style="white-space: pre" font-family="Josefin Sans" font-size="15" font-style="italic" letter-spacing="0em"><tspan x="161.42" y="208.25">Length of Fish(cm)</tspan></text>
-            <line id="x-axis" x1="44.9957" y1="153.25" x2="407.004" y2="153.25" stroke="white" stroke-width="2"/>
-            </svg>
-            
+            <text id="y-label" transform="translate(7.62939e-06 172) rotate(-90)" fill="white" xml:space="preserve"
+                style="white-space: pre" font-family="Josefin Sans" font-size="15" font-style="italic"
+                letter-spacing="0em">
+                <tspan x="33.3828" y="14.75">Number of Fish</tspan>
+            </text>
+            <text id="x-label" fill="white" xml:space="preserve" style="white-space: pre" font-family="Josefin Sans"
+                font-size="15" font-style="italic" letter-spacing="0em">
+                <tspan x="161.42" y="208.25">Length of Fish(cm)</tspan>
+            </text>
+            <line id="x-axis" x1="44.9957" y1="153.25" x2="407.004" y2="153.25" stroke="white" stroke-width="2" />
+        </svg>
+
         <button id="next-year-button">
             <span data-text="loading">Go to Next Year</span>
         </button>

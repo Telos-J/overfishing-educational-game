@@ -17,9 +17,9 @@ chartIcon.addEventListener('click', () => {
 })
 
 function setupChart() {
-    const graph = document.querySelector('#graph')
-    const curve = graph.querySelector('#population-curve')
-    const pointer = graph.querySelector('#pointer')
+    const populationGraph = document.querySelector('#population-graph')
+    const curve = populationGraph.querySelector('#population-curve')
+    const pointer = populationGraph.querySelector('#pointer')
     chartTimeline.to(pointer, {
         duration: 3,
         ease: 'none',
@@ -34,12 +34,12 @@ function setupChart() {
 }
 
 function updateChart() {
-    const graph = document.querySelector('#graph')
-    const harvest = graph.querySelector('#harvest')
+    const populationGraph = document.querySelector('#population-graph')
+    const harvest = populationGraph.querySelector('#harvest')
     const harvestRate = harvest.querySelector('#harvest-rate')
-    const numFish = graph.querySelector('#numFish')
+    const numFish = populationGraph.querySelector('#numFish')
 
-    let caughtPerSec = gameStatus.caughtFish / (gameStatus.maxTime - gameStatus.time)
+    let caughtPerSec = gameStatus.biomass / (gameStatus.maxTime - gameStatus.time)
     caughtPerSec = Math.round(caughtPerSec * 100) / 100
 
     harvestRate.innerHTML = caughtPerSec
@@ -51,4 +51,13 @@ function updateChart() {
     chartTimeline.progress(schoolingfishes.children.length / schoolingfishes.k)
 }
 
-export { setupChart, updateChart }
+function updateLF() {
+    const LF = document.querySelector('#length-frequency-distribution')
+    for (let i = 1; i <= 13; i++) {
+        const number = LF.querySelector(`#number${i}`)
+        const rect = LF.querySelector(`#rectangle${i}`)
+        gsap.to(rect, { scaleY: Math.random(), transformOrigin: 'bottom' })
+    }
+}
+
+export { setupChart, updateChart, updateLF }
