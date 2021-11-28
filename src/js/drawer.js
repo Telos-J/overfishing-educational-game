@@ -1,6 +1,6 @@
-import { gsap } from 'gsap'
 import { app } from './app'
 import { handleClickAnimation } from './button'
+import { closeCurtain } from './curtain'
 import { reset } from './game'
 import './shop'
 
@@ -9,26 +9,24 @@ const drawer = document.querySelector('#drawer')
 const resumeButton = document.querySelector('#resume-button')
 const resetButton = document.querySelector('#reset-button')
 const nextLevelButton = document.querySelector('#next-level-button')
+const curtain = document.querySelector('#curtain')
 
 function openDrawer() {
-    gsap.to(drawer, { x: 0, display: 'flex', duration: 0.2 })
+    if (curtain.classList.contains('open')) closeCurtain()
+    drawer.classList.add('open')
     app.ticker.stop()
     app.view.classList.add('inactive')
 }
 
 function closeDrawer() {
-    const style = getComputedStyle(drawer)
-    gsap.to(drawer, { x: `-${style.getPropertyValue('width')}`, display: 'none', duration: 0.2 })
+    drawer.classList.remove('open')
     app.ticker.start()
     app.view.classList.remove('inactive')
 }
 
 menu.addEventListener('click', () => {
-    if (gsap.isTweening(drawer)) return
-
-    const style = getComputedStyle(drawer)
-    if (style.getPropertyValue('display') === 'none') openDrawer()
-    else closeDrawer()
+    if (drawer.classList.contains('open')) closeDrawer()
+    else openDrawer()
 })
 
 resumeButton.addEventListener('click', () => {

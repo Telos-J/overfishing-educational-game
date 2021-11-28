@@ -49,7 +49,7 @@ header {
 }
 
 #drawer {
-    display: none;
+    display: flex;
     position: absolute;
     width: 25rem;
     height: 100vh;
@@ -57,10 +57,15 @@ header {
     flex-direction: column;
     padding: 4rem 2rem 2rem 2rem;
     background: #49536a;
-    transform: translateX(-20rem);
+    transform: translateX(-25rem);
     align-items: center;
     color: white;
     font-family: 'Josefin Sans', sans-serif;
+    transition: transform 0.2s;
+
+    &.open {
+        transform: translateX(0);
+    }
 
     #message {
         display: none;
@@ -114,6 +119,11 @@ header {
     color: white;
     font-family: 'Josefin Sans', sans-serif;
     transform: translateY(-40rem);
+    transition: transform 0.2s;
+
+    &.open {
+        transform: translateY(0);
+    }
 
     #population-graph {
         width: 20rem;

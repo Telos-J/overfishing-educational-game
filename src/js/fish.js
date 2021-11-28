@@ -1,8 +1,9 @@
 import * as PIXI from 'pixi.js'
 import { gsap } from 'gsap'
 import { loader } from './assets'
-import { gameStatus, updateCaughtFish, updateCoins, updateLF } from './game'
+import { gameStatus, updateCaughtFish, updateCoins } from './game'
 import { add, sub, magnitude, scale, normalize } from './vector'
+import { updateLF } from './lengthFrequencyChart'
 import { app } from './app'
 
 class Fish extends PIXI.Sprite {

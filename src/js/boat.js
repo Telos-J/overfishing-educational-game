@@ -41,11 +41,6 @@ export default class Boat extends PIXI.Sprite {
 
     control() {
         const net = this.net
-        if (!gameStatus.fishing) {
-            this.netUp = true
-            this.netDown = false
-        }
-
         if (this.netDown) {
             net.force = net.speed / 15
             net.reachedMax = false
