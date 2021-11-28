@@ -17,7 +17,7 @@ const levels = [{ catchGoal: 40 }, { catchGoal: 60 }, { catchGoal: 80 }, { catch
 
 const gameStatus = {
     time: 10,
-    caughtFish: 0,
+    biomass: 0,
     coins: 100,
     maxTime: 60,
     objective: levels[level - 1].catchGoal,
@@ -136,14 +136,14 @@ function updateTime(time) {
     if (gameStatus.time === 0 && gameStatus.fishing) endYear()
 }
 
-function updateCaughtFish(caughtFish) {
-    if (caughtFish) gameStatus.caughtFish = caughtFish
+function updateCaughtFish(biomass) {
+    if (biomass) gameStatus.biomass = biomass
     const fishMeter = document.querySelector('#fish-meter').contentDocument
     fishMeter.querySelector(
         '#caught'
-    ).innerHTML = `${gameStatus.caughtFish}/${gameStatus.objective}`
+    ).innerHTML = `${Math.round(gameStatus.biomass)}/${gameStatus.objective}kg`
     gsap.to(fishMeter.querySelector('#gauge'), {
-        attr: { width: (220 * gameStatus.caughtFish) / gameStatus.objective },
+        attr: { width: (220 * gameStatus.biomass) / gameStatus.objective },
     })
 }
 
@@ -181,7 +181,7 @@ function nextYear() {
     const net = boat.net
     gameStatus.fishing = true
     gameStatus.time = gameStatus.maxTime
-    gameStatus.caughtFish = 0
+    gameStatus.biomass = 0
     gameStatus.objective = levels[level].catchGoal
     gameStatus.prevCoins = gameStatus.coins
     gameStatus.netSize = net.size

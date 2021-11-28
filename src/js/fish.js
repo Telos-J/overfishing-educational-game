@@ -362,7 +362,7 @@ function collectFish(fish) {
                 onComplete: () => {
                     fish.parent.num--
                     fish.parent.removeChild(fish)
-                    updateCaughtFish(gameStatus.caughtFish + 1)
+                    updateCaughtFish(gameStatus.biomass + fish.biomass)
                     updateCoins(gameStatus.coins + 2)
                 },
             })
@@ -384,7 +384,7 @@ function addFishes(fishes) {
         }
     } else {
         for (let i = 0; i < Math.floor(fishes.num - fishes.children.length); i++) {
-            const fish = new fishes.className()
+            const fish = new fishes.className(0)
             fish.dispatch(world)
             fish.x = boundary.width + fish.width / 2
             fishes.addChild(fish)
