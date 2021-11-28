@@ -26,6 +26,7 @@ const gameStatus = {
     netSize: 6,
     netSpeed: 2,
     fishing: true,
+    LF: new Array(13).fill(0),
 }
 
 function startGame() {
@@ -139,9 +140,9 @@ function updateTime(time) {
 function updateCaughtFish(biomass) {
     if (biomass) gameStatus.biomass = biomass
     const fishMeter = document.querySelector('#fish-meter').contentDocument
-    fishMeter.querySelector(
-        '#caught'
-    ).innerHTML = `${Math.round(gameStatus.biomass)}/${gameStatus.objective}kg`
+    fishMeter.querySelector('#caught').innerHTML = `${Math.round(gameStatus.biomass)}/${
+        gameStatus.objective
+    }kg`
     gsap.to(fishMeter.querySelector('#gauge'), {
         attr: { width: (220 * gameStatus.biomass) / gameStatus.objective },
     })
@@ -155,6 +156,10 @@ function updateCoins(coins) {
     gsap.to(coinMeter.querySelector('#gauge'), {
         attr: { width: (220 * gameStatus.coins) / gameStatus.maxCoins },
     })
+}
+
+function updateLF(length) {
+    gameStatus.LF[Math.floor((length - 0.6) * 20)]++
 }
 
 function endYear() {
