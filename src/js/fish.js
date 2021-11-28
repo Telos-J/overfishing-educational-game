@@ -1,7 +1,7 @@
 import * as PIXI from 'pixi.js'
 import { gsap } from 'gsap'
 import { loader } from './assets'
-import { status, updateCaughtFish, updateCoins } from './game'
+import { gameStatus, updateCaughtFish, updateCoins } from './game'
 import { add, sub, magnitude, scale, normalize } from './vector'
 import { app } from './app'
 
@@ -150,12 +150,14 @@ class Fish extends PIXI.Sprite {
 
     explore() {
         if (!this.exploring && Math.random() < this.explorationProb) {
+            this.ghost = true
             this.exploring = true
             this.exploration.set(-this.velocity.x, 0)
             setTimeout(() => {
+                this.ghost = false
                 this.exploring = false
                 this.exploration.set(0, 0)
-            }, 1000)
+            }, 2000)
         }
     }
 
@@ -262,7 +264,7 @@ class Fish extends PIXI.Sprite {
     collide(fishes) {
         for (const fish of fishes) {
             const vec = sub(this.position, fish.position)
-            if (fish !== this && !fish.ghost && magnitude(vec) < (this.height + fish.height) / 2) {
+            if (fish !== this && !fish.ghost && magnitude(vec) < (this.height + fish.height) / 3) {
                 this.position = add(this.position, normalize(vec, this.speed))
             }
         }
@@ -360,8 +362,8 @@ function collectFish(fish) {
                 onComplete: () => {
                     fish.parent.num--
                     fish.parent.removeChild(fish)
-                    updateCaughtFish(status.caughtFish + 1)
-                    updateCoins(status.coins + 2)
+                    updateCaughtFish(gameStatus.caughtFish + 1)
+                    updateCoins(gameStatus.coins + 2)
                 },
             })
         },

@@ -1,7 +1,7 @@
 import * as PIXI from 'pixi.js'
 import { gsap } from 'gsap'
 import { loader } from './assets'
-import { status } from './game'
+import { gameStatus } from './game'
 
 export default class Boat extends PIXI.Sprite {
     constructor() {
@@ -41,7 +41,7 @@ export default class Boat extends PIXI.Sprite {
 
     control() {
         const net = this.net
-        if (!status.fishing) {
+        if (!gameStatus.fishing) {
             this.netUp = true
             this.netDown = false
         }

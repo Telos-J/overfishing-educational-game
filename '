@@ -29,6 +29,7 @@ header {
     .icon {
         margin: 1rem 0rem 1rem 1rem;
         cursor: pointer;
+        z-index: -10;
         transition: transform 0.05s;
 
         &:active {
@@ -104,7 +105,7 @@ header {
 #curtain {
     position: absolute;
     display: flex;
-    width: 100vw;
+    width: 40rem;
     height: 40rem;
     border: 4px solid white;
     flex-direction: column;

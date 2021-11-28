@@ -15,13 +15,12 @@ class Schoolingfish extends Fish {
 }
 
 const schoolingfishes = new Species({
-    num: 0,
+    num: 100,
     r: 0.02,
     k: 100,
     name: 'schoolingfishes',
-    className: Schoolingfish
+    className: Schoolingfish,
 })
-
 
 function spawnSchoolingfishes(world) {
     for (let age = 0; age <= 10; age++) {

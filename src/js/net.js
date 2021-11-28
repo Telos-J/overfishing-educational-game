@@ -1,13 +1,13 @@
 import * as PIXI from 'pixi.js'
 import { cloneDeep } from 'lodash'
-import { status } from './game'
+import { gameStatus } from './game'
 
 export default class Net extends PIXI.Container {
     constructor() {
         super()
-        this.size = status.netSize
+        this.size = gameStatus.netSize
         this.meshSize = 15
-        this.speed = status.netSpeed
+        this.speed = gameStatus.netSpeed
         this.cost = 100
         this.fishes = []
         this.buildNet()
@@ -45,7 +45,7 @@ export default class Net extends PIXI.Container {
         const boat = this.parent
         const world = boat.parent
         this.shadow = cloneDeep(this)
-        this.alpha = 0
+        this.alpha = 0.5
         this.shadow.zIndex = 10
         this.shadow.mask = world.boundary
         world.addChild(this.shadow)
@@ -178,8 +178,8 @@ export default class Net extends PIXI.Container {
     }
 
     reset() {
-        this.size = status.netSize
-        this.speed = status.netSpeed
+        this.size = gameStatus.netSize
+        this.speed = gameStatus.netSpeed
         this.fishes = []
         this.colorNet(0x135c77)
         this.resize()

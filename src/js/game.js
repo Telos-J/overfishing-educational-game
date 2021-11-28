@@ -1,47 +1,60 @@
 import { gsap } from 'gsap'
-import { MotionPathPlugin } from 'gsap/MotionPathPlugin'
 import { resetFishes, controlFishes } from './fish'
-import { schoolingfishes } from './schoolingfish'
-import { jellyfishes } from './jellyfish'
-import { turtles } from './turtle'
 import { app } from './app'
-
-gsap.registerPlugin(MotionPathPlugin)
-
-const menu = document.querySelector('#hamburger-menu'),
-    chartIcon = document.querySelector('#chart-icon'),
-    drawer = document.querySelector('#drawer'),
-    curtain = document.querySelector('#curtain'),
-    resumeButton = document.querySelector('#resume-button'),
-    resetButton = document.querySelector('#reset-button'),
-    nextLevelButton = document.querySelector('#next-level-button'),
-    shopButton = document.querySelector('#shop-button'),
-    closeButton = document.querySelector('#close-button'),
-    nextYearButton = document.querySelector('#next-year-button'),
-    upgradeSizeButton = document.querySelector('#upgrade-size-button'),
-    upgradeSpeedButton = document.querySelector('#upgrade-speed-button'),
-    message = document.querySelector('#message'),
-    shop = document.querySelector('#shop')
+import { openCurtain } from './curtain'
+import { updateChart } from './chart'
+import { addFishes } from './fish'
+import { schoolingfishes, spawnSchoolingfishes } from './schoolingfish'
+import { jellyfishes, spawnJellyfishes } from './jellyfish'
+import { turtles, spawnTurtles } from './turtle'
+import { setupChart } from './chart'
+import World from './world'
+import Boat from './boat'
+import Net from './net'
 
 let level = 1
-const levels = [
-    {catchGoal: 40}, 
-    {catchGoal: 60},
-    {catchGoal: 80},
-    {catchGoal: 100},
-]
+const levels = [{ catchGoal: 40 }, { catchGoal: 60 }, { catchGoal: 80 }, { catchGoal: 100 }]
 
-const status = {
-    time: 20,
+const gameStatus = {
+    time: 10,
     caughtFish: 0,
-    coins: 0,
+    coins: 100,
     maxTime: 60,
     objective: levels[level - 1].catchGoal,
     maxCoins: 200,
     prevCoins: 0,
     netSize: 6,
     netSpeed: 2,
-    fishing:true
+    fishing: true,
+}
+
+function startGame() {
+    const world = new World()
+    app.stage.addChild(world)
+
+    const boat = new Boat()
+    boat.name = 'boat'
+    boat.dispatch(world)
+
+    const net = new Net()
+    boat.addNet(net)
+
+    spawnSchoolingfishes(world)
+    spawnJellyfishes(world)
+    spawnTurtles(world)
+
+    addControls()
+    updateCaughtFish()
+    updateCoins()
+    setupChart()
+    app.ticker.add(gameLoop)
+    setInterval(() => {
+        if (gameStatus.fishing) {
+            addFishes(schoolingfishes)
+            addFishes(jellyfishes)
+            addFishes(turtles)
+        }
+    }, 1000)
 }
 
 function gameLoop(deltaTime) {
@@ -63,17 +76,12 @@ function reset() {
     const boat = world.getChildByName('boat')
     const net = boat.net
 
-
     world.y = 0
     net.reset()
     resetFishes(schoolingfishes)
     resetFishes(jellyfishes)
     resetStatus()
 
-    message.style.display = 'none'
-    resumeButton.style.display = 'block'
-    resetButton.style.display = 'block'
-    nextLevelButton.style.display = 'none'
     upgradeSizeButton.querySelector('#capacity').innerHTML = net.capacity
     upgradeSizeButton.querySelector('#cost #value').innerHTML = net.cost * 2 ** (net.size - 6)
     upgradeSpeedButton.querySelector('#speed').innerHTML = net.speed
@@ -109,12 +117,12 @@ function addControls() {
 }
 
 function updateTime(time) {
-    if (!time) status.time -= 1 / 60
-    else status.time = time
+    if (!time) gameStatus.time -= 1 / 60
+    else gameStatus.time = time
 
-    if (status.time < 0) status.time = 0
-    let minutes = Math.floor(status.time / 60)
-    let seconds = Math.round(status.time - 60 * minutes)
+    if (gameStatus.time < 0) gameStatus.time = 0
+    let minutes = Math.floor(gameStatus.time / 60)
+    let seconds = Math.round(gameStatus.time - 60 * minutes)
 
     minutes = minutes < 10 ? '0' + minutes : minutes
     seconds = seconds < 10 ? '0' + seconds : seconds
@@ -122,30 +130,30 @@ function updateTime(time) {
     const timeMeter = document.querySelector('#time-meter').contentDocument
     timeMeter.querySelector('#time').innerHTML = `${minutes}: ${seconds}`
     gsap.to(timeMeter.querySelector('#gauge'), {
-        attr: { width: (220 * status.time) / status.maxTime },
+        attr: { width: (220 * gameStatus.time) / gameStatus.maxTime },
     })
 
-    if (status.time === 0) endYear()
+    if (gameStatus.time === 0 && gameStatus.fishing) endYear()
 }
 
 function updateCaughtFish(caughtFish) {
-    if (caughtFish) status.caughtFish = caughtFish
+    if (caughtFish) gameStatus.caughtFish = caughtFish
     const fishMeter = document.querySelector('#fish-meter').contentDocument
-    fishMeter.querySelector('#caught').innerHTML = `${status.caughtFish}/${status.objective}`
+    fishMeter.querySelector(
+        '#caught'
+    ).innerHTML = `${gameStatus.caughtFish}/${gameStatus.objective}`
     gsap.to(fishMeter.querySelector('#gauge'), {
-        attr: { width: (220 * status.caughtFish) / status.objective },
+        attr: { width: (220 * gameStatus.caughtFish) / gameStatus.objective },
     })
-
-    //if (status.caughtFish === status.objective) showObjective(levels[level][0], levels[level][1])
 }
 
 function updateCoins(coins) {
-    if (coins > status.maxCoins) return
-    if (coins) status.coins = coins
+    if (coins > gameStatus.maxCoins) return
+    if (coins) gameStatus.coins = coins
     const coinMeter = document.querySelector('#coin-meter').contentDocument
-    coinMeter.querySelector('#coin').innerHTML = `${status.coins}/${status.maxCoins}`
+    coinMeter.querySelector('#coin').innerHTML = `${gameStatus.coins}/${gameStatus.maxCoins}`
     gsap.to(coinMeter.querySelector('#gauge'), {
-        attr: { width: (220 * status.coins) / status.maxCoins },
+        attr: { width: (220 * gameStatus.coins) / gameStatus.maxCoins },
     })
 }
 
@@ -154,297 +162,50 @@ function endYear() {
     const boat = world.getChildByName('boat')
     const net = boat.net
 
-    status.fishing = false
+    gameStatus.fishing = false
 
-    gsap.to(world, { y: 0, duration: 1})
+    gsap.to(world, { y: 0, duration: 1 })
     gsap.to(net, {
         y: net.offset.y,
         duration: 1,
         onComplete: () => {
             openCurtain()
-            gsap.to(boat, { x: world.width + boat.width, duration: 3 })
+            //gsap.to(boat, { x: world.width + boat.width, duration: 3 })
         },
     })
+}
+
+function nextYear() {
+    const world = app.stage.getChildByName('world')
+    const boat = world.getChildByName('boat', true)
+    const net = boat.net
+    gameStatus.fishing = true
+    gameStatus.time = gameStatus.maxTime
+    gameStatus.caughtFish = 0
+    gameStatus.objective = levels[level].catchGoal
+    gameStatus.prevCoins = gameStatus.coins
+    gameStatus.netSize = net.size
+    gameStatus.netSpeed = net.speed
+    net.reset()
+    updateTime(gameStatus.maxTime)
+    updateCaughtFish(0)
+    if (level < levels.length) level++
 }
 
 function resetStatus() {
-    updateTime(status.maxTime)
+    updateTime(gameStatus.maxTime)
     updateCaughtFish(0)
-    updateCoins(status.prevCoins)
+    updateCoins(gameStatus.prevCoins)
 }
-
-function openDrawer() {
-    gsap.to(drawer, { x: 0, display: 'flex', duration: 0.2 })
-    app.ticker.stop()
-    app.view.classList.add('inactive')
-}
-
-function closeDrawer() {
-    const style = getComputedStyle(drawer)
-    gsap.to(drawer, { x: `-${style.getPropertyValue('width')}`, display: 'none', duration: 0.2 })
-    app.ticker.start()
-    app.view.classList.remove('inactive')
-}
-
-function openCurtain() {
-    gsap.to(curtain, { y: 0, duration: 0.2 })
-}
-
-function closeCurtain() {
-    const style = getComputedStyle(curtain)
-    gsap.to(curtain, { y: `-${style.getPropertyValue('height')}`, duration: 0.2 })
-}
-
-function showObjective(objective, time) {
-    const minutes = Math.floor(time / 60)
-    const seconds = Math.round(time - 60 * minutes)
-
-    nextLevelButton.style.display = 'block'
-    shopButton.style.display = 'block'
-    message.style.display = 'block'
-    message.querySelector('#phrase').innerHTML = 'Good Job!'
-    message.querySelector('#content').innerHTML = `Catch ${objective} fish in ${minutes} minutes`
-    if (parseInt(seconds) > 0) message.querySelector('#content').innerHTML += ` ${seconds} seconds`
-
-    openDrawer()
-}
-
-function gameOver() {
-    resumeButton.style.display = 'none'
-    nextLevelButton.style.display = 'none'
-    message.style.display = 'block'
-    message.querySelector('#phrase').innerHTML = 'Game Over'
-    message.querySelector('#objective').style.display = 'none'
-
-    openDrawer()
-}
-
-function handleClickAnimation(button, callback) {
-    const span = button.querySelector('span')
-    if (span.classList.contains('running')) return
-
-    animateButton(span)
-    window.setTimeout(() => {
-        animateButton(span)
-        callback()
-    }, 1000)
-}
-
-function handleErrorAnimation(button, callback) {
-    const span = button.querySelector('span')
-    if (span.classList.contains('running')) return
-
-    animateError(span, button)
-    window.setTimeout(() => {
-        animateError(span, button)
-        callback()
-    }, 1000)
-}
-
-function animateButton(span) {
-    const text = span.dataset.text
-    span.dataset.text = span.innerHTML
-    span.innerHTML = text
-    span.classList.contains('running')
-        ? span.classList.remove('running')
-        : span.classList.add('running')
-}
-
-function animateError(span, button) {
-    const text = span.dataset.error
-    span.dataset.error = span.innerHTML
-    span.innerHTML = text
-    span.classList.contains('running')
-        ? span.classList.remove('running')
-        : span.classList.add('running')
-    button.classList.contains('error')
-        ? button.classList.remove('error')
-        : button.classList.add('error')
-}
-
-function goToNextLevel() {
-    const world = app.stage.getChildByName('world')
-    const boat = world.getChildByName('boat', true)
-    const net = boat.getChildByName('net')
-
-    status.time = status.maxTime
-    status.caughtFish = 0
-    status.objective = levels[level].catchGoal
-    status.prevCoins = status.coins
-    status.netSize = net.size
-    status.netSpeed = net.speed
-
-    world.y = 0
-    net.y = boat.y
-    resetFishes(schoolingfishes)
-    resetFishes(jellyfishes)
-    updateTime(status.maxTime)
-    updateCaughtFish(0)
-    if (level < levels.length) level++
-
-    message.style.display = 'none'
-    resumeButton.style.display = 'block'
-    resetButton.style.display = 'block'
-    nextLevelButton.style.display = 'none'
-}
-
-const chartTimeline = gsap.timeline()
-
-function setupChart() {
-    const graph = document.querySelector('#graph')
-    const curve = graph.querySelector('#population-curve')
-    const pointer = graph.querySelector('#pointer')
-    chartTimeline.to(pointer, {
-        duration: 2,
-        ease: 'none',
-        motionPath: {
-            path: curve,
-            align: curve,
-            alignOrigin: [0.08, 0.6],
-            start: 1,
-            end: 0,
-        },
-    })
-}
-
-function updateChart() {
-    const graph = document.querySelector('#graph')
-    const harvest = graph.querySelector('#harvest')
-    const harvestRate = harvest.querySelector('#harvest-rate')
-    const numFish = graph.querySelector('#numFish')
-
-    let caughtPerSec = status.caughtFish / (status.maxTime - status.time)
-    caughtPerSec = Math.round(caughtPerSec * 100) / 100
-
-    harvestRate.innerHTML = caughtPerSec
-    let y = -244 * caughtPerSec + 3
-    if (y < -180) y = -180
-    gsap.set(harvest, { y })
-
-    numFish.innerHTML = schoolingfishes.children.length
-    console.log(numFish.innerHTML)
-    chartTimeline.progress(schoolingfishes.children.length / schoolingfishes.k)
-}
-
-function upgradeNet() {
-    const world = app.stage.getChildByName('world')
-    const net = world.getChildByName('net', true)
-    net.size += 1
-    net.resize()
-}
-
-function upgradeSpeed() {
-    const world = app.stage.getChildByName('world')
-    const net = world.getChildByName('net', true)
-    net.speed += 5
-}
-
-menu.addEventListener('click', () => {
-    if (gsap.isTweening(drawer)) return
-
-    const style = getComputedStyle(drawer)
-    if (style.getPropertyValue('display') === 'none') openDrawer()
-})
-
-chartIcon.addEventListener('click', () => {
-    if (gsap.isTweening(curtain)) return
-    if (curtain.getBoundingClientRect().top < 0) openCurtain()
-    else closeCurtain()
-})
-
-resumeButton.addEventListener('click', () => {
-    closeDrawer()
-})
-
-resetButton.addEventListener('click', () => {
-    handleClickAnimation(resetButton, () => {
-        reset()
-        closeDrawer()
-    })
-})
-
-nextLevelButton.addEventListener('click', () => {
-    handleClickAnimation(nextLevelButton, () => {
-        goToNextLevel()
-        closeDrawer()
-    })
-})
-
-shopButton.addEventListener('click', () => {
-    handleClickAnimation(shopButton, () => {
-        shop.classList.add('opened')
-        closeDrawer()
-        app.ticker.stop()
-    })
-})
-
-closeButton.addEventListener('click', () => {
-    shop.classList.remove('opened')
-    app.ticker.start()
-})
-
-upgradeSizeButton.addEventListener('click', () => {
-    const world = app.stage.getChildByName('world')
-    const net = world.getChildByName('net', true)
-    if (status.coins >= net.cost * 2 ** (net.size - 6)) {
-        status.coins -= net.cost * 2 ** (net.size - 7)
-        handleClickAnimation(upgradeSizeButton, () => {
-            upgradeNet()
-            upgradeSizeButton.querySelector('#capacity').innerHTML = net.capacity
-            upgradeSizeButton.querySelector('#cost #value').innerHTML =
-                net.cost * 2 ** (net.size - 6)
-            updateCoins(status.coins)
-        })
-    } else {
-        handleErrorAnimation(upgradeSizeButton, () => {})
-    }
-})
-
-upgradeSpeedButton.addEventListener('click', () => {
-    const world = app.stage.getChildByName('world')
-    const net = world.getChildByName('net', true)
-    if (status.coins >= net.cost * 2 ** ((net.speed - 15) / 5)) {
-        status.coins -= net.cost * 2 ** ((net.speed - 20) / 5)
-        handleClickAnimation(upgradeSpeedButton, () => {
-            upgradeSpeed()
-            upgradeSpeedButton.querySelector('#speed').innerHTML = net.speed
-            upgradeSpeedButton.querySelector('#cost #value').innerHTML =
-                net.cost * 2 ** ((net.speed - 20) / 5)
-            updateCoins(status.coins)
-        })
-    } else {
-        handleErrorAnimation(upgradeSpeedButton, () => {})
-    }
-})
-
-nextYearButton.addEventListener('click', () => {
-    handleClickAnimation(nextYearButton, () => {
-        closeCurtain()
-        const world = app.stage.getChildByName('world')
-        const boat = world.getChildByName('boat', true)
-        const net = boat.net
-        status.fishing = true
-        status.time = status.maxTime
-        status.caughtFish = 0
-        status.objective = levels[level].catchGoal
-        status.prevCoins = status.coins
-        status.netSize = net.size
-        status.netSpeed = net.speed
-        net.reset()
-        updateTime(status.maxTime)
-        updateCaughtFish(0)
-        if (level < levels.length) level++
-    })
-})
 
 export {
+    startGame,
     gameLoop,
     addControls,
-    status,
+    gameStatus,
     updateCaughtFish,
     updateCoins,
-    setupChart,
-    updateChart,
     reset,
     resetStatus,
+    nextYear,
 }
