@@ -1,6 +1,6 @@
 import { gsap } from 'gsap'
 import { MotionPathPlugin } from 'gsap/MotionPathPlugin'
-import { gameStatus } from './game'
+import { gameStatus } from './gameStatus'
 import { schoolingfishes } from './schoolingfish'
 
 gsap.registerPlugin(MotionPathPlugin)

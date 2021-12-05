@@ -1,6 +1,6 @@
 import * as PIXI from 'pixi.js'
 import { cloneDeep } from 'lodash'
-import { gameStatus } from './game'
+import { gameStatus } from './gameStatus'
 
 export default class Net extends PIXI.Container {
     constructor() {

@@ -1,6 +1,6 @@
 import { app } from './app'
 import { handleClickAnimation, handleErrorAnimation } from './button'
-import { gameStatus } from './game'
+import { gameStatus } from './gameStatus'
 import { closeDrawer } from './drawer'
 import { updateCoins } from './game'
 

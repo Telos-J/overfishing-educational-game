@@ -1,7 +1,7 @@
 import * as PIXI from 'pixi.js'
 import { gsap } from 'gsap'
 import { loader } from './assets'
-import { gameStatus, updateCaughtFish, updateCoins } from './game'
+import { gameStatus, updateCaughtFish, updateCoins } from './gameStatus'
 import { add, sub, magnitude, scale, normalize } from './vector'
 import { updateLF } from './lengthFrequencyChart'
 import { app } from './app'
@@ -15,6 +15,7 @@ class Fish extends PIXI.Sprite {
         this.rotation = (Math.random() * Math.PI) / 3 - Math.PI / 6
         if (!canRotate) this.rotation = 0
         else if (Math.random() < 0.5) this.rotation += Math.PI
+        this.maxSpeed = speed
         this.speed = speed
         this.velocity = new PIXI.Point(
             this.speed * Math.cos(this.rotation),
@@ -284,6 +285,7 @@ class Fish extends PIXI.Sprite {
         const mask = net.getChildByName('mask')
 
         if (
+            gameStatus.fishing &&
             net.getNetSpace() >= this.space &&
             !this.caught &&
             mask.containsPoint(this.getGlobalPosition())
@@ -295,6 +297,17 @@ class Fish extends PIXI.Sprite {
             net.fishes.push(this)
             if (!net.getNetSpace()) net.colorNet(0xdd636e)
         }
+    }
+
+    release() {
+        const boat = this.world.getChildByName('boat', true)
+        const net = boat.net
+        net.fishes = net.fishes.filter(fish => fish !== this)
+
+        this.caught = false
+        this.seperateBoundConstant = 0.15
+        this.seperationNetConstant = 0.05
+        this.speed = this.maxSpeed
     }
 }
 
@@ -382,7 +395,13 @@ function addFishes(fishes) {
     if (fishes.num < fishes.children.length) {
         for (let i = 0; i < Math.floor(fishes.children.length - fishes.num); i++) {
             const fish = fishes.children.pop()
-            fishes.removeChild(fish)
+            gsap.to(fish, {
+                rotation: 0,
+                scaleY: -Math.abs(fish.scale.y),
+                onComplete: () => {
+                    fishes.removeChild(fish)
+                },
+            })
         }
     } else {
         for (let i = 0; i < Math.floor(fishes.num - fishes.children.length); i++) {

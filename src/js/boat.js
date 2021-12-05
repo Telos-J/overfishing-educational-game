@@ -1,7 +1,6 @@
 import * as PIXI from 'pixi.js'
 import { gsap } from 'gsap'
 import { loader } from './assets'
-import { gameStatus } from './game'
 
 export default class Boat extends PIXI.Sprite {
     constructor() {
@@ -14,11 +13,18 @@ export default class Boat extends PIXI.Sprite {
     }
 
     dispatch(world) {
-        //this.position.set(world.width / 2, world.horizon)
-        this.position.set(-this.width, world.horizon)
         this.mask = world.boundary
-        gsap.to(this, { x: world.width / 2, duration: 3 })
+        this.enter(world)
         world.addChild(this)
+    }
+
+    enter(world) {
+        this.position.set(-this.width, world.horizon)
+        gsap.to(this, { x: world.width / 2, duration: 3 })
+    }
+
+    leave(world) {
+        gsap.to(this, { x: world.width + this.width, duration: 3 })
     }
 
     animate() {

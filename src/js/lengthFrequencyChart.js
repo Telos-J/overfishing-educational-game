@@ -1,5 +1,5 @@
 import { gsap } from 'gsap'
-import { gameStatus } from './game'
+import { gameStatus } from './gameStatus'
 
 const LF = document.querySelector('#length-frequency-distribution')
 const curtain = document.querySelector('#curtain')
