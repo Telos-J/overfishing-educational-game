@@ -7,7 +7,7 @@ gsap.registerPlugin(MotionPathPlugin)
 
 const chartTimeline = gsap.timeline({ paused: true })
 
-function setupChart() {
+function setupPopulationGraph() {
     const populationGraph = document.querySelector('#population-graph')
     const curve = populationGraph.querySelector('#population-curve')
     const pointer = populationGraph.querySelector('#pointer')
@@ -24,7 +24,7 @@ function setupChart() {
     })
 }
 
-function updateChart() {
+function updatePopulationGraph() {
     const populationGraph = document.querySelector('#population-graph')
     const harvest = populationGraph.querySelector('#harvest')
     const harvestRate = harvest.querySelector('#harvest-rate')
@@ -42,4 +42,4 @@ function updateChart() {
     chartTimeline.progress(schoolingfishes.children.length / schoolingfishes.k)
 }
 
-export { setupChart, updateChart }
+export { setupPopulationGraph, updatePopulationGraph }

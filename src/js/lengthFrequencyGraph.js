@@ -5,7 +5,7 @@ const LF = document.querySelector('#length-frequency-distribution')
 const curtain = document.querySelector('#curtain')
 
 function updateLF(length) {
-    gameStatus.LF[Math.floor((length - 0.6) * 20)]++
+    gameStatus.LF[Math.floor((length - 60) * 0.2)]++
     if (curtain.classList.contains('open')) animateLF()
 }
 

@@ -5,7 +5,7 @@ const levels = [{ catchGoal: 40 }, { catchGoal: 60 }, { catchGoal: 80 }, { catch
 
 const gameStatus = {
     level: 1,
-    time: 10,
+    time: 60,
     biomass: 0,
     coins: 100,
     maxTime: 60,

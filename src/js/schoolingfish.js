@@ -8,11 +8,13 @@ class Schoolingfish extends Fish {
         this.texture = loader.resources.fish.texture
         this.anchor.set(0.5)
         this.age = age
-        this.scale.set(1.2 * (1 - Math.exp(-0.316 * age - 0.707)))
+        this.scale.set(1.2 * (1 - Math.exp(-0.316 * (age + Math.random()) - 0.707)))
+        if (this.scale.x > 1.2) this.scale.set(1.2)
         this.biomass = this.scale.x
-        this.length = this.scale.x
+        this.length = this.scale.x * 100
         this.makeNeighborhood(this.width * 3)
         this.desired = true
+        console.log(this.scale.x)
     }
 }
 

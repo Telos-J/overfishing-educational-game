@@ -2,12 +2,11 @@ import { gsap } from 'gsap'
 import { resetFishes, controlFishes } from './fish'
 import { app } from './app'
 import { openCurtain } from './curtain'
-import { updateChart } from './chart'
 import { addFishes } from './fish'
+import { setupPopulationGraph, updatePopulationGraph } from './populationGraph'
 import { schoolingfishes, spawnSchoolingfishes } from './schoolingfish'
 import { jellyfishes, spawnJellyfishes } from './jellyfish'
 import { turtles, spawnTurtles } from './turtle'
-import { setupChart } from './chart'
 import { addControls } from './controls'
 import {
     levels,
@@ -20,6 +19,7 @@ import {
 import World from './world'
 import Boat from './boat'
 import Net from './net'
+import { updateAgeLengthKey } from './ageLengthKey'
 
 function startGame() {
     const world = new World()
@@ -36,10 +36,12 @@ function startGame() {
     //spawnJellyfishes(world)
     //spawnTurtles(world)
 
+    updateAgeLengthKey()
+
     addControls(app)
     updateCaughtFish()
     updateCoins()
-    setupChart()
+    setupPopulationGraph()
     app.ticker.add(gameLoop)
     setInterval(() => {
         if (gameStatus.fishing) {
@@ -60,7 +62,7 @@ function gameLoop(deltaTime) {
     controlFishes(jellyfishes, deltaTime)
     controlFishes(turtles, deltaTime)
     net.update()
-    updateChart()
+    updatePopulationGraph()
     world.moveCamera()
 }
 

@@ -3,7 +3,7 @@ import { gsap } from 'gsap'
 import { loader } from './assets'
 import { gameStatus, updateCaughtFish, updateCoins } from './gameStatus'
 import { add, sub, magnitude, scale, normalize } from './vector'
-import { updateLF } from './lengthFrequencyChart'
+import { updateLF } from './lengthFrequencyGraph'
 import { app } from './app'
 
 class Fish extends PIXI.Sprite {

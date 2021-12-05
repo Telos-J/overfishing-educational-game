@@ -2,7 +2,7 @@ import { app } from './app'
 import { handleClickAnimation } from './button'
 import { closeDrawer } from './drawer'
 import { nextYear } from './game'
-import { animateLF } from './lengthFrequencyChart'
+import { animateLF } from './lengthFrequencyGraph'
 
 const curtain = document.querySelector('#curtain')
 const nextYearButton = document.querySelector('#next-year-button')
