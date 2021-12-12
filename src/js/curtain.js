@@ -3,6 +3,8 @@ import { handleClickAnimation } from './button'
 import { closeDrawer } from './drawer'
 import { nextYear } from './game'
 import { animateLF } from './lengthFrequencyGraph'
+import { updateAgeLengthKey } from './ageLengthKey'
+import { updateAF } from './ageFrequencyGraph'
 
 const curtain = document.querySelector('#curtain')
 const nextYearButton = document.querySelector('#next-year-button')
@@ -15,6 +17,8 @@ function openCurtain() {
     app.ticker.stop()
     app.view.classList.add('inactive')
     animateLF()
+    updateAgeLengthKey()
+    updateAF()
 }
 
 function closeCurtain() {

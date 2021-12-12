@@ -131,21 +131,33 @@ header {
         height: 30rem;
         grid-template-columns: 1fr 1fr;
         grid-template-rows: 1fr 1fr;
-        justify-items: center;
+        place-items: center;
 
         #population-graph {
             width: 20rem;
-            grid-column: 1 / 3;
+            grid-column: 1 / 2;
+            grid-row: 2 / 3;
             user-select: none;
         }
 
         #length-frequency-distribution {
             width: 20rem;
+            grid-column: 1 / 2;
+            grid-row: 1 / 2;
             user-select: none;
         }
 
         #age-length-key {
             width: 30rem;
+            grid-column: 2 / 3;
+            grid-row: 2 / 3;
+            user-select: none;
+        }
+
+        #age-frequency-distribution {
+            width: 20rem;
+            grid-column: 2 / 3;
+            grid-row: 1 / 2;
             user-select: none;
         }
     }

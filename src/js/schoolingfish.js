@@ -14,7 +14,6 @@ class Schoolingfish extends Fish {
         this.length = this.scale.x * 100
         this.makeNeighborhood(this.width * 3)
         this.desired = true
-        console.log(this.scale.x)
     }
 }
 

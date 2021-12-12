@@ -16,6 +16,7 @@ const gameStatus = {
     netSpeed: 2,
     fishing: true,
     LF: new Array(13).fill(0),
+    AF: new Array(11).fill(0),
 }
 
 function updateTime(time) {

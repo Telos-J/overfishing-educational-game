@@ -181,6 +181,7 @@ export default class Net extends PIXI.Container {
         this.size = gameStatus.netSize
         this.speed = gameStatus.netSpeed
         this.fishes = []
+        this.position.set(-this.size * this.meshSize + this.offset.x, this.offset.y)
         this.colorNet(0x135c77)
         this.resize()
     }

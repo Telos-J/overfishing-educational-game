@@ -19,7 +19,6 @@ import {
 import World from './world'
 import Boat from './boat'
 import Net from './net'
-import { updateAgeLengthKey } from './ageLengthKey'
 
 function startGame() {
     const world = new World()
@@ -35,8 +34,6 @@ function startGame() {
     spawnSchoolingfishes(world)
     //spawnJellyfishes(world)
     //spawnTurtles(world)
-
-    updateAgeLengthKey()
 
     addControls(app)
     updateCaughtFish()
@@ -120,6 +117,7 @@ function nextYear() {
     updateTime(gameStatus.maxTime)
     updateCaughtFish(0)
     boat.enter(world)
+    boat.net.reset()
     if (gameStatus.level < levels.length) gameStatus.level++
 }
 
