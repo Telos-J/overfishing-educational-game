@@ -42,7 +42,7 @@ function startGame() {
     app.ticker.add(gameLoop)
     setInterval(() => {
         if (gameStatus.fishing) {
-            addFishes(schoolingfishes)
+            //addFishes(schoolingfishes)
             //addFishes(jellyfishes)
             //addFishes(turtles)
         }
@@ -118,6 +118,7 @@ function nextYear() {
     updateCaughtFish(0)
     boat.enter(world)
     boat.net.reset()
+    addFishes(schoolingfishes)
     if (gameStatus.level < levels.length) gameStatus.level++
 }
 

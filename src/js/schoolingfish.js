@@ -15,11 +15,19 @@ class Schoolingfish extends Fish {
         this.makeNeighborhood(this.width * 3)
         this.desired = true
     }
+
+    grow() {
+        this.age++
+        this.scale.set(1.2 * (1 - Math.exp(-0.316 * (this.age + Math.random()) - 0.707)))
+        if (this.scale.x > 1.2) this.scale.set(1.2)
+        this.biomass = this.scale.x
+        this.length = this.scale.x * 100
+    }
 }
 
 const schoolingfishes = new Species({
     num: 0,
-    r: 0.02,
+    r: 0.5,
     k: 100,
     name: 'schoolingfishes',
     className: Schoolingfish,

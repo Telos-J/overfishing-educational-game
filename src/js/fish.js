@@ -382,27 +382,53 @@ function addFishes(fishes) {
     const world = fishes.parent
     const boundary = world.boundary
 
-    fishes.num += fishes.r * fishes.num * (1 - fishes.num / fishes.k)
+    let numFishes = 0
+    for (const fish of fishes.children) {
+        if (fish.age > 2) numFishes++
+    }
 
-    fishes.children = fishes.children.sort((fish1, fish2) => fish1.age > fish2.age)
-    if (fishes.num < fishes.children.length) {
-        for (let i = 0; i < Math.floor(fishes.children.length - fishes.num); i++) {
-            const fish = fishes.children.pop()
-            gsap.to(fish, {
-                rotation: 0,
-                scaleY: -Math.abs(fish.scale.y),
-                onComplete: () => {
-                    fishes.removeChild(fish)
-                },
-            })
+    for (const fish of fishes.children) {
+        fish.grow()
+    }
+
+    const newRecruits = Math.floor(fishes.r * numFishes)
+
+    for (let i = 0; i < newRecruits; i++) {
+        const fish = new fishes.className(0)
+        fishes.num++
+        fish.dispatch(world)
+        fish.x = boundary.width + fish.width / 2
+        fishes.addChild(fish)
+    }
+
+    const deadFish = []
+    for (const fish of fishes.children) {
+        if (fish.age > 10) {
+            deadFish.push(fish)
         }
-    } else {
-        for (let i = 0; i < Math.floor(fishes.num - fishes.children.length); i++) {
-            const fish = new fishes.className(0)
-            fish.dispatch(world)
-            fish.x = boundary.width + fish.width / 2
-            fishes.addChild(fish)
-        }
+    }
+
+    for (const fish of deadFish) {
+        fishes.num--
+        fishes.removeChild(fish)
+    }
+
+    const mortality = fishes.children.length - fishes.k
+
+    deadFish.length = 0
+    for (let i = 0; i < mortality; i++) {
+        let fish
+        do {
+            const idx = Math.floor(Math.random() * fishes.children.length)
+            fish = fishes.children[idx]
+        } while (fish.age === 0 || deadFish.includes(fish))
+
+        deadFish.push(fish)
+    }
+
+    for (const fish of deadFish) {
+        fishes.num--
+        fishes.removeChild(fish)
     }
 }
 
