@@ -4,7 +4,7 @@
 </clipPath>
 <rect id="container" x="10" y="12" width="220" height="20" rx="10" fill="#C4C4C4" stroke="white" stroke-width="2" stroke-location="outside"/>
 <rect id="gauge" clip-path="url(#mask)" x="10" y="12" width="220" height="20" rx="10" fill="#DD636E"/>
-<text id="time" x="55%" y="50%" fill="white" font-family="Josefin Sans" font-size="12" dominant-baseline="middle" text-anchor="middle">01:30</text>
+<text id="time" x="55%" y="50%" fill="white" font-family="Josefin Sans" font-size="12" dominant-baseline="middle" text-anchor="middle"></text>
 <circle cx="22" cy="22" r="21.5" fill="#F8BD33" stroke="white"/>
 <circle cx="22" cy="22" r="19.75" stroke="#BD6E05" stroke-width="0.5"/>
 <path d="M16 22C19.1429 30 34.8571 30 38 22C34.8571 14 19.1429 14 16 22Z" fill="#BD6E05"/>
