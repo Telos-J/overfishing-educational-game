@@ -53,11 +53,14 @@ function updateCaughtFish(biomass) {
 function updateCoins(coins) {
     if (coins > gameStatus.maxCoins) return
     if (coins) gameStatus.coins = coins
+    if (coins <= 0) gameStatus.coins = 0 
     const coinMeter = document.querySelector('#coin-meter').contentDocument
-    coinMeter.querySelector('#coin').innerHTML = `${gameStatus.coins}/${gameStatus.maxCoins}`
+    coinMeter.querySelector('#coin').innerHTML = `${Math.floor(gameStatus.coins)}/${gameStatus.maxCoins}`
     gsap.to(coinMeter.querySelector('#gauge'), {
         attr: { width: (220 * gameStatus.coins) / gameStatus.maxCoins },
     })
+
+    if (gameStatus.coins === 0 && gameStatus.fishing) endYear()
 }
 
 function resetStatus() {

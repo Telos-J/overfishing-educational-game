@@ -54,10 +54,11 @@ function gameLoop(deltaTime) {
     const boat = world.getChildByName('boat', true)
     const net = boat.net
     updateTime()
+    updateCoins(gameStatus.coins - 1 / 60)
     boat.control()
     controlFishes(schoolingfishes, deltaTime)
-    controlFishes(jellyfishes, deltaTime)
-    controlFishes(turtles, deltaTime)
+    // controlFishes(jellyfishes, deltaTime)
+    // controlFishes(turtles, deltaTime)
     net.update()
     updatePopulationGraph()
     world.moveCamera()
