@@ -125,7 +125,7 @@ class Fish extends PIXI.Sprite {
         }
         this.seperateNet()
         this.level()
-        this.explore()
+        if (!this.caught) this.explore()
         this.velocity = add(
             this.velocity,
             normalize(this.seperationNet, this.seperationNetConstant),
@@ -321,6 +321,9 @@ function controlFishes(fishes, deltaTime) {
     for (const fish of fishes.children) {
         fish.move(deltaTime)
         fish.collideNet()
+        if (fish.caught && Math.random() < 0.1 * (1 - 1 / (1 + Math.E ** (13 - 0.2 * fish.length)))) {
+          fish.release()
+        }
         if (fish.caught && fish.position.y < world.horizon - 35)
             fish.desired ? collectFish(fish) : collectOtherFish(fish)
     }

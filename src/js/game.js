@@ -5,6 +5,9 @@ import { openCurtain } from './curtain'
 import { addFishes } from './fish'
 import { setupPopulationGraph, updatePopulationGraph } from './populationGraph'
 import { schoolingfishes, spawnSchoolingfishes } from './schoolingfish'
+import { updateAgeLengthKey } from './ageLengthKey'
+import { resetAF, animateAF } from './ageFrequencyGraph'
+import { animateLF } from './lengthFrequencyGraph'
 import { jellyfishes, spawnJellyfishes } from './jellyfish'
 import { turtles, spawnTurtles } from './turtle'
 import { addControls } from './controls'
@@ -47,6 +50,9 @@ function startGame() {
             //addFishes(turtles)
         }
     }, 1000)
+    
+    updateAgeLengthKey()
+    resetAF()
 }
 
 function gameLoop(deltaTime) {
@@ -121,6 +127,8 @@ function nextYear() {
     boat.net.reset()
     addFishes(schoolingfishes)
     if (gameStatus.level < levels.length) gameStatus.level++
+    animateLF()
+    // updateAgeLengthKey()
 }
 
 export { startGame, gameLoop, reset, nextYear, endYear }

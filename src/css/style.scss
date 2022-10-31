@@ -2,176 +2,78 @@
 
 html,
 body {
-    overflow: hidden;
+  overflow: hidden;
 }
 
 #sim {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
 
-    &.inactive {
-        filter: brightness(0.8);
-    }
+  &.inactive {
+    filter: brightness(0.8);
+  }
 }
 
 header {
+  display: flex;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 100%;
+  justify-content: space-between;
+  z-index: 10;
+
+  .icon {
+    margin: 1rem 0rem 1rem 1rem;
+    cursor: pointer;
+    transition: transform 0.05s;
+
+    &:active {
+      transform: scale(0.9);
+    }
+  }
+
+  #stats {
     display: flex;
-    position: absolute;
-    right: 0;
-    top: 0;
-    width: 100%;
+    width: 50%;
+    padding: 1rem;
     justify-content: space-between;
-    z-index: 10;
 
-    .icon {
-        margin: 1rem 0rem 1rem 1rem;
-        cursor: pointer;
-        transition: transform 0.05s;
-
-        &:active {
-            transform: scale(0.9);
-        }
+    * {
+      width: 30%;
     }
-
-    #stats {
-        display: flex;
-        width: 50%;
-        padding: 1rem;
-        justify-content: space-between;
-
-        * {
-            width: 30%;
-        }
-    }
+  }
 }
 
 #drawer {
-    display: flex;
-    position: absolute;
-    width: 25rem;
-    height: 100vh;
-    border: 4px solid white;
-    flex-direction: column;
-    padding: 4rem 2rem 2rem 2rem;
-    background: #49536a;
-    transform: translateX(-25rem);
-    align-items: center;
-    color: white;
-    font-family: 'Josefin Sans', sans-serif;
-    transition: transform 0.2s;
+  display: flex;
+  position: absolute;
+  width: 25rem;
+  height: 100vh;
+  border: 4px solid white;
+  flex-direction: column;
+  padding: 4rem 2rem 2rem 2rem;
+  background: #49536a;
+  transform: translateX(-25rem);
+  align-items: center;
+  color: white;
+  font-family: "Josefin Sans", sans-serif;
+  transition: transform 0.2s;
 
-    &.open {
-        transform: translateX(0);
-    }
+  &.open {
+    transform: translateX(0);
+  }
 
-    #message {
-        display: none;
-        text-align: center;
-        margin: 1rem 0;
-    }
+  #message {
+    display: none;
+    text-align: center;
+    margin: 1rem 0;
+  }
 
-    button {
-        cursor: pointer;
-        border: 2px solid white;
-        box-shadow: 5px 5px 0 0 white;
-        width: 20rem;
-        height: 4rem;
-        background: #49536a;
-        transition: transform 0.05s, box-shadow 0.05s;
-        margin: 1rem 0;
-        color: inherit;
-        font-family: inherit;
-        text-transform: uppercase;
-
-        &:active {
-            box-shadow: 1px 1px 0 0 white;
-            transform: translate(4px, 4px);
-        }
-
-        &#next-level-button {
-            display: none;
-        }
-
-        &#shop-button {
-            //display: none;
-        }
-
-        span.running {
-            animation: pulse-fade 0.125s linear alternate infinite;
-            font-style: italic;
-        }
-    }
-}
-
-#curtain {
-    position: absolute;
-    display: flex;
-    width: 100vw;
-    height: 44rem;
-    border: 4px solid white;
-    flex-direction: column;
-    padding: 4rem 2rem 1rem 2rem;
-    background: #49536a;
-    align-items: center;
-    color: white;
-    font-family: 'Josefin Sans', sans-serif;
-    transform: translateY(-44rem);
-    transition: transform 0.2s;
-
-    &.open {
-        transform: translateY(0);
-    }
-
-    #graphs {
-        display: grid;
-        width: 100%;
-        height: 30rem;
-        grid-template-columns: 1fr 1fr;
-        grid-template-rows: 1fr 1fr;
-        place-items: center;
-
-        #population-graph {
-            width: 20rem;
-            grid-column: 1 / 2;
-            grid-row: 2 / 3;
-            user-select: none;
-        }
-
-        #length-frequency-distribution {
-            width: 20rem;
-            grid-column: 1 / 2;
-            grid-row: 1 / 2;
-            user-select: none;
-        }
-
-        #age-length-key {
-            width: 30rem;
-            grid-column: 2 / 3;
-            grid-row: 2 / 3;
-            user-select: none;
-        }
-
-        #age-frequency-distribution {
-            width: 20rem;
-            grid-column: 2 / 3;
-            grid-row: 1 / 2;
-            user-select: none;
-        }
-    }
-
-    #buttons {
-        width: 100%;
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-}
-
-button {
+  button {
     cursor: pointer;
     border: 2px solid white;
     box-shadow: 5px 5px 0 0 white;
@@ -185,160 +87,259 @@ button {
     text-transform: uppercase;
 
     &:active {
-        box-shadow: 1px 1px 0 0 white;
-        transform: translate(4px, 4px);
+      box-shadow: 1px 1px 0 0 white;
+      transform: translate(4px, 4px);
     }
 
     &#next-level-button {
-        display: none;
+      display: none;
     }
 
     &#shop-button {
-        //display: none;
+      //display: none;
     }
 
     span.running {
-        animation: pulse-fade 0.125s linear alternate infinite;
-        font-style: italic;
+      animation: pulse-fade 0.125s linear alternate infinite;
+      font-style: italic;
     }
+  }
+}
+
+#curtain {
+  position: absolute;
+  display: flex;
+  width: 100vw;
+  height: 44rem;
+  border: 4px solid white;
+  flex-direction: column;
+  padding: 4rem 2rem 1rem 2rem;
+  background: #49536a;
+  align-items: center;
+  color: white;
+  font-family: "Josefin Sans", sans-serif;
+  transform: translateY(-44rem);
+  transition: transform 0.2s;
+
+  &.open {
+    transform: translateY(0);
+  }
+
+  #graphs {
+    display: grid;
+    width: 100%;
+    height: 30rem;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    place-items: center;
+
+    #population-graph {
+      width: 20rem;
+      grid-column: 1 / 2;
+      grid-row: 2 / 3;
+      user-select: none;
+    }
+
+    #length-frequency-distribution {
+      width: 20rem;
+      grid-column: 1 / 2;
+      grid-row: 1 / 2;
+      user-select: none;
+    }
+
+    #age-length-key {
+      width: 30rem;
+      grid-column: 2 / 3;
+      grid-row: 2 / 3;
+      user-select: none;
+    }
+
+    #age-frequency-distribution {
+      width: 20rem;
+      grid-column: 2 / 3;
+      grid-row: 1 / 2;
+      user-select: none;
+    }
+  }
+
+  #buttons {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    gap: 50px;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+button {
+  cursor: pointer;
+  border: 2px solid white;
+  box-shadow: 5px 5px 0 0 white;
+  width: 20rem;
+  height: 4rem;
+  background: #49536a;
+  transition: transform 0.05s, box-shadow 0.05s;
+  margin: 1rem 0;
+  color: inherit;
+  font-family: inherit;
+  text-transform: uppercase;
+
+  &:active {
+    box-shadow: 1px 1px 0 0 white;
+    transform: translate(4px, 4px);
+  }
+
+  &#next-level-button {
+    display: none;
+  }
+
+  &#shop-button {
+    //display: none;
+  }
+
+  span.running {
+    animation: pulse-fade 0.125s linear alternate infinite;
+    font-style: italic;
+  }
 }
 
 #shop {
-    display: flex;
-    position: absolute;
-    top: 0%;
+  display: flex;
+  position: absolute;
+  top: 0%;
+  left: 50%;
+  z-index: 10;
+  width: 60rem;
+  height: 30rem;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transform: translate(-50%, -100%);
+  background: rgba(256, 256, 256, 0.95);
+  transition: top 0.2s, transform 0.2s;
+
+  &.opened {
+    top: 50%;
     left: 50%;
-    z-index: 10;
-    width: 60rem;
-    height: 30rem;
-    flex-direction: column;
-    justify-content: center;
+    transform: translate(-50%, -50%);
+  }
+
+  #shop-header {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    height: 4rem;
+
+    #close-button {
+      padding: 1rem;
+      width: 4rem;
+      height: 4rem;
+      cursor: pointer;
+    }
+  }
+
+  #shop-main {
+    width: 100%;
+    height: calc(100% - 4rem);
+    display: flex;
     align-items: center;
-    transform: translate(-50%, -100%);
-    background: rgba(256, 256, 256, 0.95);
-    transition: top 0.2s, transform 0.2s;
+    justify-content: space-evenly;
+  }
 
-    &.opened {
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+  .item {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+    font-family: "Josefin Sans", sans-serif;
+
+    .item-img {
+      height: 10rem;
     }
 
-    #shop-header {
+    .item-name {
+      width: 60%;
+      height: 3rem;
+      line-height: 3rem;
+      text-align: center;
+      background: #49536a;
+      margin: 2rem 0 1rem 0;
+    }
+
+    .upgrade-button {
+      width: 60%;
+      border: 2px solid #f8bd33;
+      box-shadow: 5px 5px 0 0 #f8bd33;
+      height: 4rem;
+      display: flex;
+      cursor: pointer;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      line-height: 1rem;
+      text-align: center;
+      background: white;
+      transition: transform 0.05s, box-shadow 0.05s;
+      color: #f8bd33;
+      font-family: inherit;
+      text-transform: uppercase;
+
+      &:active {
+        box-shadow: 1px 1px 0 0 #f8bd33;
+        transform: translate(4px, 4px);
+      }
+
+      &.error {
+        border: 2px solid #f83333;
+        box-shadow: 5px 5px 0 0 #f83333;
+        color: #f83333;
+
+        &:active {
+          box-shadow: 1px 1px 0 0 #f83333;
+          transform: translate(4px, 4px);
+        }
+      }
+
+      span.running {
+        animation: pulse-fade 0.125s linear alternate infinite;
+        font-style: italic;
+      }
+
+      #cost {
         display: flex;
-        justify-content: flex-end;
-        width: 100%;
-        height: 4rem;
+        position: absolute;
+        align-self: flex-end;
 
-        #close-button {
-            padding: 1rem;
-            width: 4rem;
-            height: 4rem;
-            cursor: pointer;
+        img {
+          height: 1rem;
         }
+
+        #value {
+          display: inline-block;
+          margin: 0.07rem 0.2rem 0;
+        }
+      }
     }
-
-    #shop-main {
-        width: 100%;
-        height: calc(100% - 4rem);
-        display: flex;
-        align-items: center;
-        justify-content: space-evenly;
-    }
-
-    .item {
-        width: 80%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        color: white;
-        font-family: 'Josefin Sans', sans-serif;
-
-        .item-img {
-            height: 10rem;
-        }
-
-        .item-name {
-            width: 60%;
-            height: 3rem;
-            line-height: 3rem;
-            text-align: center;
-            background: #49536a;
-            margin: 2rem 0 1rem 0;
-        }
-
-        .upgrade-button {
-            width: 60%;
-            border: 2px solid #f8bd33;
-            box-shadow: 5px 5px 0 0 #f8bd33;
-            height: 4rem;
-            display: flex;
-            cursor: pointer;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            line-height: 1rem;
-            text-align: center;
-            background: white;
-            transition: transform 0.05s, box-shadow 0.05s;
-            color: #f8bd33;
-            font-family: inherit;
-            text-transform: uppercase;
-
-            &:active {
-                box-shadow: 1px 1px 0 0 #f8bd33;
-                transform: translate(4px, 4px);
-            }
-
-            &.error {
-                border: 2px solid #f83333;
-                box-shadow: 5px 5px 0 0 #f83333;
-                color: #f83333;
-
-                &:active {
-                    box-shadow: 1px 1px 0 0 #f83333;
-                    transform: translate(4px, 4px);
-                }
-            }
-
-            span.running {
-                animation: pulse-fade 0.125s linear alternate infinite;
-                font-style: italic;
-            }
-
-            #cost {
-                display: flex;
-                position: absolute;
-                align-self: flex-end;
-
-                img {
-                    height: 1rem;
-                }
-
-                #value {
-                    display: inline-block;
-                    margin: 0.07rem 0.2rem 0;
-                }
-            }
-        }
-    }
+  }
 }
 
 @keyframes pulse-fade {
-    to {
-        opacity: 0;
-    }
+  to {
+    opacity: 0;
+  }
 }
 
 @media (max-width: 767px) {
-    header {
-        .icon {
-            width: 1.5rem;
-            margin: 0.8rem 0 0.8rem 0.7rem;
-        }
-
-        #stats {
-            width: 79%;
-        }
+  header {
+    .icon {
+      width: 1.5rem;
+      margin: 0.8rem 0 0.8rem 0.7rem;
     }
+
+    #stats {
+      width: 79%;
+    }
+  }
 }

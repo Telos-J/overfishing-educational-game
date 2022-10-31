@@ -15,7 +15,7 @@ const gameStatus = {
     netSize: 6,
     netSpeed: 2,
     fishing: true,
-    LF: new Array(13).fill(0),
+    LF: new Array(12).fill(0),
     AF: new Array(11).fill(0),
 }
 
@@ -60,7 +60,7 @@ function updateCoins(coins) {
         attr: { width: (220 * gameStatus.coins) / gameStatus.maxCoins },
     })
 
-    if (gameStatus.coins === 0 && gameStatus.fishing) endYear()
+    // if (gameStatus.coins === 0 && gameStatus.fishing) endYear()
 }
 
 function resetStatus() {

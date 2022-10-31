@@ -2,14 +2,15 @@ import { app } from './app'
 import { handleClickAnimation } from './button'
 import { closeDrawer } from './drawer'
 import { nextYear } from './game'
-import { animateLF } from './lengthFrequencyGraph'
-import { updateAgeLengthKey } from './ageLengthKey'
+import { animateLF, applySelectivity } from './lengthFrequencyGraph'
+import { updateAgeLengthKey, calculatePercentage, applyAgeLengthKey } from './ageLengthKey'
 import { updateAF } from './ageFrequencyGraph'
 
 const curtain = document.querySelector('#curtain')
 const nextYearButton = document.querySelector('#next-year-button')
 const chartIcon = document.querySelector('#chart-icon')
 const drawer = document.querySelector('#drawer')
+const applySelectivityButton = document.querySelector('#apply-selectivity')
 
 function openCurtain() {
     if (drawer.classList.contains('open')) closeDrawer()
@@ -17,8 +18,8 @@ function openCurtain() {
     app.ticker.stop()
     app.view.classList.add('inactive')
     animateLF()
-    updateAgeLengthKey()
-    updateAF()
+    // updateAgeLengthKey()
+    // updateAF()
 }
 
 function closeCurtain() {
@@ -37,6 +38,12 @@ nextYearButton.addEventListener('click', () => {
         closeCurtain()
         nextYear()
     })
+})
+
+applySelectivityButton.addEventListener('click', () => {
+  const LF = applySelectivity()
+  calculatePercentage()
+  applyAgeLengthKey(LF)
 })
 
 export { openCurtain, closeCurtain }
